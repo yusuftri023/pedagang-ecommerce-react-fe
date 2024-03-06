@@ -41,7 +41,7 @@ function LoginPage() {
                   />
                 </div>
 
-                <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-yellow-400 text-white w-full my-3">
+                <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3">
                   Sign In
                 </button>
               </form>

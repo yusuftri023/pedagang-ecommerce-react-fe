@@ -1,9 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HomeLayouts from "../layouts/Homelayouts";
-import {
-  faArrowAltCircleLeft,
-  faArrowAltCircleRight,
-} from "@fortawesome/free-solid-svg-icons";
+
+import CarouselSlide from "../components/molecules/CarouselSlide";
 
 const featureList = [
   {
@@ -27,7 +24,38 @@ const featureList = [
     name: "Produk Lokal",
   },
 ];
-
+const bannerList = [
+  {
+    id: 1,
+    image: "/src/assets/smartphones-balancing-with-blue-background.png",
+    title: "Hot Sale Smartphone 2024",
+    body: "Free shipping for all order",
+    bg: {
+      color: "#333C3C",
+      gradient: "#283838",
+    },
+  },
+  {
+    id: 2,
+    image: "/src/assets/photo-camera-balancing-with-yellow-background.png",
+    title: "On-Sale Best Prices",
+    body: "Only on our online store",
+    bg: {
+      color: "#CF6AE5",
+      gradient: "#A66AE6",
+    },
+  },
+  {
+    id: 3,
+    image: "/src/assets/smartwatch-screen-digital-device.png",
+    title: "Accessories Friday Sale",
+    body: "Discounts 30% on Accesories",
+    bg: {
+      color: "#4F75E3",
+      gradient: "#4FA3E3",
+    },
+  },
+];
 const topSellingProductList = [
   {
     name: "Headset bluetooth",
@@ -75,6 +103,11 @@ const topSellingProductList = [
 
 const topFeaturedProductList = [
   {
+    name: "Casing HP Panda",
+    price: 70000,
+    image: "/src/assets/images/landing-page/product-6.png",
+  },
+  {
     name: "Holder HP Sepeda",
     price: 100000,
     image: "/src/assets/images/landing-page/product-4.jpeg",
@@ -99,56 +132,16 @@ function Homepage() {
   return (
     <>
       <HomeLayouts>
+        <CarouselSlide />
         <main className="font-poppins w-[1000px] mx-auto">
-          <section className="w-full h-[250px] mt-4">
-            <div className="w-[1000px] h-full mx-auto bg-black  overflow-hidden">
-              <div
-                className={
-                  " backdrop-brightness-75 flex flex-row transform duration-200 ease-in-out  " +
-                  "-translate-x-[100%]"
-                }
-              >
-                <img
-                  src="/src/assets/images/landing-page/carousel-1.svg"
-                  alt="carousel image"
-                  className="min-w-full"
-                />
-                <img
-                  src="/src/assets/images/landing-page/carousel-2.svg"
-                  alt="carousel image"
-                  className="min-w-full"
-                />
-                <img
-                  src="/src/assets/images/landing-page/carousel-3.svg"
-                  alt="carousel image"
-                  className="min-w-full"
-                />
-              </div>
-              <div className="relative top-[-50%] -translate-y-[50%] w-[1000px] flex justify-between items-center transition-opacity duration-300 text-white opacity-10 hover:opacity-100">
-                <div className=" ml-4 py-[125px] ">
-                  <FontAwesomeIcon
-                    icon={faArrowAltCircleLeft}
-                    className="text-4xl rounded-full hover:cursor-pointer hover:bg-blue-400 hover:bg-opacity-50"
-                  />
-                </div>
-
-                <div className=" mr-4 py-[125px]">
-                  <FontAwesomeIcon
-                    icon={faArrowAltCircleRight}
-                    className="text-4xl rounded-full hover:cursor-pointer hover:bg-blue-400 hover:bg-opacity-50"
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
           <section>
-            <div className="flex justify-between my-4">
+            <div className="flex justify-center divide-x-2 my-4">
               {featureList.map((feature, i) => (
                 <div
                   key={i}
-                  className="flex flex-col w-40 justify-top items-center text-center border-2 border-zinc-200 drop-shadow-md"
+                  className="flex flex-col w-[20%]  justify-top items-center text-center px-2  "
                 >
-                  <img src={feature.image} alt="" className="size-20" />
+                  <img src={feature.image} alt="" className="size-20 " />
                   <p>{feature.name}</p>
                 </div>
               ))}
@@ -156,25 +149,27 @@ function Homepage() {
           </section>
 
           <div>
-            <div className="flex gap-x-3">
-              <div>
-                <img
-                  src="/src/assets/images/landing-page/banner-2.png"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/images/landing-page/banner-1.png"
-                  alt=""
-                />
-              </div>
+            <div className="flex gap-x-3 justify-between text-zinc-100">
+              {bannerList.map((val) => (
+                <div key={val.id} className="w-[32%] h-[160px] overflow-hidden">
+                  <div className="size-full hover:scale-110 duration-300">
+                    <img
+                      src={val.image}
+                      className={`h-[140%] object-cover object-left bg-gradient-to-b from-[${val.bg.color}] via-[${val.bg.gradient}] to-[${val.bg.color}] pl-40 `}
+                    />
+                    <div className="relative h-[100%] -translate-y-[150%] flex flex-col px-5 justify-end flex-nowrap">
+                      <h2 className="mb-4 text-xl w-[50%]">{val.title}</h2>
+                      <h2>{val.body}</h2>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           <section className="my-4">
             <div className="border-b-2 border-gray-400 mb-4">
-              <span className="border-b-2 border-yellow-400">
+              <span className="border-b-2 border-[#FFCA1D]">
                 Top Selling Product
               </span>
             </div>
@@ -186,8 +181,12 @@ function Homepage() {
                     className="border-2 border-zinc-200 drop-shadow-md min-w-48 rounded-t-lg  overflow-hidden "
                   >
                     <a href="/">
-                      <div>
-                        <img src={val.image} alt="" className="size-48" />
+                      <div className="overflow-hidden">
+                        <img
+                          src={val.image}
+                          alt=""
+                          className="size-48 duration-300 hover:scale-125"
+                        />
                       </div>
                       <div className="w-[80%] mx-auto">
                         <span>{val.name}</span>
@@ -209,26 +208,31 @@ function Homepage() {
           </section>
           <section className="my-4">
             <div className="border-b-2 border-gray-400 mb-4">
-              <span className="border-b-2 border-yellow-400">
+              <span className="border-b-2 border-[#FFCA1D]">
                 Top Featured Product
               </span>
             </div>
             <div className="flex">
               <div className="w-[50%]">
-                <div className="flex w-full rounded-lg border-2 border-gray-200">
-                  <div className=" mx-4 rounded-lg overflow-hidden m-auto">
+                <div className="flex w-full  border-2 border-gray-200">
+                  <div className=" mx-4  overflow-hidden m-auto">
                     <a href="/">
                       <img
-                        className="w-[300px]"
-                        src="/src/assets/images/landing-page/product-6.png"
+                        className="w-[300px] hover:scale-125 duration-300"
+                        src={topFeaturedProductList[0].image}
                         alt=""
                       />
                     </a>
                   </div>
 
                   <div className="m-4 text-center">
-                    <div>Casing HP Panda</div>
-                    <h2 className="text-sm mt-4">Rp. 70.000,-</h2>
+                    <div>{topFeaturedProductList[0].name}</div>
+                    <h2 className="text-sm mt-4">
+                      {new Intl.NumberFormat("id", {
+                        currency: "idr",
+                        style: "currency",
+                      }).format(topFeaturedProductList[0].price)}
+                    </h2>
                     <div>
                       <div className="text-left">
                         <ul className="mt-10">
@@ -246,7 +250,7 @@ function Homepage() {
                           </li>
                         </ul>
                       </div>
-                      <button className="bg-yellow-400 py-4 px-8 rounded-xl mt-8">
+                      <button className="bg-[#FFCA1D] py-4 px-8 rounded-xl mt-8">
                         Add To Cart
                       </button>
                     </div>
@@ -255,17 +259,16 @@ function Homepage() {
               </div>
               <div className="flex w-[50%]">
                 <div className="grid grid-cols-2 gap-[10px] items-center ml-auto">
-                  {topFeaturedProductList.map((val, i) => (
-                    <div
-                      key={i}
-                      className="rounded-lg border-2 border-zinc-200 p-4"
-                    >
+                  {topFeaturedProductList.slice(1).map((val, i) => (
+                    <div key={i} className=" border-2 border-zinc-200 p-4">
                       <div className="w-[200px] text-center">
-                        <img
-                          className="size-[95px] mx-auto"
-                          src={val.image}
-                          alt=""
-                        />
+                        <div className="overflow-hidden">
+                          <img
+                            className="size-[95px] mx-auto duration-300 hover:scale-125"
+                            src={val.image}
+                            alt=""
+                          />
+                        </div>
                         <div className="">
                           <div>{val.name}</div>
                           <div>

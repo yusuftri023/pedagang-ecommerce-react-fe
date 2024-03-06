@@ -20,7 +20,7 @@ function SearchBar() {
           placeholder="Cari di Pedagang"
           className="w-full pl-4 text-xl outline-none"
         />
-        <button className="h-full w-20 bg-yellow-400 p-2 rounded-xl transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 ">
+        <button className="h-full w-20 bg-[#FFCA1D] p-2 rounded-xl transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 ">
           <img src={IconSearch} alt="search button" className="mx-auto" />
         </button>
       </div>

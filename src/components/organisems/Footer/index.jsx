@@ -10,9 +10,9 @@ import {
 function Footer() {
   return (
     <>
-      <footer className="w-full bg-[#2f3037]  text-white font-poppins ">
+      <footer className="w-full bg-[#2f3037]  text-white font-poppins text-sm ">
         <div className="overflow-hidden  ">
-          <div className="flex justify-between my-10 mx-auto w-[1200px] ">
+          <div className="flex justify-between my-10 mx-auto w-[1000px] space-x-16">
             <div className="">
               <h3 className="text-xl mb-5">Follow Us</h3>
               <p>
@@ -65,7 +65,7 @@ function Footer() {
                     <button
                       type="submit"
                       value=""
-                      className="px-2 py-3 bg-[#ffdb25] rounded-r-lg"
+                      className="px-2 py-3 bg-[#FFCA1D] rounded-r-lg text-black"
                     >
                       SUBSCRIBE{" "}
                     </button>

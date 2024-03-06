@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-import Footer from "../components/organisems/Footer";
-import MainNavBar from "../components/organisems/Navbar/MainNavBar";
 
 function FormLayouts({ children }) {
   return (

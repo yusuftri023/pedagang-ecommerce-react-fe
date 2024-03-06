@@ -1,11 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import FormLayouts from "../layouts/Formlayouts";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGoogle,
-  faGooglePlusG,
-  faGooglePlusSquare,
-} from "@fortawesome/free-brands-svg-icons";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -72,7 +66,7 @@ function RegisterPage() {
                 />
               </div>
 
-              <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-yellow-400 text-white w-full my-3">
+              <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3">
                 Signup
               </button>
             </form>
