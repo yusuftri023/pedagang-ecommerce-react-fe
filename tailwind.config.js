@@ -18,9 +18,15 @@ export default {
           "90%": { width: "90%" },
           "100%": { width: "100%" },
         },
+        fadeInToBottom: {
+          "0%": { opacity: 0, transform: "translateY(-10px)" },
+
+          "100%": { opacity: 100, transform: "translateY(0)" },
+        },
       },
       animation: {
         "grow-width": "growWidth 5s linear",
+        "fade-in-drop": "fadeInToBottom 0.4s linear",
       },
     },
   },

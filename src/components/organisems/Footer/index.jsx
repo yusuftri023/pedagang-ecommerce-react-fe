@@ -10,7 +10,7 @@ import {
 function Footer() {
   return (
     <>
-      <footer className="w-full bg-[#2f3037]  text-white font-poppins text-sm ">
+      <footer className="w-full min-w-[1000px] bg-[#2f3037]  text-white font-poppins text-sm ">
         <div className="overflow-hidden  ">
           <div className="flex justify-between my-10 mx-auto w-[1000px] space-x-16">
             <div className="">

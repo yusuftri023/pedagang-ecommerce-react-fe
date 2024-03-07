@@ -2,7 +2,7 @@
 
 function FormLayouts({ children }) {
   return (
-    <main className="bg-gradient-to-br from-cyan-300 to-blue-400 h-[100vh]">
+    <main className="bg-gradient-to-br from-zinc-100 to-white h-[100vh]">
       {children}
     </main>
   );

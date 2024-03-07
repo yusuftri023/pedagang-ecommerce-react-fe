@@ -3,7 +3,7 @@ import {
   faArrowAltCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const carouselContents = [
   { id: 1, image: "/src/assets/2148912818.jpg" },

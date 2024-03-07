@@ -3,18 +3,17 @@ import Homepage from "../pages";
 import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage/>,
+    element: <Homepage />,
   },
   {
     path: "/login",
-    element: <LoginPage/>,
+    element: <LoginPage />,
   },
   {
     path: "/register",
-    element: <RegisterPage/>,
+    element: <RegisterPage />,
   },
 ]);
