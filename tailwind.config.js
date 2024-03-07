@@ -23,10 +23,16 @@ export default {
 
           "100%": { opacity: 100, transform: "translateY(0)" },
         },
+        slide: {
+          "0%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
       },
       animation: {
         "grow-width": "growWidth 5s linear",
         "fade-in-drop": "fadeInToBottom 0.4s linear",
+        slide: "slide 30s infinite linear",
       },
     },
   },

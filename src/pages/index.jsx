@@ -7,7 +7,6 @@ import ProductCard from "../components/molecules/ProductCard";
 import FeatureList from "../components/molecules/FeatureList";
 import Banner from "../components/molecules/Banner";
 import ProductCardContainer from "../components/organisems/ProductCardContainer";
-import { useParams } from "react-router-dom";
 
 const featureList = [
   {
@@ -81,7 +80,18 @@ const bannerList2 = [
     },
   },
 ];
-
+const logoPayment = [
+  "/src/assets/images/payment/Bank BCA Logo .svg",
+  "/src/assets/images/payment/Bank Mandiri Logo .svg",
+  "/src/assets/images/payment/Logo DANA.svg",
+  "/src/assets/images/payment/Logo GoPay.svg",
+  "/src/assets/images/payment/Logo LinkAja.svg",
+  "/src/assets/images/payment/Logo PayPal.svg",
+  "/src/assets/images/payment/Logo_ovo_purple.svg",
+  "/src/assets/images/payment/ShopeePay Logo.svg",
+  "/src/assets/images/payment/QRIS.svg",
+  "/src/assets/images/payment/logo isaku.svg",
+];
 function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
 
@@ -161,7 +171,26 @@ function Homepage() {
                 ))}
           </ProductCardContainer>
 
-          <div className="mt-24"></div>
+          <div className="w-full  overflow-hidden whitespace-nowrap group my-4 ">
+            <div className=" inline-block animate-slide group-hover:[animation-play-state:paused] ">
+              {logoPayment.map((image, i) => (
+                <img
+                  key={i}
+                  src={image}
+                  className="min-w-[160px] object-contain max-w-[160px] max-h-[80px] inline-block px-5"
+                ></img>
+              ))}
+            </div>
+            <div className=" inline-block animate-slide group-hover:[animation-play-state:paused] ">
+              {logoPayment.map((image, i) => (
+                <img
+                  key={i}
+                  src={image}
+                  className="min-w-[160px] object-contain max-w-[160px] max-h-[80px] inline-block px-5"
+                ></img>
+              ))}
+            </div>
+          </div>
         </div>
       </HomeLayouts>
     </>

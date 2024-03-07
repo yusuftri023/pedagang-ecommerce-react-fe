@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 function ProductCardContainer({ children, title }) {
   return (
-    <section className="my-4 overflow-y-visible  max-h-[280px] ">
+    <section className="mt-4 overflow-y-visible mb-40  max-h-[280px] ">
       <div className="border-b-2 border-gray-400 mb-4 ">
         <span className="border-b-2 border-[#FFCA1D]">{title}</span>
       </div>

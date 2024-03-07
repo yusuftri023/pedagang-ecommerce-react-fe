@@ -35,8 +35,8 @@ function CarouselSlide() {
   }, [slide]);
 
   return (
-    <section className="w-full min-w-[1000px] h-[80vh]">
-      <div className="w-full h-[80vh] min-w-[1000px] mx-auto bg-black  overflow-hidden">
+    <section className="w-full min-w-[1000px]  h-[calc(100vh-130px)]">
+      <div className="w-full  h-[calc(100vh-130px)] min-w-[1000px] mx-auto bg-black  overflow-hidden">
         <div
           className={` backdrop-brightness-75 flex flex-row transform duration-300 ease-in-out -translate-x-[${
             slide * 100
@@ -47,11 +47,11 @@ function CarouselSlide() {
               key={content.id}
               src={content.image}
               alt="carousel image"
-              className="min-w-full h-[80vh] object-cover object-top"
+              className="min-w-full  h-[calc(100vh-130px)] object-cover object-top"
             />
           ))}
         </div>
-        <div className=" flex-nowrap relative top-[-50%] h-[80vh] -translate-y-[50%] w-[100%] min-w-[1000px] flex flex-col justify-between items-center transition-opacity duration-300 text-white opacity-10 hover:opacity-100">
+        <div className=" flex-nowrap relative top-[-50%] h-[calc(100vh-130px)]  -translate-y-[50%] w-[100%] min-w-[1000px] flex flex-col justify-between items-center transition-opacity duration-300 text-white opacity-10 hover:opacity-100">
           <div className="flex justify-between w-full h-full items-center">
             <div className="py-[125px] ">
               <FontAwesomeIcon
