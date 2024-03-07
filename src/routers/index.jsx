@@ -16,4 +16,8 @@ export const router = createBrowserRouter([
     path: "/register",
     element: <RegisterPage />,
   },
+  {
+    path: "/products/:product-title/:id",
+    element: <Homepage />,
+  },
 ]);

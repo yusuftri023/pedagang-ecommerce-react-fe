@@ -6,6 +6,8 @@ import axios from "axios";
 import ProductCard from "../components/molecules/ProductCard";
 import FeatureList from "../components/molecules/FeatureList";
 import Banner from "../components/molecules/Banner";
+import ProductCardContainer from "../components/organisems/ProductCardContainer";
+import { useParams } from "react-router-dom";
 
 const featureList = [
   {
@@ -60,9 +62,9 @@ const bannerList = [
 const bannerList2 = [
   {
     id: 1,
-    image: "/src/assets/smartphones-balancing-with-blue-background.png",
-    title: "Hot Sale Smartphone 2024",
-    body: "Free shipping for all order",
+    image: "/src/assets/fashion-1.png",
+    title: "Hot Sale on Man Fashion",
+    body: "All Products 20% Discounts",
     bg: {
       color: "#933C3C",
       gradient: "#983838",
@@ -88,13 +90,13 @@ function Homepage() {
       .get("https://fakestoreapi.com/products")
       .then((res) => setTopSellProduct(() => res.data));
   }, []);
-  console.log(topSellProduct);
+  topSellProduct;
 
   return (
     <>
       <HomeLayouts>
         <CarouselSlide />
-        <main className="font-poppins w-[1000px] mx-auto">
+        <div className="font-poppins w-[1000px] mx-auto">
           <section>
             <div className="flex justify-center divide-x-2 my-4">
               {featureList.map((feature, i) => (
@@ -115,29 +117,22 @@ function Homepage() {
             </div>
           </div>
 
-          <section className="my-4 overflow-y-visible  max-h-[280px] ">
-            <div className="border-b-2 border-gray-400 mb-4 ">
-              <span className="border-b-2 border-[#FFCA1D]">
-                Top Selling Product
-              </span>
-            </div>
-            <div className="overflow-x-scroll no-scrollbar   ">
-              <div className=" flex  justify-left   ">
-                {topSellProduct.length > 0 &&
-                  [...topSellProduct]
-                    .slice(0, 10)
-                    .map(({ title, id, price, rating, image }) => (
-                      <ProductCard
-                        key={id}
-                        title={title}
-                        price={price}
-                        rating={rating}
-                        image={image}
-                      />
-                    ))}
-              </div>
-            </div>
-          </section>
+          <ProductCardContainer title={"Top Selling Product"}>
+            {topSellProduct.length > 0 &&
+              [...topSellProduct]
+                .slice(0, 10)
+                .map(({ title, id, price, rating, image }) => (
+                  <ProductCard
+                    key={id}
+                    id={id}
+                    title={title}
+                    price={price}
+                    rating={rating}
+                    image={image}
+                  />
+                ))}
+          </ProductCardContainer>
+
           <div className="mt-28 mb-4 overflow-hidden">
             <div className="flex gap-x-3 justify-between text-zinc-100">
               {bannerList2.map((banner) => (
@@ -149,31 +144,25 @@ function Homepage() {
               ))}
             </div>
           </div>
-          <section className="my-4 overflow-y-visible  max-h-[280px] ">
-            <div className="border-b-2 border-gray-400 mb-4 ">
-              <span className="border-b-2 border-[#FFCA1D]">
-                Top Featured Product
-              </span>
-            </div>
-            <div className="overflow-x-scroll no-scrollbar   ">
-              <div className=" flex  justify-left   ">
-                {topSellProduct.length > 0 &&
-                  [...topSellProduct]
-                    .slice(10)
-                    .map(({ title, id, price, rating, image }) => (
-                      <ProductCard
-                        key={id}
-                        title={title}
-                        price={price}
-                        rating={rating}
-                        image={image}
-                      />
-                    ))}
-              </div>
-            </div>
-          </section>
+
+          <ProductCardContainer title={"Top Featured Product"}>
+            {topSellProduct.length > 0 &&
+              [...topSellProduct]
+                .slice(10)
+                .map(({ title, id, price, rating, image }) => (
+                  <ProductCard
+                    key={id}
+                    id={id}
+                    title={title}
+                    price={price}
+                    rating={rating}
+                    image={image}
+                  />
+                ))}
+          </ProductCardContainer>
+
           <div className="mt-24"></div>
-        </main>
+        </div>
       </HomeLayouts>
     </>
   );

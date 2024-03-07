@@ -1,6 +1,15 @@
+import { useEffect, useState } from "react";
 import IconSearch from "../../assets/images/landing-page/icon _magnifying glass_.svg";
+import axios from "axios";
 
 function SearchBar() {
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://fakestoreapi.com/products/categories")
+      .then((res) => setCategory(() => [...res.data]));
+  }, []);
+  category[1];
   return (
     <div className="w-full mx-10 bg-white rounded-xl overflow-hidden">
       <div className="flex">
@@ -9,9 +18,16 @@ function SearchBar() {
           id="kategori-option"
           className="border-r-4 border-[#1d1dcd]"
         >
-          <option value="Kategori">Semua Kategori</option>
-          <option value="Kategori">Elektronik</option>
-          <option value="Kategori">Fashion</option>
+          <option value="all">Semua Kategori</option>
+          {category.length > 0 &&
+            category.map((val, i) => (
+              <option
+                key={i}
+                value={val.slice(0, 1).toUpperCase() + val.slice(1)}
+              >
+                {val.slice(0, 1).toUpperCase() + val.slice(1)}
+              </option>
+            ))}
         </select>
         <input
           type="search"
