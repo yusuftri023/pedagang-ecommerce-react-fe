@@ -7,6 +7,7 @@ import ProductCard from "../components/molecules/ProductCard";
 import FeatureList from "../components/molecules/FeatureList";
 import Banner from "../components/molecules/Banner";
 import ProductCardContainer from "../components/organisems/ProductCardContainer";
+import InfiniteCarousel from "../components/molecules/InfiniteCarousel";
 
 const featureList = [
   {
@@ -71,7 +72,7 @@ const bannerList2 = [
   },
   {
     id: 2,
-    image: "/src/assets/photo-camera-balancing-with-yellow-background.png",
+    image: "/src/assets/fashion-2.png",
     title: "On-Sale Best Prices",
     body: "Only on our online store",
     bg: {
@@ -170,27 +171,11 @@ function Homepage() {
                   />
                 ))}
           </ProductCardContainer>
-
-          <div className="w-full  overflow-hidden whitespace-nowrap group my-4 ">
-            <div className=" inline-block animate-slide group-hover:[animation-play-state:paused] ">
-              {logoPayment.map((image, i) => (
-                <img
-                  key={i}
-                  src={image}
-                  className="min-w-[160px] object-contain max-w-[160px] max-h-[80px] inline-block px-5"
-                ></img>
-              ))}
-            </div>
-            <div className=" inline-block animate-slide group-hover:[animation-play-state:paused] ">
-              {logoPayment.map((image, i) => (
-                <img
-                  key={i}
-                  src={image}
-                  className="min-w-[160px] object-contain max-w-[160px] max-h-[80px] inline-block px-5"
-                ></img>
-              ))}
-            </div>
-          </div>
+          <InfiniteCarousel
+            images={logoPayment}
+            imgHeight={80}
+            imgWidth={160}
+          />
         </div>
       </HomeLayouts>
     </>

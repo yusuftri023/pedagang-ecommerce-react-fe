@@ -6,9 +6,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 const carouselContents = [
-  { id: 1, image: "/src/assets/2148912818.jpg" },
-  { id: 2, image: "/src/assets/19114.jpg" },
-  { id: 3, image: "/src/assets/woman-choosing-earphones-store.jpg" },
+  {
+    id: 1,
+    image: "/src/assets/2148912818.jpg",
+    body: "The Best Place To Find And Buy Amazing Products",
+  },
+  {
+    id: 2,
+    image: "/src/assets/19114.jpg",
+    body: "Get The Best Deals On Electronics",
+  },
+  {
+    id: 3,
+    image: "/src/assets/woman-choosing-earphones-store.jpg",
+    body: "Keep Looking Stylish",
+  },
 ];
 
 function CarouselSlide() {
@@ -38,17 +50,25 @@ function CarouselSlide() {
     <section className="w-full min-w-[1000px]  h-[calc(100vh-130px)]">
       <div className="w-full  h-[calc(100vh-130px)] min-w-[1000px] mx-auto bg-black  overflow-hidden">
         <div
-          className={` backdrop-brightness-75 flex flex-row transform duration-300 ease-in-out -translate-x-[${
+          className={`  brightness-95 flex flex-row transform duration-300 ease-in-out -translate-x-[${
             slide * 100
           }%]`}
         >
           {carouselContents.map((content) => (
-            <img
+            <div
               key={content.id}
-              src={content.image}
-              alt="carousel image"
-              className="min-w-full  h-[calc(100vh-130px)] object-cover object-top"
-            />
+              className={`min-w-full before:w-[100%] before:h-[100%] before:bg-black before:absolute before:content-['${content.body
+                .split(" ")
+                .join(
+                  "_"
+                )}'] before:text-white before:text-[50px] before:content-center before:flex before:pt-[20%] before:items-center before:justify-center before:bg-opacity-[0.2] `}
+            >
+              <img
+                src={content.image}
+                alt="carousel image"
+                className="min-w-full  h-[calc(100vh-130px)] object-cover object-top"
+              />
+            </div>
           ))}
         </div>
         <div className=" flex-nowrap relative top-[-50%] h-[calc(100vh-130px)]  -translate-y-[50%] w-[100%] min-w-[1000px] flex flex-col justify-between items-center transition-opacity duration-300 text-white opacity-10 hover:opacity-100">

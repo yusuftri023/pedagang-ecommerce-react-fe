@@ -9,7 +9,7 @@ function AdditionalNavbar() {
           <div className="flex space-x-3 ml-4">
             <a href="/">Download</a>
             <p>|</p>
-            <p>Ikuti kami</p>
+            <p>Follow Us</p>
             <a href="http://instagram.com">
               <FontAwesomeIcon icon={faFacebookF} className=" text-md" />
             </a>
@@ -30,7 +30,7 @@ function AdditionalNavbar() {
               <FontAwesomeIcon icon={faGlobe} className="md" />
             </a>
           </div>
-          <p>Bahasa Indonesia</p>
+          <p>English</p>
         </div>
       </div>
     </nav>

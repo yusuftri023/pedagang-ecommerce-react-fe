@@ -9,16 +9,16 @@ function SearchBar() {
       .get("https://fakestoreapi.com/products/categories")
       .then((res) => setCategory(() => [...res.data]));
   }, []);
-  category[1];
+
   return (
-    <div className="w-full mx-10 bg-white rounded-xl overflow-hidden">
+    <div className="w-full mx-10 bg-white rounded-md overflow-hidden">
       <div className="flex">
         <select
           name=""
           id="kategori-option"
-          className="border-r-4 border-[#1d1dcd]"
+          className="border-r-2 border-[#1d1dcd]"
         >
-          <option value="all">Semua Kategori</option>
+          <option value="all">All </option>
           {category.length > 0 &&
             category.map((val, i) => (
               <option
@@ -36,7 +36,7 @@ function SearchBar() {
           placeholder="Cari di Pedagang"
           className="w-full pl-4 text-xl outline-none"
         />
-        <button className="h-full w-20 bg-[#FFCA1D] p-2 rounded-xl transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 ">
+        <button className="h-full w-20 bg-[#FFCA1D] p-2 rounded-md transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 ">
           <img src={IconSearch} alt="search button" className="mx-auto" />
         </button>
       </div>
