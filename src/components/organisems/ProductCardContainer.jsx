@@ -32,12 +32,12 @@ function ProductCardContainer({ children, title }) {
         <FontAwesomeIcon
           onClick={handleLeftArrow}
           icon={faArrowCircleLeft}
-          className=" mt-[140px] h-[35px] items-center absolute   text-3xl text-zinc-200 hover:cursor-pointer hover:text-opacity-100 text-opacity-50 transition-opacity duration-150 "
+          className=" mt-[140px] h-[35px] items-center absolute   text-3xl text-zinc-200 hover:cursor-pointer hover:opacity-100 opacity-20 transition-opacity duration-300 "
         />
         <FontAwesomeIcon
           onClick={handleRightArrow}
           icon={faArrowCircleRight}
-          className=" ml-[1000px] mt-[140px] translate-x-[-100%]  h-[35px] items-center absolute  text-3xl text-zinc-200 hover:cursor-pointer hover:text-opacity-100 text-opacity-50 transition-opacity duration-150 "
+          className=" ml-[1000px] mt-[140px] translate-x-[-100%]  h-[35px] items-center absolute  text-3xl text-zinc-200 hover:cursor-pointer hover:opacity-100 opacity-20 transition-opacity duration-300 "
         />
 
         <div className=" flex  justify-left   ">{children}</div>

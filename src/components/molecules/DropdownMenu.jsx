@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-function DropdownMenu({ children }) {
+function DropdownMenu({ children, width, height, x }) {
   return (
     <div
       className={
@@ -7,9 +7,7 @@ function DropdownMenu({ children }) {
       }
     >
       <div
-        className={
-          "bg-zinc-100 shadow-[#c2c2c2] relative text-black -left-64 top-[5px] w-[400px]  h-[400px] block whitespace-nowrap  shadow-md  "
-        }
+        className={`bg-zinc-100  shadow-[#c2c2c2] relative text-black -left-[${x}px] top-[5px] w-[${width}px]  h-[${height}px] block whitespace-nowrap  shadow-md  `}
       >
         {children}
       </div>
