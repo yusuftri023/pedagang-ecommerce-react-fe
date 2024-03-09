@@ -9,28 +9,48 @@ import Banner from "../components/molecules/Banner";
 import ProductCardContainer from "../components/organisems/ProductCardContainer";
 import InfiniteCarousel from "../components/molecules/InfiniteCarousel";
 
+import featureList1 from "../assets/images/landing-page/Group 11.svg";
+import featureList2 from "../assets/images/landing-page/Group 12.svg";
+import featureList3 from "../assets/images/landing-page/Group 13.svg";
+import featureList4 from "../assets/images/landing-page/PROMO.svg";
+import bannerList11 from "../assets/smartphones-balancing-with-blue-background.png";
+import bannerList12 from "../assets/smartwatch-screen-digital-device.png";
+import bannerList13 from "../assets/photo-camera-balancing-with-yellow-background.png";
+import bannerList21 from "./../assets/fashion-1.png";
+import bannerList22 from "./../assets/fashion-2.png";
+import payment1 from "./../assets/images/payment/Bank BCA Logo .svg";
+import payment2 from "./../assets/images/payment/Bank Mandiri Logo .svg";
+import payment3 from "./../assets/images/payment/Logo DANA.svg";
+import payment4 from "./../assets/images/payment/Logo GoPay.svg";
+import payment5 from "./../assets/images/payment/Logo LinkAja.svg";
+import payment6 from "./../assets/images/payment/Logo PayPal.svg";
+import payment7 from "./../assets/images/payment/Logo_ovo_purple.svg";
+import payment8 from "./../assets/images/payment/ShopeePay Logo.svg";
+import payment9 from "./../assets/images/payment/QRIS.svg";
+import payment10 from "./../assets/images/payment/logo isaku.svg";
+
 const featureList = [
   {
-    image: "../../src/assets/images/landing-page/Group 11.svg",
+    image: featureList1,
     name: "Free Delivery",
   },
   {
-    image: "../../src/assets/images/landing-page/Group 12.svg",
+    image: featureList2,
     name: "100% Secure Payment",
   },
   {
-    image: "../../src/assets/images/landing-page/Group 13.svg",
+    image: featureList3,
     name: "24/7 Help Center",
   },
   {
-    image: "../../src/assets/images/landing-page/PROMO.svg",
+    image: featureList4,
     name: "Promo and Discounts",
   },
 ];
 const bannerList = [
   {
     id: 1,
-    image: "../../src/assets/smartphones-balancing-with-blue-background.png",
+    image: bannerList11,
     title: "Hot Sale Smartphone 2024",
     body: "Free shipping for all order",
     bg: {
@@ -40,7 +60,7 @@ const bannerList = [
   },
   {
     id: 2,
-    image: "../../src/assets/photo-camera-balancing-with-yellow-background.png",
+    image: bannerList12,
     title: "On-Sale Best Prices",
     body: "Only on our online store",
     bg: {
@@ -50,7 +70,7 @@ const bannerList = [
   },
   {
     id: 3,
-    image: "../../src/assets/smartwatch-screen-digital-device.png",
+    image: bannerList13,
     title: "Accessories Friday Sale",
     body: "Discounts 30% on Accesories",
     bg: {
@@ -63,7 +83,7 @@ const bannerList = [
 const bannerList2 = [
   {
     id: 1,
-    image: "../../src/assets/fashion-1.png",
+    image: bannerList21,
     title: "Hot Sale on Man Fashion",
     body: "All Products 20% Discounts",
     bg: {
@@ -73,7 +93,7 @@ const bannerList2 = [
   },
   {
     id: 2,
-    image: "../../src/assets/fashion-2.png",
+    image: bannerList22,
     title: "On-Sale Best Prices",
     body: "Only on our online store",
     bg: {
@@ -83,16 +103,16 @@ const bannerList2 = [
   },
 ];
 const logoPayment = [
-  "../../src/assets/images/payment/Bank BCA Logo .svg",
-  "../../src/assets/images/payment/Bank Mandiri Logo .svg",
-  "../../src/assets/images/payment/Logo DANA.svg",
-  "../../src/assets/images/payment/Logo GoPay.svg",
-  "../../src/assets/images/payment/Logo LinkAja.svg",
-  "../../src/assets/images/payment/Logo PayPal.svg",
-  "../../src/assets/images/payment/Logo_ovo_purple.svg",
-  "../../src/assets/images/payment/ShopeePay Logo.svg",
-  "../../src/assets/images/payment/QRIS.svg",
-  "../../src/assets/images/payment/logo isaku.svg",
+  payment1,
+  payment2,
+  payment3,
+  payment4,
+  payment5,
+  payment6,
+  payment7,
+  payment8,
+  payment9,
+  payment10,
 ];
 function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
