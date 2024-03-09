@@ -76,11 +76,11 @@ function UserUtils() {
                         <div
                           onClick={() =>
                             navigate(
-                              `/products/${products
-                                ?.find(({ id }) => id === val.productId)
-                                .title.toLowerCase()
-                                .split(" ")
-                                .join("-")}/${
+                              `/products/${encodeURIComponent(
+                                products
+                                  ?.find(({ id }) => id === val.productId)
+                                  .title.toLowerCase()
+                              )}/${
                                 products?.find(({ id }) => id === val.productId)
                                   .id
                               }`

@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 function ProductCard({ id, image, title, price, rating }) {
   const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
+
   const handleLink = () => {
-    navigate(`/products/${title.toLowerCase().split(" ").join("-")}/${id}`);
+    navigate(`/products/${encodeURIComponent(title.toLowerCase())}/${id}`);
   };
   const handleMouseEnter = () => {
     setIsHover(true);

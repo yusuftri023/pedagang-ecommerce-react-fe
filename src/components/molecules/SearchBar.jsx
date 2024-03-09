@@ -9,7 +9,7 @@ function SearchBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLink = (title, id) => {
-    navigate(`/products/${title.toLowerCase().split(" ").join("-")}/${id}`);
+    navigate(`/products/${encodeURIComponent(title.toLowerCase())}/${id}`);
   };
   const [category, setCategory] = useState([]);
   useEffect(() => {
@@ -41,7 +41,6 @@ function SearchBar() {
   useEffect(() => {
     if (searchIsActive) {
       const handleOutsideClick = (e) => {
-        console.log(searchRef.current.contains(e.target));
         if (!searchRef.current.contains(e.target)) setSearchIsActive(false);
       };
       document.addEventListener("click", handleOutsideClick);
