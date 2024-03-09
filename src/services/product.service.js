@@ -6,9 +6,13 @@ export const fetchAllProduct = async () => {
   return res.data;
 };
 export const fetchProductInCategory = async (category) => {
-  return await axios.get(
-    `https://fakestoreapi.com/products/category/${category}`
+  console.log(category);
+  const res = await axios.get(
+    encodeURI(
+      `https://fakestoreapi.com/products/category/${category.toLowerCase()}`
+    )
   );
+  return res.data;
 };
 export const fetchSingleProduct = async (id) => {
   return await axios.get(`https://fakestoreapi.com/products/${id}`);
