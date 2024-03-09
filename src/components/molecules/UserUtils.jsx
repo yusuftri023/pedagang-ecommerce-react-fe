@@ -34,7 +34,6 @@ function UserUtils() {
   useEffect(() => {
     dispatch(getProductCart(cartList[0]?.products)).then((res) => {
       if (JSON.stringify(products) !== JSON.stringify(res.payload)) {
-        // console.log("cart updated");
         sessionStorage.setItem("cart", JSON.stringify(res.payload));
         setProducts(res.payload);
       }

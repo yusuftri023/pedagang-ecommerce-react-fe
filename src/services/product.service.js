@@ -6,7 +6,6 @@ export const fetchAllProduct = async () => {
   return res.data;
 };
 export const fetchProductInCategory = async (category) => {
-  console.log(category);
   const res = await axios.get(
     encodeURI(
       `https://fakestoreapi.com/products/category/${category.toLowerCase()}`
