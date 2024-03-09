@@ -11,26 +11,26 @@ import InfiniteCarousel from "../components/molecules/InfiniteCarousel";
 
 const featureList = [
   {
-    image: "/src/assets/images/landing-page/Group 11.svg",
+    image: "../../src/assets/images/landing-page/Group 11.svg",
     name: "Free Delivery",
   },
   {
-    image: "/src/assets/images/landing-page/Group 12.svg",
+    image: "../../src/assets/images/landing-page/Group 12.svg",
     name: "100% Secure Payment",
   },
   {
-    image: "/src/assets/images/landing-page/Group 13.svg",
+    image: "../../src/assets/images/landing-page/Group 13.svg",
     name: "24/7 Help Center",
   },
   {
-    image: "/src/assets/images/landing-page/PROMO.svg",
+    image: "../../src/assets/images/landing-page/PROMO.svg",
     name: "Promo and Discounts",
   },
 ];
 const bannerList = [
   {
     id: 1,
-    image: "/src/assets/smartphones-balancing-with-blue-background.png",
+    image: "../../src/assets/smartphones-balancing-with-blue-background.png",
     title: "Hot Sale Smartphone 2024",
     body: "Free shipping for all order",
     bg: {
@@ -40,7 +40,7 @@ const bannerList = [
   },
   {
     id: 2,
-    image: "/src/assets/photo-camera-balancing-with-yellow-background.png",
+    image: "../../src/assets/photo-camera-balancing-with-yellow-background.png",
     title: "On-Sale Best Prices",
     body: "Only on our online store",
     bg: {
@@ -50,7 +50,7 @@ const bannerList = [
   },
   {
     id: 3,
-    image: "/src/assets/smartwatch-screen-digital-device.png",
+    image: "../../src/assets/smartwatch-screen-digital-device.png",
     title: "Accessories Friday Sale",
     body: "Discounts 30% on Accesories",
     bg: {
@@ -59,10 +59,11 @@ const bannerList = [
     },
   },
 ];
+
 const bannerList2 = [
   {
     id: 1,
-    image: "/src/assets/fashion-1.png",
+    image: "../../src/assets/fashion-1.png",
     title: "Hot Sale on Man Fashion",
     body: "All Products 20% Discounts",
     bg: {
@@ -72,7 +73,7 @@ const bannerList2 = [
   },
   {
     id: 2,
-    image: "/src/assets/fashion-2.png",
+    image: "../../src/assets/fashion-2.png",
     title: "On-Sale Best Prices",
     body: "Only on our online store",
     bg: {
@@ -82,16 +83,16 @@ const bannerList2 = [
   },
 ];
 const logoPayment = [
-  "/src/assets/images/payment/Bank BCA Logo .svg",
-  "/src/assets/images/payment/Bank Mandiri Logo .svg",
-  "/src/assets/images/payment/Logo DANA.svg",
-  "/src/assets/images/payment/Logo GoPay.svg",
-  "/src/assets/images/payment/Logo LinkAja.svg",
-  "/src/assets/images/payment/Logo PayPal.svg",
-  "/src/assets/images/payment/Logo_ovo_purple.svg",
-  "/src/assets/images/payment/ShopeePay Logo.svg",
-  "/src/assets/images/payment/QRIS.svg",
-  "/src/assets/images/payment/logo isaku.svg",
+  "../../src/assets/images/payment/Bank BCA Logo .svg",
+  "../../src/assets/images/payment/Bank Mandiri Logo .svg",
+  "../../src/assets/images/payment/Logo DANA.svg",
+  "../../src/assets/images/payment/Logo GoPay.svg",
+  "../../src/assets/images/payment/Logo LinkAja.svg",
+  "../../src/assets/images/payment/Logo PayPal.svg",
+  "../../src/assets/images/payment/Logo_ovo_purple.svg",
+  "../../src/assets/images/payment/ShopeePay Logo.svg",
+  "../../src/assets/images/payment/QRIS.svg",
+  "../../src/assets/images/payment/logo isaku.svg",
 ];
 function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
