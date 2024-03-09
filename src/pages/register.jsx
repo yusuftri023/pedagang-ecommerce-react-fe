@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import FormLayouts from "../layouts/Formlayouts";
+import registersvg from "../assets/register.svg";
+import googleIcon from "../assets/google-icon.svg";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -8,7 +10,7 @@ function RegisterPage() {
       <div className="pt-16">
         <div className="w-[800px] h-[500px] mx-auto flex rounded-xl overflow-hidden text-zinc-100 ">
           <div className="w-[50%] h-full flex items-center justify-center bg-blue-100 bg-opacity-50 ">
-            <img src="../../src/assets/register.svg" className="w-[80%] "></img>
+            <img src={registersvg} className="w-[80%] "></img>
           </div>
           <div className="w-[50%] px-10 py-2 bg-blue-700 bg-opacity-55">
             <h1 className="text-center text-3xl my-5">Sign Up Your Account</h1>
@@ -72,10 +74,7 @@ function RegisterPage() {
             </form>
 
             <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
-              <img
-                src="../../src/assets/google-icon.svg"
-                className="size-7 mr-4"
-              ></img>
+              <img src={googleIcon} className="size-7 mr-4"></img>
               Or Signup with Google
             </button>
 

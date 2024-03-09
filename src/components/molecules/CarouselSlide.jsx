@@ -2,23 +2,27 @@ import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import carousel1 from "../../assets/2148912818.jpg";
+import carousel2 from "../../assets/19114.jpg";
+import carousel3 from "../../assets/woman-choosing-earphones-store.jpg";
 
 const carouselContents = [
   {
     id: 1,
-    image: "/src/assets/2148912818.jpg",
+    image: carousel1,
     body: "The Best Place To Find And Buy Amazing Products",
   },
   {
     id: 2,
-    image: "/src/assets/19114.jpg",
+    image: carousel2,
     body: "Get The Best Deals On Electronics",
   },
   {
     id: 3,
-    image: "/src/assets/woman-choosing-earphones-store.jpg",
+    image: carousel3,
     body: "Keep Looking Stylish",
   },
 ];
