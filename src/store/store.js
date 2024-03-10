@@ -11,6 +11,6 @@ export const store = configureStore({
     cart: cartSlicer.reducer,
     cartProduct: productCartSlicer.reducer,
     searchResult: productSearchSlicer.reducer,
-    loginState: authenticationSlice.reducer,
+    authentication: authenticationSlice.reducer,
   },
 });

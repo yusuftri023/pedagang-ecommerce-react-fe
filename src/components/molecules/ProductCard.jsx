@@ -2,12 +2,14 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../store/reducers/cartSlicer";
 
 function ProductCard({ id, image, title, price, rating }) {
   const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
-
+  const dispatch = useDispatch();
   const handleLink = () => {
     navigate(`/products/${encodeURIComponent(title.toLowerCase())}/${id}`);
   };
@@ -17,6 +19,14 @@ function ProductCard({ id, image, title, price, rating }) {
   const handleMouseLeave = () => {
     setIsHover(false);
   };
+  const handleAddToCart = () => {
+    const data = {
+      id,
+      price: price * 10000,
+    };
+    dispatch(addToCart(data));
+  };
+
   return (
     <>
       <div
@@ -121,7 +131,10 @@ function ProductCard({ id, image, title, price, rating }) {
                 <div>
                   Sold: {100 > rating.count ? rating.count : 100}/{rating.count}
                 </div>
-                <button className="bg-[#FFCA1D] hover:bg-[#968447] px-4 py-1 font-[500] my-4 animate-fade-in-drop transition-colors duration-300">
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-[#FFCA1D] hover:bg-[#968447] px-4 py-1 font-[500] my-4 animate-fade-in-drop transition-colors duration-300"
+                >
                   Add to Cart
                 </button>
               </div>

@@ -12,34 +12,40 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import DropdownMenu from "./DropdownMenu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserCart } from "../../store/actions/cartAction";
 import { getProductCart } from "../../store/actions/productAction";
+import { logout } from "../../store/reducers/authenticationSlicer";
+import { fetchMultipleProduct } from "../../services/product.service";
 
 function UserUtils() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogin = false;
+  const loggedInUserData = useSelector(
+    (state) => state.authentication.loggedInUserData
+  );
+
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const [activeMenu, setActiveMenu] = useState(null);
-  const [cartList, setCartList] = useState([]);
-  const sessionCart = !sessionStorage.getItem("cart")
-    ? JSON.parse(sessionStorage.getItem("cart"))
-    : false;
-  const [products, setProducts] = useState(sessionCart || []);
+  const cart = useSelector((state) => state.cart.cart);
+  const [products, setProducts] = useState([]);
   const refAccount = useRef();
   const refCart = useRef();
-  useEffect(() => {
-    dispatch(getUserCart(1)).then((res) => setCartList(res.payload));
-  }, []);
-  useEffect(() => {
-    dispatch(getProductCart(cartList[0]?.products)).then((res) => {
-      if (JSON.stringify(products) !== JSON.stringify(res.payload)) {
-        sessionStorage.setItem("cart", JSON.stringify(res.payload));
-        setProducts(res.payload);
-      }
-    });
-  }, [cartList]);
 
+  useEffect(() => {
+    if (cart.length > 0) {
+      const listId = cart.map((val) => val.id);
+
+      dispatch(getProductCart(listId)).then((res) => {
+        if (JSON.stringify(products) !== JSON.stringify(res.payload)) {
+          sessionStorage.setItem("cart", JSON.stringify(res.payload));
+          setProducts(res.payload);
+        }
+      });
+    }
+  }, [cart]);
+  console.log(cart);
+  console.log(products);
   return (
     <div className=" text-white w-[750px] mr-4 ">
       <ul className=" flex  justify-end ">
@@ -48,7 +54,10 @@ function UserUtils() {
           onMouseEnter={() => setActiveMenu(refCart)}
           onMouseLeave={() => setActiveMenu(null)}
         >
-          <div className="  flex items-center h-full w-[100px] justify-between space-x-2  hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150">
+          <div
+            onClick={() => navigate("/cart")}
+            className="  flex items-center h-full w-[100px] justify-between space-x-2  hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150"
+          >
             <p>Cart</p>
             <img src={IconCart} alt="icon cart" className="" />
           </div>
@@ -60,17 +69,14 @@ function UserUtils() {
                   <p>Your Cart</p>
                 </div>
                 <ul className=" whitespace-nowrap">
-                  {cartList?.length > 0 ? (
-                    cartList[0].products.map((val, i) => (
+                  {cart?.length > 0 ? (
+                    cart.map((val, i) => (
                       <li
                         key={i}
                         className="h-10 w-full flex justify-between px-6 items-center my-4 space-x-2"
                       >
                         <img
-                          src={
-                            products?.find(({ id }) => id === val.productId)
-                              .image
-                          }
+                          src={products?.find(({ id }) => id === val.id)?.image}
                           className="max-h-10 max-w-10 min-w-10"
                         />
                         <div
@@ -78,25 +84,23 @@ function UserUtils() {
                             navigate(
                               `/products/${encodeURIComponent(
                                 products
-                                  ?.find(({ id }) => id === val.productId)
-                                  .title.toLowerCase()
+                                  ?.find(({ id }) => id === val.id)
+                                  ?.title.toLowerCase()
                               )}/${
-                                products?.find(({ id }) => id === val.productId)
-                                  .id
+                                products?.find(({ id }) => id === val.id).id
                               }`
                             )
                           }
                           className="text-left w-full hover:cursor-pointer hover:text-blue-600"
                         >
-                          {products?.find(({ id }) => id === val.productId)
-                            .title.length > 30
+                          {products?.find(({ id }) => id === val.id)?.title
+                            .length > 30
                             ? products
-                                ?.find(({ id }) => id === val.productId)
-                                .title.slice(0, 30) + "..."
-                            : products?.find(({ id }) => id === val.productId)
-                                .title}
+                                ?.find(({ id }) => id === val.id)
+                                ?.title.slice(0, 30) + "..."
+                            : products?.find(({ id }) => id === val.id)?.title}
                         </div>
-                        <div>x{val.quantity}</div>
+                        <div>x{val.amount}</div>
                       </li>
                     ))
                   ) : (
@@ -109,7 +113,7 @@ function UserUtils() {
             </DropdownMenu>
           )}
         </li>
-        {isLogin ? (
+        {isLoggedIn ? (
           <>
             {" "}
             <li className="  flex items-center justify-between space-x-2 w-[140px] hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150">
@@ -137,7 +141,11 @@ function UserUtils() {
                         ></img>
                       </div>
                       <div className="">
-                        <p className="ml-4 line-clamp-1 text-wrap">User</p>
+                        <p className="ml-4 line-clamp-1 text-wrap">
+                          {loggedInUserData.username.length > 10
+                            ? loggedInUserData.username.slice(0, 10) + "..."
+                            : loggedInUserData.username}
+                        </p>
                       </div>
                     </div>
                     <div className="px-[10%] w-full space-y-2 mt-2">
@@ -162,7 +170,10 @@ function UserUtils() {
                         />
                         <div className="inline-block ml-4">Settings</div>
                       </div>
-                      <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
+                      <div
+                        onClick={() => dispatch(logout())}
+                        className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
+                      >
                         <FontAwesomeIcon
                           className=" align-text-bottom text-xl   min-w-10 max-w-10"
                           icon={faSignOutAlt}

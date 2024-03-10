@@ -9,7 +9,7 @@ export const getProductCart = createAsyncThunk(
   "cartProduct/getCartProduct",
   async (cartList) => {
     const data = await fetchMultipleProduct(cartList);
-
+    console.log(data);
     return data;
   }
 );

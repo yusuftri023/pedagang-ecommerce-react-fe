@@ -2,9 +2,60 @@ import { useNavigate } from "react-router-dom";
 import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
 import googleIcon from "../assets/google-icon.svg";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { register, setError } from "../store/reducers/authenticationSlicer";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const username = useRef();
+  const password = useRef();
+  const age = useRef();
+  const email = useRef();
+  const phoneNumber = useRef();
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.authentication.error);
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+    const data = {
+      username: username.current.value,
+      password: password.current.value,
+      email: email.current.value,
+      age: age.current.value,
+      phoneNumber: phoneNumber.current.value,
+    };
+
+    if (
+      data.email == "" ||
+      data.username == "" ||
+      data.password == "" ||
+      data.age == "" ||
+      data.phoneNumber == ""
+    ) {
+      dispatch(setError("Complete your input"));
+    } else if (data.username.length < 8) {
+      dispatch(setError("Username minimum length is 8"));
+    } else if (data.age < 15) {
+      dispatch(setError("Minimum age is 15"));
+    } else if (
+      !userData?.some(({ email }) => {
+        if (email === data.email) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    ) {
+      dispatch(register(data));
+      dispatch(setError(null));
+      navigate("/login");
+    } else {
+      dispatch(setError("Your email already exist"));
+    }
+  };
+
   return (
     <FormLayouts>
       <div className="pt-16">
@@ -16,12 +67,13 @@ function RegisterPage() {
             <h1 className="text-center text-3xl my-5">Sign Up Your Account</h1>
             <form action="" className="">
               <div className="">
-                <p className="pl-4  ">Full Name</p>
+                <p className="pl-4  ">Username</p>
                 <label htmlFor="full_name"></label>
                 <input
                   type="text"
                   className="w-full pl-4 rounded-md py-px text-black "
                   placeholder="Enter Your Full Name"
+                  ref={username}
                   required
                 />
               </div>
@@ -34,6 +86,7 @@ function RegisterPage() {
                   placeholder="Input Your Age"
                   min="15"
                   max="99"
+                  ref={age}
                   required
                 />
               </div>
@@ -44,16 +97,18 @@ function RegisterPage() {
                   type="email"
                   className="w-full pl-4 rounded-md py-px text-black"
                   placeholder="Enter your active email"
+                  ref={email}
                   required
                 />
               </div>
               <div className="">
                 <p className="pl-4 ">Phone Number</p>
-                <label htmlFor="last_name"></label>
+                <label htmlFor="phoneNumber"></label>
                 <input
                   type="text"
                   className="w-full pl-4 rounded-md py-px text-black"
                   placeholder="your phone number"
+                  ref={phoneNumber}
                   required
                 />
               </div>
@@ -64,19 +119,28 @@ function RegisterPage() {
                   type="password"
                   className="w-full pl-4 rounded-md py-px text-black"
                   placeholder="Enter Your Password"
+                  ref={password}
                   required
                 />
               </div>
 
-              <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3">
+              <button
+                onClick={handleRegister}
+                className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3"
+              >
                 Signup
               </button>
+              <div className="">
+                <p className="text-center text-md font-light text-red-500 ">
+                  {error}
+                </p>
+              </div>
             </form>
 
-            <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
+            {/* <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
               <img src={googleIcon} className="size-7 mr-4"></img>
               Or Signup with Google
-            </button>
+            </button> */}
 
             <div className="text-center mt-4 space-x-1">
               <span className="">Already have an account? </span>

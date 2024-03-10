@@ -14,7 +14,7 @@ function SearchBar() {
   const [category, setCategory] = useState([]);
   useEffect(() => {
     axios
-      .get("https://fakestoreapi.com/products/categories")
+      .get(`${"https://fakestoreapi.com"}/products/categories`)
       .then((res) => setCategory(() => [...res.data]));
   }, []);
   const [search, setSearch] = useState("");

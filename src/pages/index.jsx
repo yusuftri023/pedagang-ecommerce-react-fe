@@ -114,15 +114,15 @@ const logoPayment = [
   payment9,
   payment10,
 ];
+
 function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://fakestoreapi.com/products")
+      .get(`${"https://fakestoreapi.com"}/products`)
       .then((res) => setTopSellProduct(() => res.data));
   }, []);
-  topSellProduct;
 
   return (
     <>

@@ -1,9 +1,43 @@
 import { useNavigate } from "react-router-dom";
 import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
-import googleIcon from "../assets/google-icon.svg";
+// import googleIcon from "../assets/google-icon.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
+import { authenticate, setError } from "../store/reducers/authenticationSlicer";
 function LoginPage() {
   const navigate = useNavigate();
+  const password = useRef();
+  const email = useRef();
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.authentication.error);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+    const data = {
+      password: password.current.value,
+      email: email.current.value,
+    };
+
+    if (data.email == "" || data.password == "") {
+      dispatch(setError("Lengkapi input terlebih dahulu"));
+    } else if (
+      userData?.some(({ email, password }) => {
+        if (email === data.email && password === data.password) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    ) {
+      dispatch(authenticate(data));
+      dispatch(setError(null));
+      navigate("/");
+    } else {
+      dispatch(setError("Email or password is incorrect"));
+    }
+  };
+
   return (
     <>
       <FormLayouts>
@@ -22,8 +56,10 @@ function LoginPage() {
                   <label htmlFor="email"></label>
                   <input
                     type="email"
-                    className="w-full pl-4 rounded-md py-1"
+                    className="w-full pl-4 rounded-md py-1 text-black"
                     placeholder="Enter your email"
+                    ref={email}
+                    onClick={() => dispatch(setError(null))}
                     required
                   />
                 </div>
@@ -33,21 +69,33 @@ function LoginPage() {
                   <label htmlFor="password"></label>
                   <input
                     type="password"
-                    className="w-full pl-4 rounded-md py-1"
+                    className="w-full pl-4 rounded-md py-1 text-black"
                     placeholder="Enter Your Password"
+                    ref={password}
+                    onClick={() => dispatch(setError(null))}
                     required
                   />
                 </div>
 
-                <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3">
+                <button
+                  onClick={handleLogin}
+                  className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3"
+                >
                   Sign In
                 </button>
+                {error && (
+                  <div>
+                    <p className="text-center text-md font-light text-red-500 ">
+                      {error}
+                    </p>
+                  </div>
+                )}
               </form>
 
-              <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
-                <img src={googleIcon} className="size-7 mr-4"></img>
-                Or Sign In with Google
-              </button>
+              {/* <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
+                  <img src={googleIcon} className="size-7 mr-4"></img>
+                  Or Sign In with Google
+                </button> */}
 
               <div className="text-center mt-4 space-x-1">
                 <span className="">Do not have an account? </span>
