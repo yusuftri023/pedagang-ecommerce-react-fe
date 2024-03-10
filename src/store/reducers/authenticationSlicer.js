@@ -14,6 +14,7 @@ export const authenticationSlice = createSlice({
       const loggedInUserData = database.find(
         ({ email }) => email === action.payload.email
       );
+
       localStorage.setItem(
         "loggedInUserData",
         JSON.stringify(loggedInUserData)
@@ -43,16 +44,25 @@ export const authenticationSlice = createSlice({
       const userData = JSON.parse(localStorage.getItem("userData")) || [];
       state.registerSuccess = true;
       const updatedDB = userData.map((val) => {
-        if (val.id === state.loggedInUserData.id) {
+        if (
+          val.email ===
+          JSON.parse(localStorage.getItem("loggedInUserData")).email
+        ) {
           return {
-            ...state.loggedInUserData,
-            cart: sessionStorage.getItem("cart"),
+            ...JSON.parse(localStorage.getItem("loggedInUserData")),
+            cart: [
+              sessionStorage.getItem("cart")
+                ? sessionStorage.getItem("cart")
+                : undefined,
+            ],
           };
         }
         return val;
       });
       localStorage.setItem("userData", JSON.stringify([...updatedDB]));
       localStorage.removeItem("loggedInUserData");
+      sessionStorage.removeItem("cart");
+      location.reload();
     },
   },
 });

@@ -13,10 +13,9 @@ import {
 import { useEffect, useRef, useState } from "react";
 import DropdownMenu from "./DropdownMenu";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserCart } from "../../store/actions/cartAction";
+
 import { getProductCart } from "../../store/actions/productAction";
 import { logout } from "../../store/reducers/authenticationSlicer";
-import { fetchMultipleProduct } from "../../services/product.service";
 
 function UserUtils() {
   const dispatch = useDispatch();
@@ -38,14 +37,23 @@ function UserUtils() {
 
       dispatch(getProductCart(listId)).then((res) => {
         if (JSON.stringify(products) !== JSON.stringify(res.payload)) {
-          sessionStorage.setItem("cart", JSON.stringify(res.payload));
+          sessionStorage.setItem(
+            "cart",
+            JSON.stringify({
+              description: res.payload.map(({ description }) => description),
+              id: res.payload.map(({ id }) => id),
+              rating: res.payload.map(({ rating }) => rating),
+              title: res.payload.map(({ title }) => title),
+              price: res.payload.map(({ price }) => price),
+              category: res.payload.map(({ category }) => category),
+            })
+          );
           setProducts(res.payload);
         }
       });
     }
   }, [cart]);
-  console.log(cart);
-  console.log(products);
+
   return (
     <div className=" text-white w-[750px] mr-4 ">
       <ul className=" flex  justify-end ">
@@ -142,9 +150,10 @@ function UserUtils() {
                       </div>
                       <div className="">
                         <p className="ml-4 line-clamp-1 text-wrap">
-                          {loggedInUserData.username.length > 10
-                            ? loggedInUserData.username.slice(0, 10) + "..."
-                            : loggedInUserData.username}
+                          {loggedInUserData?.username &&
+                          loggedInUserData?.username.length > 10
+                            ? loggedInUserData?.username.slice(0, 10) + "..."
+                            : loggedInUserData?.username}
                         </p>
                       </div>
                     </div>

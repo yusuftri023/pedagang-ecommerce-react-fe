@@ -4,6 +4,7 @@ import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
 import Cart from "../pages/Cart";
 import CheckoutPage from "../pages/Checkout";
+import BasketProduct from "../components/molecules/BasketProduct";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +24,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/products/:product-title/:id",
-    element: <Homepage />,
+    element: <BasketProduct />,
   },
   {
     path: "/checkout",

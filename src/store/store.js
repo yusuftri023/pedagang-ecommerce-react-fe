@@ -5,6 +5,7 @@ import {
   productSearchSlicer,
 } from "./reducers/productSlicer";
 import { authenticationSlice } from "./reducers/authenticationSlicer";
+import { basketSlice } from "./reducers/basketSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     cartProduct: productCartSlicer.reducer,
     searchResult: productSearchSlicer.reducer,
     authentication: authenticationSlice.reducer,
+    basket: basketSlice.reducer,
   },
 });

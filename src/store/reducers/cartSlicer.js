@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 const userData = localStorage.getItem("loggedInUserData");
-console.log(userData);
+
 export const cartSlicer = createSlice({
   name: "cart",
   initialState: {
-    cart: userData?.cart ? userData.cart : [],
+    cart: userData?.cart ? JSON.parse(userData).cart : [],
     totalAmount: 0,
     totalPrice: 0,
   },
