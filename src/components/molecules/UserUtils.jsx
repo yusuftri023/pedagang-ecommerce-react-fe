@@ -20,9 +20,7 @@ import { logout } from "../../store/reducers/authenticationSlicer";
 function UserUtils() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedInUserData = useSelector(
-    (state) => state.authentication.loggedInUserData
-  );
+  const loggedInUserData = JSON.parse(localStorage.getItem("loggedinUserData"));
 
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const [activeMenu, setActiveMenu] = useState(null);

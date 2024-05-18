@@ -6,7 +6,7 @@ import axios from "axios";
 import ProductCard from "../components/molecules/ProductCard";
 import FeatureList from "../components/molecules/FeatureList";
 import Banner from "../components/molecules/Banner";
-import ProductCardContainer from "../components/organisems/ProductCardContainer";
+import ProductCardContainer from "../components/organisms/ProductCardContainer";
 import InfiniteCarousel from "../components/molecules/InfiniteCarousel";
 
 import featureList1 from "../assets/images/landing-page/Group 11.svg";

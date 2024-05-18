@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PayButton from "./PayButton";
 import { addToCart, decreaseCart } from "../store/reducers/cartSlicer";
-import Navbar from "../components/organisems/Navbar";
-import Footer from "../components/organisems/Footer";
+import Navbar from "../components/organisms/Navbar";
+import Footer from "../components/organisms/Footer";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);

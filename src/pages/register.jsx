@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
-import googleIcon from "../assets/google-icon.svg";
+// import googleIcon from "../assets/google-icon.svg";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register, setError } from "../store/reducers/authenticationSlicer";

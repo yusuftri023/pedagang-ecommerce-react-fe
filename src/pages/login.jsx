@@ -4,40 +4,39 @@ import registersvg from "../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
-import { authenticate, setError } from "../store/reducers/authenticationSlicer";
+import { setError } from "../store/reducers/authenticationSlicer";
+import googleIcon from "../assets/images/landing-page/logo_google_g_icon.svg";
+import { getGoogleSignIn, webSignIn } from "../services/auth.service";
 function LoginPage() {
   const navigate = useNavigate();
   const password = useRef();
   const email = useRef();
   const dispatch = useDispatch();
   const error = useSelector((state) => state.authentication.error);
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+
     const data = {
       password: password.current.value,
       email: email.current.value,
     };
 
+    const response = await webSignIn(data);
+
     if (data.email == "" || data.password == "") {
       dispatch(setError("Lengkapi input terlebih dahulu"));
-    } else if (
-      userData?.some(({ email, password }) => {
-        if (email === data.email && password === data.password) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-    ) {
-      dispatch(authenticate(data));
+    } else if (response.success) {
       dispatch(setError(null));
       navigate("/");
     } else {
       dispatch(setError("Email or password is incorrect"));
     }
   };
-
+  const googleHandle = async () => {
+    const response = await getGoogleSignIn();
+    console.log(response);
+    window.location.href = response.url;
+  };
   return (
     <>
       <FormLayouts>
@@ -105,6 +104,13 @@ function LoginPage() {
                 >
                   Signup
                 </span>
+              </div>
+              <div
+                className="flex items-center justify-center py-1 px-4 rounded-lg bg-[#444342] text-white w-full mt-10 hover:cursor-pointer"
+                onClick={googleHandle}
+              >
+                <img src={googleIcon} className=" h-8" />
+                Login with Google
               </div>
             </div>
           </div>

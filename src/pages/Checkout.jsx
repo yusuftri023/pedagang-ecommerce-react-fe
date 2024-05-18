@@ -3,8 +3,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
 import JntLogo from "../assets/images/checkout/jnt.png";
 import PaypalLogo from "../assets/images/checkout/logopaypal.svg";
-import Navbar from "../components/organisems/Navbar";
-import Footer from "../components/organisems/Footer";
+import Navbar from "../components/organisms/Navbar";
+import Footer from "../components/organisms/Footer";
 
 function CheckoutPage() {
   //   const Shipping = [

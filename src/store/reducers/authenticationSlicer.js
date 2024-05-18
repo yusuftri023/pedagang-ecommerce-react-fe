@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const authenticationSlice = createSlice({
   name: "authentication",
   initialState: {
-    isLoggedIn: localStorage.getItem("loggedInUserData") ? true : false,
-    loggedInUserData: JSON.parse(localStorage.getItem("loggedInUserData")),
+    isLoggedIn: false,
+    loggedInUserData: null,
     error: null,
   },
   reducers: {
@@ -20,19 +20,7 @@ export const authenticationSlice = createSlice({
         JSON.stringify(loggedInUserData)
       );
     },
-    register: (state, action) => {
-      const userData = JSON.parse(localStorage.getItem("userData")) || [];
-      state.registerSuccess = true;
-      userData.push({
-        username: action.payload.username,
-        email: action.payload.email,
-        password: action.payload.password,
-        age: action.payload.age,
-        phoneNumber: action.payload.phoneNumber,
-        cart: [],
-      });
-      localStorage.setItem("userData", JSON.stringify(userData));
-    },
+
     setError: (state, action) => {
       state.error = action.payload;
     },
