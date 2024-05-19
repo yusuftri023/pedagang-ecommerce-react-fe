@@ -6,6 +6,18 @@ export const getGoogleSignIn = async () => {
   });
   return response.data;
 };
+export const getSignOut = async () => {
+  const response = await axios.get("https://127.0.0.1:8080/auth/logout", {
+    withCredentials: true,
+  });
+  return response.data;
+};
+export const getAuth = async () => {
+  const response = await axios.get("https://127.0.0.1:8080/auth/refresh", {
+    withCredentials: true,
+  });
+  return response.data;
+};
 export const postWebSignIn = async (data) => {
   try {
     const response = await axios.post(
@@ -15,7 +27,7 @@ export const postWebSignIn = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 
@@ -28,6 +40,6 @@ export const postWebRegister = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

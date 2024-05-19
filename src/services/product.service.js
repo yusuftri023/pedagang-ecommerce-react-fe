@@ -38,7 +38,7 @@ export const getSingleProduct = async (productId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const postNewProduct = async (data) => {
@@ -50,7 +50,7 @@ export const postNewProduct = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 
@@ -64,7 +64,7 @@ export const deleteProduct = async (addressId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const getProductCategories = async () => {
@@ -77,7 +77,7 @@ export const getProductCategories = async () => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const postNewProductCategory = async (data) => {
@@ -89,6 +89,6 @@ export const postNewProductCategory = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

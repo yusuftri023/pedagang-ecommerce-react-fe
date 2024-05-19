@@ -10,7 +10,7 @@ export const orderDetails = async (orderId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const getOrderList = async (page = 1, limit = 10) => {
@@ -23,7 +23,7 @@ export const getOrderList = async (page = 1, limit = 10) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const checkoutOrder = async (data) => {
@@ -35,6 +35,6 @@ export const checkoutOrder = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

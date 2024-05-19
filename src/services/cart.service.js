@@ -11,7 +11,7 @@ export const getCustomerCart = async () => {
     });
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 
@@ -24,7 +24,7 @@ export const postAddToCart = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const patchChangeCartQuantity = async (data) => {
@@ -36,7 +36,7 @@ export const patchChangeCartQuantity = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const deleteCustomerCartItem = async (cartId) => {
@@ -49,6 +49,6 @@ export const deleteCustomerCartItem = async (cartId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

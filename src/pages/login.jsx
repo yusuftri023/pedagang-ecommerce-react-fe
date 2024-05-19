@@ -3,10 +3,11 @@ import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { setError } from "../store/reducers/authenticationSlicer";
 import googleIcon from "../assets/images/landing-page/logo_google_g_icon.svg";
-import { getGoogleSignIn, webSignIn } from "../services/auth.service";
+import { getGoogleSignIn, postWebSignIn } from "../services/auth.service";
+import { getUserData } from "../store/actions/customerAction";
 function LoginPage() {
   const navigate = useNavigate();
   const password = useRef();
@@ -21,7 +22,7 @@ function LoginPage() {
       email: email.current.value,
     };
 
-    const response = await webSignIn(data);
+    const response = await postWebSignIn(data);
 
     if (data.email == "" || data.password == "") {
       dispatch(setError("Lengkapi input terlebih dahulu"));
@@ -37,6 +38,17 @@ function LoginPage() {
     console.log(response);
     window.location.href = response.url;
   };
+
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
+  useEffect(() => {
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      setTimeout(() => navigate("/"), 1000);
+    }
+  }, [isLoggedIn]);
   return (
     <>
       <FormLayouts>
@@ -105,12 +117,13 @@ function LoginPage() {
                   Signup
                 </span>
               </div>
+
               <div
-                className="flex items-center justify-center py-1 px-4 rounded-lg bg-[#444342] text-white w-full mt-10 hover:cursor-pointer"
+                className="flex items-center justify-center py-2 px-4 mt-10 rounded-lg bg-gray-700 text-white w-full transition-colors duration-150 hover:cursor-pointer hover:bg-gray-500"
                 onClick={googleHandle}
               >
-                <img src={googleIcon} className=" h-8" />
-                Login with Google
+                <img src={googleIcon} className=" size-7 mr-4" />
+                Signin with Google
               </div>
             </div>
           </div>

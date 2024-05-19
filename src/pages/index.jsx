@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import HomeLayouts from "../layouts/Homelayouts";
 
 import CarouselSlide from "../components/molecules/CarouselSlide";
@@ -28,6 +29,7 @@ import payment7 from "./../assets/images/payment/Logo_ovo_purple.svg";
 import payment8 from "./../assets/images/payment/ShopeePay Logo.svg";
 import payment9 from "./../assets/images/payment/QRIS.svg";
 import payment10 from "./../assets/images/payment/logo isaku.svg";
+import { useSelector } from "react-redux";
 
 const featureList = [
   {
@@ -117,7 +119,10 @@ const logoPayment = [
 
 function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
-
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  const loggedInUserData = useSelector(
+    (state) => state.authentication.loggedInUserData
+  );
   useEffect(() => {
     axios
       .get(`${"https://fakestoreapi.com"}/products`)

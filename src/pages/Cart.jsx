@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,10 +7,13 @@ import PayButton from "./PayButton";
 import { addToCart, decreaseCart } from "../store/reducers/cartSlicer";
 import Navbar from "../components/organisms/Navbar";
 import Footer from "../components/organisms/Footer";
+import { useEffect } from "react";
+import axios from "axios";
+import { getUserData } from "../store/actions/customerAction";
+import { getAuth } from "../services/auth.service";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,13 +24,19 @@ const Cart = () => {
   const handleDecreaseCart = (product) => {
     dispatch(decreaseCart(product));
   };
-  // const handleRemoveFromCart = (product) => {
-  //   dispatch(removeCart(product));
-  // };
-  // const handleClearCart = (product) => {
-  //   dispatch(clearCart(product));
-  // };
-
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  const loggedInUserData = useSelector(
+    (state) => state.authentication.loggedInUserData
+  );
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
+  useEffect(() => {
+    console.log(isLoggedIn);
+    if (!isLoggedIn) {
+      setTimeout(() => navigate("/"), 1000);
+    }
+  }, [isLoggedIn]);
   return (
     <>
       <Navbar />

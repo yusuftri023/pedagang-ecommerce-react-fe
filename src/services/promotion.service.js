@@ -10,7 +10,7 @@ export const getPromotionList = async (page = 1, limit = 10) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 
@@ -23,7 +23,7 @@ export const postNewPromotion = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const deletePromotion = async (promotionId) => {
@@ -36,6 +36,6 @@ export const deletePromotion = async (promotionId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

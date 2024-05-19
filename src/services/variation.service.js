@@ -10,7 +10,7 @@ export const getCategoryVariation = async (productId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const postNewCategoryVariation = async (data) => {
@@ -22,7 +22,7 @@ export const postNewCategoryVariation = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 
@@ -36,6 +36,6 @@ export const deleteProduct = async (variationId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

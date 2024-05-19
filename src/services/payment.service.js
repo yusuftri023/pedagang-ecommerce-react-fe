@@ -10,6 +10,6 @@ export const paymentDetails = async (orderId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

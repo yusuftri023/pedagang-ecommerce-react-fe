@@ -10,7 +10,7 @@ export const getCustomerProfile = async () => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const updateCustomerPassword = async (data) => {
@@ -22,7 +22,7 @@ export const updateCustomerPassword = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const updateCustomerProfilePic = async (formData) => {
@@ -37,7 +37,7 @@ export const updateCustomerProfilePic = async (formData) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const deleteCustomer = async () => {
@@ -50,6 +50,6 @@ export const deleteCustomer = async () => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

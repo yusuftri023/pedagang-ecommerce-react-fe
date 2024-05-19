@@ -10,7 +10,7 @@ export const getCustomerAddress = async () => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const postCustomerAddress = async (data) => {
@@ -22,7 +22,7 @@ export const postCustomerAddress = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const patchSelectedAddress = async (addressId) => {
@@ -34,7 +34,7 @@ export const patchSelectedAddress = async (addressId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const deleteCustomerAddress = async (addressId) => {
@@ -47,6 +47,6 @@ export const deleteCustomerAddress = async (addressId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

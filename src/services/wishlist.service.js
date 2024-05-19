@@ -10,7 +10,7 @@ export const getWishlist = async (page = 1, limit = 10) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 
@@ -23,7 +23,7 @@ export const postNewWishlist = async (data) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };
 export const deleteWishlistItem = async (wishlistId) => {
@@ -36,6 +36,6 @@ export const deleteWishlistItem = async (wishlistId) => {
     );
     return response.data;
   } catch (error) {
-    return { success: false };
+    return { success: false, message: error.response.data.message };
   }
 };

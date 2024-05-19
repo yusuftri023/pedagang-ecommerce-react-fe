@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
@@ -5,15 +6,29 @@ import JntLogo from "../assets/images/checkout/jnt.png";
 import PaypalLogo from "../assets/images/checkout/logopaypal.svg";
 import Navbar from "../components/organisms/Navbar";
 import Footer from "../components/organisms/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUserData } from "../store/actions/customerAction";
+import { getAuth } from "../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 function CheckoutPage() {
-  //   const Shipping = [
-  //     {
-  //       name: "jnt",
-  //       price: "20000",
-  //     },
-  //   ];
   const GrandTotal = "";
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loggedInUserData = useSelector(
+    (state) => state.authentication.loggedInUserData
+  );
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
+  useEffect(() => {
+    console.log(isLoggedIn);
+    if (!isLoggedIn) {
+      setTimeout(() => navigate("/"), 1000);
+    }
+  }, [isLoggedIn]);
   return (
     <>
       <Navbar />

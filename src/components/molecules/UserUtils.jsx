@@ -16,11 +16,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getProductCart } from "../../store/actions/productAction";
 import { logout } from "../../store/reducers/authenticationSlicer";
+import { getSignOut } from "../../services/auth.service";
+import { getUserData } from "../../store/actions/customerAction";
 
 function UserUtils() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedInUserData = JSON.parse(localStorage.getItem("loggedinUserData"));
+  const loggedInUserData = useSelector(
+    (state) => state.authentication.loggedInUserData
+  );
 
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -28,7 +32,12 @@ function UserUtils() {
   const [products, setProducts] = useState([]);
   const refAccount = useRef();
   const refCart = useRef();
-
+  const handleLogout = () => {
+    getSignOut().then(() => dispatch(logout()));
+  };
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
   useEffect(() => {
     if (cart.length > 0) {
       const listId = cart.map((val) => val.id);
@@ -178,7 +187,7 @@ function UserUtils() {
                         <div className="inline-block ml-4">Settings</div>
                       </div>
                       <div
-                        onClick={() => dispatch(logout())}
+                        onClick={handleLogout}
                         className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
                       >
                         <FontAwesomeIcon
