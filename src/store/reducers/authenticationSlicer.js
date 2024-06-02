@@ -14,7 +14,9 @@ export const authenticationSlice = createSlice({
       state.isLoggedIn = true;
       state.loggedInUserData = action.payload;
     },
-
+    setAuth: (state, action) => {
+      state.isLoggedIn = action.payload;
+    },
     setError: (state, action) => {
       state.error = action.payload;
     },
@@ -36,12 +38,11 @@ export const authenticationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getUserData.rejected, (state) => {
-        console.log("fail");
         state.isLoading = false;
         state.isLoggedIn = false;
         state.loggedInUserData = null;
       });
   },
 });
-export const { setLogin, setError, clearError, logout } =
+export const { setLogin, setAuth, setError, clearError, logout } =
   authenticationSlice.actions;

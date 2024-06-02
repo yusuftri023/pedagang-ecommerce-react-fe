@@ -11,24 +11,22 @@ import { useEffect } from "react";
 import { getUserData } from "../store/actions/customerAction";
 import { getAuth } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { setAuth } from "../store/reducers/authenticationSlicer";
 
 function CheckoutPage() {
   const GrandTotal = "";
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedInUserData = useSelector(
-    (state) => state.authentication.loggedInUserData
-  );
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   useEffect(() => {
+    getAuth()
+      .then(() => dispatch(setAuth(true)))
+      .catch(() => {
+        dispatch(setAuth(false));
+        setTimeout(() => navigate("/"), 1000);
+      });
     dispatch(getUserData());
   }, []);
-  useEffect(() => {
-    console.log(isLoggedIn);
-    if (!isLoggedIn) {
-      setTimeout(() => navigate("/"), 1000);
-    }
-  }, [isLoggedIn]);
+
   return (
     <>
       <Navbar />

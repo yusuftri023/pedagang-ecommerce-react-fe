@@ -6,7 +6,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../store/reducers/cartSlicer";
 
-function ProductCard({ id, image, title, price, rating }) {
+function ProductCard({
+  id,
+  image,
+  title,
+  price,
+  rating = { rate: 5, count: 150 },
+}) {
   const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
   const dispatch = useDispatch();
@@ -22,7 +28,7 @@ function ProductCard({ id, image, title, price, rating }) {
   const handleAddToCart = () => {
     const data = {
       id,
-      price: price * 10000,
+      price: price,
     };
     dispatch(addToCart(data));
   };
@@ -67,7 +73,9 @@ function ProductCard({ id, image, title, price, rating }) {
                 {new Intl.NumberFormat("id", {
                   currency: "idr",
                   style: "currency",
-                }).format(price * 10000)}
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 0,
+                }).format(price)}
               </div>
               <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                 <div
@@ -117,7 +125,9 @@ function ProductCard({ id, image, title, price, rating }) {
                   {new Intl.NumberFormat("id", {
                     currency: "idr",
                     style: "currency",
-                  }).format(price * 10000)}
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 0,
+                  }).format(price)}
                 </div>
                 <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                   <div

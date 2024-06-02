@@ -13,6 +13,19 @@ export const getPromotionList = async (page = 1, limit = 10) => {
     return { success: false, message: error.response.data.message };
   }
 };
+export const getPromotion = async (promotionCode) => {
+  try {
+    const response = await axios.get(
+      `https://127.0.0.1:8080/customers/promotion/use/${promotionCode}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
 
 export const postNewPromotion = async (data) => {
   try {

@@ -12,6 +12,7 @@ export const getSignOut = async () => {
   });
   return response.data;
 };
+
 export const getAuth = async () => {
   const response = await axios.get("https://127.0.0.1:8080/auth/refresh", {
     withCredentials: true,

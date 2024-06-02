@@ -16,14 +16,10 @@ export const getProductCart = createAsyncThunk(
 export const getSearchProduct = createAsyncThunk(
   "searchProduct/getSearchProduct",
   async ({ searchString, category = "all" }) => {
-    let res;
+    let data;
 
-    if (category === "all") res = await fetchAllProduct();
-    else res = await fetchProductInCategory(category);
-
-    const data = res.filter(({ title }) =>
-      title.toLowerCase().includes(searchString.toLowerCase())
-    );
+    if (category === "all") data = await fetchAllProduct(searchString);
+    else data = await fetchProductInCategory(category);
 
     return data;
   }
