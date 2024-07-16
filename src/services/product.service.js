@@ -1,7 +1,9 @@
 import axios from "axios";
 
-export const fetchAllProduct = async () => {
-  const res = await axios.get(`${"https://fakestoreapi.com"}/products`);
+export const fetchAllProduct = async (keyword) => {
+  const res = await axios.get(
+    `https://127.0.0.1:8080/api/public/products/search?keyword=${keyword}`
+  );
 
   return res.data;
 };
@@ -26,4 +28,95 @@ export const fetchMultipleProduct = async (list) => {
     })
   );
   return data;
+};
+
+export const getAllProduct = async () => {
+  try {
+    const response = await axios.get(
+      `https://127.0.0.1:8080/api/public/products`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const getSingleProduct = async (productId) => {
+  try {
+    const response = await axios.get(
+      `https://127.0.0.1:8080/customers/product/${productId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const getSingleProductVariation = async (productId, variationId) => {
+  try {
+    const response = await axios.get(
+      `https://127.0.0.1:8080/customers/product/${productId}/variation/${variationId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const postNewProduct = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://127.0.0.1:8080/customers/product",
+      JSON.stringify(data),
+      { headers: { "Content-Type": "application/json" }, withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+
+export const deleteProduct = async (addressId) => {
+  try {
+    const response = await axios.delete(
+      `https://127.0.0.1:8080/customers/product/${addressId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const getProductCategories = async () => {
+  try {
+    const response = await axios.get(
+      `https://127.0.0.1:8080/customers/category`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const postNewProductCategory = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://127.0.0.1:8080/customers/category",
+      JSON.stringify(data),
+      { headers: { "Content-Type": "application/json" }, withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
 };

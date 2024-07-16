@@ -1,37 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserData } from "../actions/customerAction";
 
 export const authenticationSlice = createSlice({
   name: "authentication",
   initialState: {
-    isLoggedIn: localStorage.getItem("loggedInUserData") ? true : false,
-    loggedInUserData: JSON.parse(localStorage.getItem("loggedInUserData")),
+    isLoggedIn: false,
+    loggedInUserData: null,
     error: null,
+    isLoading: false,
   },
   reducers: {
-    authenticate: (state, action) => {
+    setLogin: (state, action) => {
       state.isLoggedIn = true;
-      const database = JSON.parse(localStorage.getItem("userData"));
-      const loggedInUserData = database.find(
-        ({ email }) => email === action.payload.email
-      );
-
-      localStorage.setItem(
-        "loggedInUserData",
-        JSON.stringify(loggedInUserData)
-      );
+      state.loggedInUserData = action.payload;
     },
-    register: (state, action) => {
-      const userData = JSON.parse(localStorage.getItem("userData")) || [];
-      state.registerSuccess = true;
-      userData.push({
-        username: action.payload.username,
-        email: action.payload.email,
-        password: action.payload.password,
-        age: action.payload.age,
-        phoneNumber: action.payload.phoneNumber,
-        cart: [],
-      });
-      localStorage.setItem("userData", JSON.stringify(userData));
+    setAuth: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -41,30 +25,24 @@ export const authenticationSlice = createSlice({
     },
     logout: (state) => {
       state.isLoggedIn = false;
-      const userData = JSON.parse(localStorage.getItem("userData")) || [];
-      state.registerSuccess = true;
-      const updatedDB = userData.map((val) => {
-        if (
-          val.email ===
-          JSON.parse(localStorage.getItem("loggedInUserData")).email
-        ) {
-          return {
-            ...JSON.parse(localStorage.getItem("loggedInUserData")),
-            cart: [
-              sessionStorage.getItem("cart")
-                ? sessionStorage.getItem("cart")
-                : undefined,
-            ],
-          };
-        }
-        return val;
-      });
-      localStorage.setItem("userData", JSON.stringify([...updatedDB]));
-      localStorage.removeItem("loggedInUserData");
-      sessionStorage.removeItem("cart");
-      location.reload();
+      state.loggedInUserData = null;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.loggedInUserData = action.payload.data;
+      })
+      .addCase(getUserData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserData.rejected, (state) => {
+        state.isLoading = false;
+        state.isLoggedIn = false;
+        state.loggedInUserData = null;
+      });
+  },
 });
-export const { register, authenticate, setError, clearError, logout } =
+export const { setLogin, setAuth, setError, clearError, logout } =
   authenticationSlice.actions;

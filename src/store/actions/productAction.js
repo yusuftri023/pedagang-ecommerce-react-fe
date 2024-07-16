@@ -9,21 +9,17 @@ export const getProductCart = createAsyncThunk(
   "cartProduct/getCartProduct",
   async (cartList) => {
     const data = await fetchMultipleProduct(cartList);
-    console.log(data);
+
     return data;
   }
 );
 export const getSearchProduct = createAsyncThunk(
   "searchProduct/getSearchProduct",
   async ({ searchString, category = "all" }) => {
-    let res;
+    let data;
 
-    if (category === "all") res = await fetchAllProduct();
-    else res = await fetchProductInCategory(category);
-
-    const data = res.filter(({ title }) =>
-      title.toLowerCase().includes(searchString.toLowerCase())
-    );
+    if (category === "all") data = await fetchAllProduct(searchString);
+    else data = await fetchProductInCategory(category);
 
     return data;
   }

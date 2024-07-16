@@ -1,61 +1,58 @@
 import { useNavigate } from "react-router-dom";
 import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
-import googleIcon from "../assets/google-icon.svg";
-import { useRef } from "react";
+// import googleIcon from "../assets/google-icon.svg";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register, setError } from "../store/reducers/authenticationSlicer";
+import { setError } from "../store/reducers/authenticationSlicer";
+import { postWebRegister } from "../services/auth.service";
+import { getUserData } from "../store/actions/customerAction";
 
 function RegisterPage() {
   const navigate = useNavigate();
   const username = useRef();
   const password = useRef();
-  const age = useRef();
+  const confirmPassword = useRef();
   const email = useRef();
-  const phoneNumber = useRef();
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.authentication.error);
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    const userData = JSON.parse(localStorage.getItem("userData")) || [];
     const data = {
       username: username.current.value,
       password: password.current.value,
       email: email.current.value,
-      age: age.current.value,
-      phoneNumber: phoneNumber.current.value,
     };
 
-    if (
-      data.email == "" ||
-      data.username == "" ||
-      data.password == "" ||
-      data.age == "" ||
-      data.phoneNumber == ""
-    ) {
+    if (data.email == "" || data.username == "" || data.password == "") {
       dispatch(setError("Complete your input"));
     } else if (data.username.length < 8) {
       dispatch(setError("Username minimum length is 8"));
-    } else if (data.age < 15) {
-      dispatch(setError("Minimum age is 15"));
-    } else if (
-      !userData?.some(({ email }) => {
-        if (email === data.email) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-    ) {
-      dispatch(register(data));
-      dispatch(setError(null));
-      navigate("/login");
+    } else if (password.current.value !== confirmPassword.current.value) {
+      dispatch(setError("Password should be matched"));
+    } else if (password.current.value.length < 8) {
+      dispatch(setError("Password minimum length is 8"));
     } else {
-      dispatch(setError("Your email already exist"));
+      const responseRegister = await postWebRegister(data);
+      if (responseRegister.success) {
+        dispatch(setError(null));
+        navigate("/login");
+      } else {
+        dispatch(setError("Your email already exist"));
+      }
     }
   };
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
+  useEffect(() => {
+    if (isLoggedIn) {
+      setTimeout(() => navigate("/"), 1000);
+    }
+  }, [isLoggedIn]);
   return (
     <FormLayouts>
       <div className="pt-16">
@@ -77,19 +74,7 @@ function RegisterPage() {
                   required
                 />
               </div>
-              <div className="">
-                <p className="pl-4 ">Age</p>
-                <label htmlFor="age"></label>
-                <input
-                  type="number"
-                  className="w-full pl-4 rounded-md py-px text-black"
-                  placeholder="Input Your Age"
-                  min="15"
-                  max="99"
-                  ref={age}
-                  required
-                />
-              </div>
+
               <div className="">
                 <p className="pl-4 ">Email</p>
                 <label htmlFor="email"></label>
@@ -101,17 +86,7 @@ function RegisterPage() {
                   required
                 />
               </div>
-              <div className="">
-                <p className="pl-4 ">Phone Number</p>
-                <label htmlFor="phoneNumber"></label>
-                <input
-                  type="text"
-                  className="w-full pl-4 rounded-md py-px text-black"
-                  placeholder="your phone number"
-                  ref={phoneNumber}
-                  required
-                />
-              </div>
+
               <div className="">
                 <p className="pl-4 ">Password</p>
                 <label htmlFor="password"></label>
@@ -120,6 +95,17 @@ function RegisterPage() {
                   className="w-full pl-4 rounded-md py-px text-black"
                   placeholder="Enter Your Password"
                   ref={password}
+                  required
+                />
+              </div>
+              <div className="">
+                <p className="pl-4 ">Confirm Password</p>
+                <label htmlFor="confirmpassword"></label>
+                <input
+                  type="password"
+                  className="w-full pl-4 rounded-md py-px text-black"
+                  placeholder="Enter Your Password"
+                  ref={confirmPassword}
                   required
                 />
               </div>
@@ -136,11 +122,6 @@ function RegisterPage() {
                 </p>
               </div>
             </form>
-
-            {/* <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
-              <img src={googleIcon} className="size-7 mr-4"></img>
-              Or Signup with Google
-            </button> */}
 
             <div className="text-center mt-4 space-x-1">
               <span className="">Already have an account? </span>

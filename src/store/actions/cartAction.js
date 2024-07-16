@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchUserCart } from "../../services/cart.service";
+import { fetchUserCart, getCustomerCart } from "../../services/cart.service";
 
 export const getUserCart = createAsyncThunk(
   "userCart/getUserCart",
@@ -9,3 +9,7 @@ export const getUserCart = createAsyncThunk(
     return data;
   }
 );
+export const getCart = createAsyncThunk("cart/getCart", async () => {
+  const data = await getCustomerCart();
+  return data;
+});

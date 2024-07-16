@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import IconCart from "../../assets/images/landing-page/icon _cart_.svg";
 import IconPeople from "../../assets/images/landing-page/icon _people_.svg";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,11 @@ import DropdownMenu from "./DropdownMenu";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getProductCart } from "../../store/actions/productAction";
-import { logout } from "../../store/reducers/authenticationSlicer";
+import { logout, setAuth } from "../../store/reducers/authenticationSlicer";
+import { getAuth, getSignOut } from "../../services/auth.service";
+import { getUserData } from "../../store/actions/customerAction";
+import { getCart } from "../../store/actions/cartAction";
+import DropdownCartItem from "./DropdownCartItem";
 
 function UserUtils() {
   const dispatch = useDispatch();
@@ -23,39 +28,31 @@ function UserUtils() {
   const loggedInUserData = useSelector(
     (state) => state.authentication.loggedInUserData
   );
-
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const [activeMenu, setActiveMenu] = useState(null);
   const cart = useSelector((state) => state.cart.cart);
   const [products, setProducts] = useState([]);
   const refAccount = useRef();
   const refCart = useRef();
+  const handleLogout = () => {
+    getSignOut().then(() => dispatch(logout()));
+  };
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
 
   useEffect(() => {
-    if (cart.length > 0) {
-      const listId = cart.map((val) => val.id);
-
-      dispatch(getProductCart(listId)).then((res) => {
-        if (JSON.stringify(products) !== JSON.stringify(res.payload)) {
-          sessionStorage.setItem(
-            "cart",
-            JSON.stringify({
-              description: res.payload.map(({ description }) => description),
-              id: res.payload.map(({ id }) => id),
-              rating: res.payload.map(({ rating }) => rating),
-              title: res.payload.map(({ title }) => title),
-              price: res.payload.map(({ price }) => price),
-              category: res.payload.map(({ category }) => category),
-            })
-          );
-          setProducts(res.payload);
-        }
+    getAuth()
+      .then(() => dispatch(setAuth(true)))
+      .then(() => dispatch(getCart()))
+      .catch(() => {
+        dispatch(setAuth(false));
+        setTimeout(() => navigate("/"), 1000);
       });
-    }
-  }, [cart]);
-
+    dispatch(getUserData());
+  }, []);
   return (
-    <div className=" text-white w-[750px] mr-4 ">
+    <div className=" text-white w-[750px] ">
       <ul className=" flex  justify-end ">
         <li
           ref={refCart}
@@ -71,45 +68,22 @@ function UserUtils() {
           </div>
 
           {activeMenu === refCart && (
-            <DropdownMenu width={400} height={400} x={10}>
+            <DropdownMenu width={400} height={300} x={10}>
               <div className="overflow-y-scroll h-full no-scrollbar ">
                 <div className=" w-full border-b-[1px] border-gray-500 flex items-center h-[50px] px-[10%] align-middle bg-gray-400 bg-opacity-50 text-xl font-semibold">
                   <p>Your Cart</p>
                 </div>
-                <ul className=" whitespace-nowrap">
+                <ul className=" whitespace-nowrap h-[fit-content]">
                   {cart?.length > 0 ? (
                     cart.map((val, i) => (
-                      <li
+                      <DropdownCartItem
                         key={i}
-                        className="h-10 w-full flex justify-between px-6 items-center my-4 space-x-2"
-                      >
-                        <img
-                          src={products?.find(({ id }) => id === val.id)?.image}
-                          className="max-h-10 max-w-10 min-w-10"
-                        />
-                        <div
-                          onClick={() =>
-                            navigate(
-                              `/products/${encodeURIComponent(
-                                products
-                                  ?.find(({ id }) => id === val.id)
-                                  ?.title.toLowerCase()
-                              )}/${
-                                products?.find(({ id }) => id === val.id).id
-                              }`
-                            )
-                          }
-                          className="text-left w-full hover:cursor-pointer hover:text-blue-600"
-                        >
-                          {products?.find(({ id }) => id === val.id)?.title
-                            .length > 30
-                            ? products
-                                ?.find(({ id }) => id === val.id)
-                                ?.title.slice(0, 30) + "..."
-                            : products?.find(({ id }) => id === val.id)?.title}
-                        </div>
-                        <div>x{val.amount}</div>
-                      </li>
+                        title={val.title}
+                        quantity={val.quantity}
+                        image={val.image}
+                        product_id={val.product_id}
+                        price={val.price}
+                      />
                     ))
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
@@ -123,8 +97,10 @@ function UserUtils() {
         </li>
         {isLoggedIn ? (
           <>
-            {" "}
-            <li className="  flex items-center justify-between space-x-2 w-[140px] hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150">
+            <li
+              onClick={() => navigate("/wishlist")}
+              className="  flex items-center justify-between space-x-2 w-[140px] hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150"
+            >
               <p>Wishlist</p>
               <FontAwesomeIcon icon={faHeart} className="text-[30px]" />
             </li>
@@ -144,8 +120,12 @@ function UserUtils() {
                     <div className=" w-full  flex items-center py-4 px-[10%] align-middle text-xl font-semibold">
                       <div className="rounded-full bg-zinc-200 min-w-fit">
                         <img
-                          className="p-2 size-16"
-                          src="/src/assets/images/landing-page/icon _people_.svg"
+                          className={`size-16 rounded-full `}
+                          src={
+                            loggedInUserData?.picture
+                              ? loggedInUserData.picture
+                              : "/src/assets/images/landing-page/icon _people_.svg"
+                          }
                         ></img>
                       </div>
                       <div className="">
@@ -165,7 +145,10 @@ function UserUtils() {
                         />
                         <div className="inline-block ml-4">Wishlist</div>
                       </div>
-                      <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
+                      <div
+                        onClick={() => navigate("/cart")}
+                        className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
+                      >
                         <FontAwesomeIcon
                           className=" align-text-bottom text-xl   min-w-10 max-w-10"
                           icon={faCartShopping}
@@ -180,7 +163,7 @@ function UserUtils() {
                         <div className="inline-block ml-4">Settings</div>
                       </div>
                       <div
-                        onClick={() => dispatch(logout())}
+                        onClick={handleLogout}
                         className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
                       >
                         <FontAwesomeIcon
