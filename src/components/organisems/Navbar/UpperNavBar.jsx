@@ -4,9 +4,9 @@ import { faGlobe, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 function AdditionalNavbar() {
   return (
     <nav className="h-10 flex items-center text-zinc-100  w-[100%] min-w-[1000px] mx-auto">
-      <div className="flex justify-between w-full px-4">
+      <div className="flex justify-between w-full ">
         <div className="flex ">
-          <div className="flex space-x-3 ">
+          <div className="flex space-x-3 ml-4">
             <a href="/">Download</a>
             <p>|</p>
             <p>Follow Us</p>
@@ -18,7 +18,7 @@ function AdditionalNavbar() {
             </a>
           </div>
         </div>
-        <div className="flex  space-x-2">
+        <div className="flex mr-4 space-x-2">
           <div>
             <a href="/">
               <FontAwesomeIcon icon={faQuestionCircle} className="md" />

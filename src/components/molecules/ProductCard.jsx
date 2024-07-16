@@ -6,13 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../store/reducers/cartSlicer";
 
-function ProductCard({
-  id,
-  image,
-  title,
-  price,
-  rating = { rate: 5, count: 150 },
-}) {
+function ProductCard({ id, image, title, price, rating }) {
   const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
   const dispatch = useDispatch();
@@ -28,7 +22,7 @@ function ProductCard({
   const handleAddToCart = () => {
     const data = {
       id,
-      price: price,
+      price: price * 10000,
     };
     dispatch(addToCart(data));
   };
@@ -43,61 +37,55 @@ function ProductCard({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {!isHover && (
-          <div>
-            <div className="w-[80%] mx-auto mt-2 ">
-              <div className="overflow-hidden flex justify-center">
-                <img src={image} alt="" className="size-40 duration-300 " />
+        <div className={isHover ? " opacity-0" : ""}>
+          <div className="w-[80%] mx-auto mt-2 ">
+            <div className="overflow-hidden flex justify-center">
+              <img src={image} alt="" className="size-40 duration-300 " />
+            </div>
+            <div
+              onClick={handleLink}
+              className="text-blue-600 min-h-[3em] line-clamp-2 hover:cursor-pointer"
+            >
+              {title}
+            </div>
+            <div className="flex text-[12px] justify-between">
+              <div>
+                {new Array(5).fill(1).map((val, i) => (
+                  <FontAwesomeIcon
+                    key={i}
+                    icon={faStar}
+                    className={
+                      i + 1 <= rating.rate ? `text-yellow-500` : `text-zinc-200`
+                    }
+                  />
+                ))}
               </div>
-              <div
-                onClick={handleLink}
-                className="text-blue-600 min-h-[3em] line-clamp-2 hover:cursor-pointer"
-              >
-                {title}
+              <div>(100 reviews)</div>
+            </div>
+            <div className="flex flex-col ">
+              <div className="mt-2 font-bold">
+                {new Intl.NumberFormat("id", {
+                  currency: "idr",
+                  style: "currency",
+                }).format(price * 10000)}
               </div>
-              <div className="flex text-[12px] justify-between">
-                <div>
-                  {new Array(5).fill(1).map((val, i) => (
-                    <FontAwesomeIcon
-                      key={i}
-                      icon={faStar}
-                      className={
-                        i + 1 <= rating.rate
-                          ? `text-yellow-500`
-                          : `text-zinc-200`
-                      }
-                    />
-                  ))}
-                </div>
-                <div>(100 reviews)</div>
+              <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
+                <div
+                  className={`w-[${
+                    (100 / rating.count) * 100 > 100
+                      ? 100
+                      : (100 / rating.count) * 100
+                  }%] h-full rounded-full bg-red-500`}
+                ></div>
               </div>
-              <div className="flex flex-col ">
-                <div className="mt-2 font-bold">
-                  {new Intl.NumberFormat("id", {
-                    currency: "idr",
-                    style: "currency",
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 0,
-                  }).format(price)}
-                </div>
-                <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
-                  <div
-                    className={`w-[${
-                      (100 / rating.count) * 100 > 100
-                        ? 100
-                        : (100 / rating.count) * 100
-                    }%] h-full rounded-full bg-red-500`}
-                  ></div>
-                </div>
-                <div>
-                  Sold: {100 > rating.count ? rating.count : 100}/{rating.count}
-                </div>
+              <div>
+                Sold: {100 > rating.count ? rating.count : 100}/{rating.count}
               </div>
             </div>
           </div>
-        )}
+        </div>
         {isHover && (
-          <div className="relative z-10 bg-white  drop-shadow-md left-2 max-w-[200px] hover:scale-105 hover:mt-5 transition-all duration-300 whitespace-pre-wrap flex flex-col justify-center">
+          <div className="relative z-10 bg-white  drop-shadow-md left-2 max-w-[200px] -translate-y-[85%] hover:scale-105 hover:mt-5 transition-all duration-300 whitespace-pre-wrap flex flex-col justify-center">
             <div className="max-w-[80%] mx-auto mt-2 ">
               <div className="overflow-hidden">
                 <img src={image} alt="" className="size-40 duration-300 " />
@@ -129,9 +117,7 @@ function ProductCard({
                   {new Intl.NumberFormat("id", {
                     currency: "idr",
                     style: "currency",
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 0,
-                  }).format(price)}
+                  }).format(price * 10000)}
                 </div>
                 <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                   <div

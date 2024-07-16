@@ -1,11 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import Homepage from "../pages/Home";
-import LoginPage from "../pages/Login";
-import RegisterPage from "../pages/Register";
+import Homepage from "../pages";
+import LoginPage from "../pages/login";
+import RegisterPage from "../pages/register";
 import Cart from "../pages/Cart";
 import CheckoutPage from "../pages/Checkout";
 import BasketProduct from "../components/molecules/BasketProduct";
-import Wishlist from "../pages/Wishlist";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,10 +21,6 @@ export const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
-  },
-  {
-    path: "/wishlist",
-    element: <Wishlist />,
   },
   {
     path: "/products/:product-title/:id",
