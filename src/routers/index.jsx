@@ -1,16 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
-import Homepage from "../pages/Home.jsx";
-import RegisterPage from "../pages/Register.jsx";
-import Cart from "../pages/Cart.jsx";
-import CheckoutPage from "../pages/Checkout.jsx";
-import BasketProduct from "../components/molecules/BasketProduct.jsx";
-import Wishlist from "../pages/Wishlist.jsx";
+import Homepage from "../pages/Home";
+import LoginPage from "../pages/Login";
+import RegisterPage from "../pages/Register";
+import Cart from "../pages/Cart";
+import CheckoutPage from "../pages/Checkout";
+import BasketProduct from "../components/molecules/BasketProduct";
+import Wishlist from "../pages/Wishlist";
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Homepage />,
   },
-
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
   {
     path: "/register",
     element: <RegisterPage />,

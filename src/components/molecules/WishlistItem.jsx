@@ -1,19 +1,8 @@
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../store/reducers/cartSlicer";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretDown,
-  faCartFlatbed,
-  faCartPlus,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons/faCartArrowDown";
-import {
-  deleteCustomerCartItem,
-  postAddToCart,
-} from "../../services/cart.service";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { postAddToCart } from "../../services/cart.service";
 import { deleteWishlistItem } from "../../services/wishlist.service";
 import { getUserWishlist } from "../../store/actions/wishlistAction";
 
