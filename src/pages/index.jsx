@@ -1,12 +1,12 @@
-/* eslint-disable no-unused-vars */
-import MainLayouts from "../layouts/MainLayouts";
+import HomeLayouts from "../layouts/Homelayouts";
 
 import CarouselSlide from "../components/molecules/CarouselSlide";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import ProductCard from "../components/molecules/ProductCard";
 import FeatureList from "../components/molecules/FeatureList";
 import Banner from "../components/molecules/Banner";
-import ProductCardContainer from "../components/organisms/ProductCardContainer";
+import ProductCardContainer from "../components/organisems/ProductCardContainer";
 import InfiniteCarousel from "../components/molecules/InfiniteCarousel";
 
 import featureList1 from "../assets/images/landing-page/Group 11.svg";
@@ -28,8 +28,6 @@ import payment7 from "./../assets/images/payment/Logo_ovo_purple.svg";
 import payment8 from "./../assets/images/payment/ShopeePay Logo.svg";
 import payment9 from "./../assets/images/payment/QRIS.svg";
 import payment10 from "./../assets/images/payment/logo isaku.svg";
-import { useSelector } from "react-redux";
-import { getAllProduct } from "../services/product.service";
 
 const featureList = [
   {
@@ -121,12 +119,14 @@ function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
 
   useEffect(() => {
-    getAllProduct().then((res) => setTopSellProduct(() => res.data));
+    axios
+      .get(`${"https://fakestoreapi.com"}/products`)
+      .then((res) => setTopSellProduct(() => res.data));
   }, []);
 
   return (
     <>
-      <MainLayouts>
+      <HomeLayouts>
         <CarouselSlide />
         <div className="font-poppins w-[1000px] mx-auto">
           <section>
@@ -152,13 +152,14 @@ function Homepage() {
           <ProductCardContainer title={"Top Selling Product"}>
             {topSellProduct.length > 0 &&
               [...topSellProduct]
-                .slice(20, 30)
-                .map(({ title, id, price, image }) => (
+                .slice(0, 10)
+                .map(({ title, id, price, rating, image }) => (
                   <ProductCard
                     key={id}
                     id={id}
                     title={title}
                     price={price}
+                    rating={rating}
                     image={image}
                   />
                 ))}
@@ -179,13 +180,14 @@ function Homepage() {
           <ProductCardContainer title={"Top Featured Product"}>
             {topSellProduct.length > 0 &&
               [...topSellProduct]
-                .slice(10, 20)
-                .map(({ title, id, price, image }) => (
+                .slice(10)
+                .map(({ title, id, price, rating, image }) => (
                   <ProductCard
                     key={id}
                     id={id}
                     title={title}
                     price={price}
+                    rating={rating}
                     image={image}
                   />
                 ))}
@@ -196,7 +198,7 @@ function Homepage() {
             imgWidth={160}
           />
         </div>
-      </MainLayouts>
+      </HomeLayouts>
     </>
   );
 }

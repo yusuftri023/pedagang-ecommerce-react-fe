@@ -3,50 +3,41 @@ import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
-import { setError } from "../store/reducers/authenticationSlicer";
-import googleIcon from "../assets/images/landing-page/logo_google_g_icon.svg";
-import { getGoogleSignIn, postWebSignIn } from "../services/auth.service";
-import { getUserData } from "../store/actions/customerAction";
+import { useRef } from "react";
+import { authenticate, setError } from "../store/reducers/authenticationSlicer";
 function LoginPage() {
   const navigate = useNavigate();
   const password = useRef();
   const email = useRef();
   const dispatch = useDispatch();
   const error = useSelector((state) => state.authentication.error);
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
     const data = {
       password: password.current.value,
       email: email.current.value,
     };
 
-    const response = await postWebSignIn(data);
-
     if (data.email == "" || data.password == "") {
       dispatch(setError("Lengkapi input terlebih dahulu"));
-    } else if (response.success) {
+    } else if (
+      userData?.some(({ email, password }) => {
+        if (email === data.email && password === data.password) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    ) {
+      dispatch(authenticate(data));
       dispatch(setError(null));
       navigate("/");
     } else {
       dispatch(setError("Email or password is incorrect"));
     }
   };
-  const googleHandle = async () => {
-    const response = await getGoogleSignIn();
-    window.location.href = response.url;
-  };
 
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
-  useEffect(() => {
-    dispatch(getUserData());
-  }, []);
-  useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => navigate("/"), 1000);
-    }
-  }, [isLoggedIn]);
   return (
     <>
       <FormLayouts>
@@ -101,6 +92,11 @@ function LoginPage() {
                 )}
               </form>
 
+              {/* <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
+                  <img src={googleIcon} className="size-7 mr-4"></img>
+                  Or Sign In with Google
+                </button> */}
+
               <div className="text-center mt-4 space-x-1">
                 <span className="">Do not have an account? </span>
                 <span
@@ -109,14 +105,6 @@ function LoginPage() {
                 >
                   Signup
                 </span>
-              </div>
-
-              <div
-                className="flex items-center justify-center py-2 px-4 mt-10 rounded-lg bg-gray-700 text-white w-full transition-colors duration-150 hover:cursor-pointer hover:bg-gray-500"
-                onClick={googleHandle}
-              >
-                <img src={googleIcon} className=" size-7 mr-4" />
-                Signin with Google
               </div>
             </div>
           </div>

@@ -1,50 +1,82 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCart } from "../actions/cartAction";
+const userData = localStorage.getItem("loggedInUserData");
 
 export const cartSlicer = createSlice({
   name: "cart",
   initialState: {
-    cart: null,
+    cart: userData?.cart ? JSON.parse(userData).cart : [],
+    totalAmount: 0,
     totalPrice: 0,
-    error: null,
-    isLoading: false,
   },
   reducers: {
     addToCart: (state, action) => {
       const productId = action.payload;
+      try {
+        const exist = state.cart.find(
+          (product) => product.id === productId.id
+          //  && product.size === productId.size &&
+          // product.color === productId.color
+        );
+        if (exist) {
+          exist.amount++;
+          exist.totalPrice += productId.price;
+          state.totalAmount++;
+          state.totalPrice += productId.price;
+        } else {
+          state.cart.push({
+            id: productId.id,
+            price: productId.price,
+            totalPrice: productId.price,
+            amount: 1,
+            // size: productId.size,
+
+            // img: productId.img,
+
+            // name: productId.name,
+            // text: productId.text,
+            // color: productId.color,
+          });
+          state.totalAmount++;
+          state.totalPrice += productId.price;
+        }
+      } catch (err) {
+        return err;
+      }
     },
-    clearCart: (state) => {
-      state.cart = null;
+    // clearCart: (state) => {
+    //   state.cart = [];
+    // },
+    decreaseCart: (state, action) => {
+      const productId = action.payload;
+      try {
+        const exist = state.cart.find(
+          (product) =>
+            product.id === productId.id &&
+            product.size === productId.size &&
+            product.color === productId.color
+        );
+        if (exist.amount === 1) {
+          state.cart = state.cart.filter(
+            (product) =>
+              product.id !== productId.id &&
+              product.size !== productId.size &&
+              product.color !== productId.color
+          );
+          state.totalAmount--;
+          state.totalPrice -= productId.price;
+        } else {
+          exist.amount--;
+          exist.totalPrice -= productId.price;
+          state.totalAmount--;
+          state.totalPrice -= productId.price;
+        }
+      } catch (err) {
+        return err;
+      }
     },
-    decreaseCart: (state, action) => {},
-    setCartError: (state, action) => {
-      state.error = action.payload;
-    },
-    clearCartError: (state) => {
-      state.error = null;
-    },
-    getTotals: (state, action) => {},
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getCart.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.cart = action.payload.data;
-      })
-      .addCase(getCart.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getCart.rejected, (state) => {
-        state.isLoading = false;
-        state.cart = null;
-      });
+    // getTotals: (state, action) => {
+    //   state.total = state.cart.map((val)=>)
+    // },
   },
 });
-export const {
-  addToCart,
-  decreaseCart,
-  clearCart,
-  getTotals,
-  setCartError,
-  clearCartError,
-} = cartSlicer.actions;
+export const { addToCart, decreaseCart } = cartSlicer.actions;
