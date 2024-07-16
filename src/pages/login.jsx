@@ -101,11 +101,6 @@ function LoginPage() {
                 )}
               </form>
 
-              {/* <button className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-700 text-white w-full">
-                  <img src={googleIcon} className="size-7 mr-4"></img>
-                  Or Sign In with Google
-                </button> */}
-
               <div className="text-center mt-4 space-x-1">
                 <span className="">Do not have an account? </span>
                 <span
