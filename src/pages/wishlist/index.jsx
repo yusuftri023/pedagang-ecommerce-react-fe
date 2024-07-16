@@ -3,17 +3,17 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getAuth } from "../services/auth.service";
-import MainLayouts from "../layouts/MainLayouts";
+import { getAuth } from "../../services/auth.service";
+import MainLayouts from "../../layouts/MainLayouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { setAuth } from "../store/reducers/authenticationSlicer";
+import { setAuth } from "../../store/reducers/authenticationSlicer";
 
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import { getWishlist } from "../services/wishlist.service";
-import WishlistItem from "../components/molecules/WishlistItem";
-import { getUserData } from "../store/actions/customerAction";
-import { getUserWishlist } from "../store/actions/wishlistAction";
+import { getWishlist } from "../../services/wishlist.service";
+import WishlistItem from "../../components/molecules/WishlistItem";
+import { getUserData } from "../../store/actions/customerAction";
+import { getUserWishlist } from "../../store/actions/wishlistAction";
 const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const dispatch = useDispatch();

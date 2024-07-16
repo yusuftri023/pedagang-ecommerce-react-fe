@@ -3,17 +3,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
-import JntLogo from "../assets/images/checkout/jnt.png";
-import PaypalLogo from "../assets/images/checkout/logopaypal.svg";
-import Navbar from "../components/organisms/Navbar";
-import Footer from "../components/organisms/Footer";
+import JntLogo from "../../assets/images/checkout/jnt.png";
+import PaypalLogo from "../../assets/images/checkout/logopaypal.svg";
+import Navbar from "../../components/organisms/Navbar";
+import Footer from "../../components/organisms/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUserData } from "../store/actions/customerAction";
-import { getAuth } from "../services/auth.service";
+import { getUserData } from "../../store/actions/customerAction";
+import { getAuth } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
-import { setAuth } from "../store/reducers/authenticationSlicer";
-import MinimumLayouts from "../layouts/MinimumLayouts";
+import { setAuth } from "../../store/reducers/authenticationSlicer";
+import MinimumLayouts from "../../layouts/MinimumLayouts";
 
 function CheckoutPage() {
   const GrandTotal = "";
