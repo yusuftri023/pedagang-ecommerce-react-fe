@@ -2,7 +2,7 @@
 import Footer from "../components/organisms/Footer";
 import Navbar from "../components/organisms/Navbar";
 
-function HomeLayouts({ children }) {
+function MainLayouts({ children }) {
   return (
     <>
       <Navbar />
@@ -12,4 +12,4 @@ function HomeLayouts({ children }) {
   );
 }
 
-export default HomeLayouts;
+export default MainLayouts;

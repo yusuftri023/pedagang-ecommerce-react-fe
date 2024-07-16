@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { getUserData } from "../store/actions/customerAction";
 import { getAuth } from "../services/auth.service";
-import HomeLayouts from "../layouts/Homelayouts";
+import MainLayouts from "../layouts/MainLayouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
 import { setAuth, setError } from "../store/reducers/authenticationSlicer";
@@ -14,6 +14,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { getCart } from "../store/actions/cartAction";
 import CartItem from "../components/molecules/CartItem";
 import { getPromotion } from "../services/promotion.service";
+
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
 
@@ -23,10 +24,13 @@ const Cart = () => {
   const [promo, setPromo] = useState([]);
 
   const promoCodeRef = useRef();
-
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
   let totalBeforeDiscount =
     cart?.length > 0
       ? cart
+          ?.filter((val) => val.stock > 0)
           ?.map((val) => {
             return val.price * val.quantity;
           })
@@ -67,7 +71,6 @@ const Cart = () => {
       }
     }
   };
-  console.log(cart);
   useEffect(() => {
     getAuth()
       .then(() => dispatch(setAuth(true)))
@@ -78,12 +81,11 @@ const Cart = () => {
       });
     dispatch(getUserData());
   }, []);
-
   return (
     <>
-      <HomeLayouts>
+      <MainLayouts>
         <div className="pt-4 min-w-[1000px] bg-zinc-100">
-          <div className="my-10 items-center flex justify-center space-x-2 border-y-4 border-gray-700 py-4">
+          <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
             <FontAwesomeIcon icon={faCartShopping} className="size-12 " />
             <h1 className=" text-[30px] font-bold">My Cart</h1>
           </div>
@@ -91,23 +93,53 @@ const Cart = () => {
           {cart?.length > 0 ? (
             <div className="min-h-[400px] mx-auto flex px-10   w-[1000px]">
               <div className="w-full gap-4 flex my-20">
-                <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
-                  {cart?.map((val, i) => (
-                    <CartItem
-                      key={i}
-                      cartId={val.cart_id}
-                      productId={val.product_id}
-                      quantity={val.quantity}
-                      variationOptionId={val.variation_option_id}
-                      image={val.image}
-                      price={val.price}
-                      variation_value={val.variation_value}
-                      variation_name={val.variation_name}
-                      title={val.title}
-                      stock={val.stock}
-                      note={val.note}
-                    />
-                  ))}
+                <div className="space-y-6">
+                  <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                    {cart
+                      ?.filter((val) => val.stock > 0)
+                      ?.map((val, i) => (
+                        <CartItem
+                          key={i}
+                          cartId={val.cart_id}
+                          productId={val.product_id}
+                          quantity={val.quantity}
+                          productConfigId={val.product_config_id}
+                          image={val.image}
+                          price={val.price}
+                          variation_value={val.variation_value}
+                          variation_name={val.variation_name}
+                          title={val.title}
+                          stock={val.stock}
+                          note={val.note}
+                        />
+                      ))}
+                  </div>
+
+                  {cart?.some((val) => val.stock === 0) && (
+                    <div className="min-w-[600px] bg-white p-6 opacity-60  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                      <p className=" font-bold text-2xl ">
+                        Currently Out of Stock
+                      </p>
+                      {cart
+                        ?.filter((val) => val.stock === 0)
+                        .map((val, i) => (
+                          <CartItem
+                            key={i}
+                            cartId={val.cart_id}
+                            productId={val.product_id}
+                            quantity={val.quantity}
+                            variationOptionId={val.variation_option_id}
+                            image={val.image}
+                            price={val.price}
+                            variation_value={val.variation_value}
+                            variation_name={val.variation_name}
+                            title={val.title}
+                            stock={val.stock}
+                            note={val.note}
+                          />
+                        ))}
+                    </div>
+                  )}
                 </div>
                 <div className="min-w-[250px] bg-white  shadow-gray-500  drop-shadow-md  max-w-[1000px] w-[25%] px-4 py-6 h-[fit-content]">
                   <div>
@@ -174,7 +206,10 @@ const Cart = () => {
                       </div>
                     </div>
                     <div>
-                      <button className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500] animate-fade-in-drop transition-colors duration-300">
+                      <button
+                        className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500] animate-fade-in-drop transition-colors duration-300"
+                        onClick={handleCheckout}
+                      >
                         <FontAwesomeIcon icon={faLock} /> Checkout
                       </button>
                       <button
@@ -204,7 +239,7 @@ const Cart = () => {
             </div>
           )}
         </div>
-      </HomeLayouts>
+      </MainLayouts>
     </>
   );
 };

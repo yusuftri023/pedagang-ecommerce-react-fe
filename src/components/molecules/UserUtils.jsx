@@ -40,28 +40,6 @@ function UserUtils() {
   useEffect(() => {
     dispatch(getUserData());
   }, []);
-  // useEffect(() => {
-  //   if (cart.length > 0) {
-  //     const listId = cart.map((val) => val.id);
-
-  //     dispatch(getProductCart(listId)).then((res) => {
-  //       if (JSON.stringify(products) !== JSON.stringify(res.payload)) {
-  //         sessionStorage.setItem(
-  //           "cart",
-  //           JSON.stringify({
-  //             description: res.payload.map(({ description }) => description),
-  //             id: res.payload.map(({ id }) => id),
-  //             rating: res.payload.map(({ rating }) => rating),
-  //             title: res.payload.map(({ title }) => title),
-  //             price: res.payload.map(({ price }) => price),
-  //             category: res.payload.map(({ category }) => category),
-  //           })
-  //         );
-  //         setProducts(res.payload);
-  //       }
-  //     });
-  //   }
-  // }, [cart]);
 
   useEffect(() => {
     getAuth()
@@ -74,7 +52,7 @@ function UserUtils() {
     dispatch(getUserData());
   }, []);
   return (
-    <div className=" text-white w-[750px] mr-4 ">
+    <div className=" text-white w-[750px] ">
       <ul className=" flex  justify-end ">
         <li
           ref={refCart}

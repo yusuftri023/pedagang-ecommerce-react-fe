@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import HomeLayouts from "../layouts/Homelayouts";
+import MainLayouts from "../layouts/MainLayouts";
 
 import CarouselSlide from "../components/molecules/CarouselSlide";
 import { useEffect, useState } from "react";
@@ -126,7 +126,7 @@ function Homepage() {
 
   return (
     <>
-      <HomeLayouts>
+      <MainLayouts>
         <CarouselSlide />
         <div className="font-poppins w-[1000px] mx-auto">
           <section>
@@ -196,7 +196,7 @@ function Homepage() {
             imgWidth={160}
           />
         </div>
-      </HomeLayouts>
+      </MainLayouts>
     </>
   );
 }

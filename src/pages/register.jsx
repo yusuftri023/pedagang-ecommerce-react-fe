@@ -49,7 +49,6 @@ function RegisterPage() {
     dispatch(getUserData());
   }, []);
   useEffect(() => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       setTimeout(() => navigate("/"), 1000);
     }

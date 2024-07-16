@@ -23,7 +23,6 @@ function SearchBar() {
   const [searchIsActive, setSearchIsActive] = useState(false);
   const refCategoryOption = useRef("all");
   const searchRef = useRef();
-  console.log(searchResult);
   useEffect(() => {
     if (search) {
       const intervalSearch = setInterval(() => {
@@ -52,7 +51,7 @@ function SearchBar() {
       <div className="flex">
         <select
           id="kategori-option"
-          className="border-r-2 border-[#1d1dcd]"
+          className="border-r-2 border-[#1d1dcd] "
           onChange={(e) => {
             refCategoryOption.current = e.target.value;
           }}
@@ -68,7 +67,10 @@ function SearchBar() {
               </option>
             ))}
         </select>
-        <div ref={searchRef} className="w-full items-center relative">
+        <div
+          ref={searchRef}
+          className="w-full min-w-[100px] items-center relative"
+        >
           <input
             type="search"
             name="search"

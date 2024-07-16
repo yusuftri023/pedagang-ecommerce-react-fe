@@ -55,14 +55,12 @@ export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
 
 export const deleteCustomerCartItem = async (cartId) => {
   try {
-    console.log(cartId);
     const response = await axios.delete(
       `https://127.0.0.1:8080/customers/cart/${cartId}`,
       {
         withCredentials: true,
       }
     );
-    console.log("done delete", response.data);
     return response.data;
   } catch (error) {
     return { success: false, message: error.response.data.message };

@@ -35,7 +35,6 @@ function LoginPage() {
   };
   const googleHandle = async () => {
     const response = await getGoogleSignIn();
-    console.log(response);
     window.location.href = response.url;
   };
 
@@ -44,7 +43,6 @@ function LoginPage() {
     dispatch(getUserData());
   }, []);
   useEffect(() => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       setTimeout(() => navigate("/"), 1000);
     }

@@ -11,12 +11,13 @@ import {
 } from "../../services/cart.service";
 import { useDispatch } from "react-redux";
 import { getCart } from "../../store/actions/cartAction";
+import { postNewWishlist } from "../../services/wishlist.service";
 
 function CartItem({
   cartId,
   productId,
   quantity,
-  variationOptionId,
+  productConfigId,
   image,
   price,
   variation_name,
@@ -84,12 +85,20 @@ function CartItem({
   const handleRemoveFromCart = () => {
     deleteCustomerCartItem(cartId).then(() => dispatch(getCart()));
   };
+
+  const handleAddToWishlist = () => {
+    const data = {
+      product_id: productId,
+      product_config_id: productConfigId,
+    };
+    postNewWishlist(data).then(() => console.log("added to wishlist"));
+  };
+
   useEffect(() => {
     document
       .getElementById(`cart-item-${cartId}`)
       .addEventListener("click", handleOutsideClick);
     return () => {
-      console.log(document.getElementById(`cart-item-${cartId}`));
       if (document.getElementById(`cart-item-${cartId}`))
         document
           .getElementById(`cart-item-${cartId}`)
@@ -182,6 +191,7 @@ function CartItem({
             <FontAwesomeIcon
               icon={faHeart}
               className="px-1 hover:cursor-pointer"
+              onClick={handleAddToWishlist}
             />
             <div
               className="w-1/2 flex flex-row-reverse items-center"

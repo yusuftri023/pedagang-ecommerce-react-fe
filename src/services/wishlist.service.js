@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getWishlist = async (page = 1, limit = 10) => {
+export const getWishlist = async (page = 1, limit = 20) => {
   try {
     const response = await axios.get(
       `https://127.0.0.1:8080/customers/wishlist?page=${page}&limit=${limit}`,
