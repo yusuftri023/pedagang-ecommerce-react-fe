@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import Homepage from "../pages/Home";
-import LoginPage from "../pages/Login";
-import RegisterPage from "../pages/Register";
-import Cart from "../pages/Cart";
-import CheckoutPage from "../pages/Checkout";
+import Homepage from "../pages";
+import LoginPage from "../pages/login";
+import RegisterPage from "../pages/register";
+import Cart from "../pages/cart";
+import CheckoutPage from "../pages/checkout";
 import BasketProduct from "../components/molecules/BasketProduct";
-import Wishlist from "../pages/Wishlist";
+import Wishlist from "../pages/wishlist";
 export const router = createBrowserRouter([
   {
     path: "/",

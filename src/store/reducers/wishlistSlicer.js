@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCart } from "../actions/cartAction";
+import { getUserWishlist } from "../actions/wishlistAction";
 
-export const cartSlicer = createSlice({
-  name: "cart",
+export const wishlistSlicer = createSlice({
+  name: "wishlist",
   initialState: {
-    cart: null,
-    totalPrice: 0,
+    wishlist: null,
     error: null,
     isLoading: false,
   },
@@ -27,24 +27,16 @@ export const cartSlicer = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getCart.fulfilled, (state, action) => {
+      .addCase(getUserWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cart = action.payload.data;
+        state.wishlist = action.payload.data;
       })
-      .addCase(getCart.pending, (state) => {
+      .addCase(getUserWishlist.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getCart.rejected, (state) => {
+      .addCase(getUserWishlist.rejected, (state) => {
         state.isLoading = false;
-        state.cart = null;
+        state.wishlist = null;
       });
   },
 });
-export const {
-  addToCart,
-  decreaseCart,
-  clearCart,
-  getTotals,
-  setCartError,
-  clearCartError,
-} = cartSlicer.actions;
