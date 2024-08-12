@@ -3,30 +3,30 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getUserData } from "../../store/actions/customerAction";
-import { getAuth } from "../../services/auth.service";
+import { getUserData } from "../store/actions/customerAction";
+import { getAuth } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
-import { setAuth } from "../../store/reducers/authenticationSlicer";
-import MinimumLayouts from "../../layouts/MinimumLayouts";
+import { setAuth } from "../store/reducers/authenticationSlicer";
+import MinimumLayouts from "../layouts/MinimumLayouts";
 import { useSelector } from "react-redux";
 import { useMemo, useState } from "react";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
 
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { getCart } from "../../store/actions/cartAction";
-import CartItem from "../../components/molecules/CartItem";
-import PromoCodeBar from "../../components/molecules/PromoCodeBar";
+import { getCart } from "../store/actions/cartAction";
+import CartItem from "../components/molecules/CartItem";
+import PromoCodeBar from "../components/molecules/PromoCodeBar";
 import {
   modalChange,
   modalToggle,
   popUpChange,
   popUpToggle,
-} from "../../store/reducers/webContentSlicer";
-import BriefPopUp from "../../components/atoms/BriefPopUp";
-import CheckoutItem from "../../components/molecules/CheckoutItem";
-import { getCustomerAddress } from "../../services/address.service";
-import AddToCartModal from "../../components/molecules/AddToCartModal";
-import ModalWindow from "../../components/atoms/ModalWindow";
+} from "../store/reducers/webContentSlicer";
+import BriefPopUp from "../components/atoms/BriefPopUp";
+import CheckoutItem from "../components/molecules/CheckoutItem";
+import { getCustomerAddress } from "../services/address.service";
+import AddToCartModal from "../components/molecules/AddToCartModal";
+import ModalWindow from "../components/atoms/ModalWindow";
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart.cart);

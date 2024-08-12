@@ -2,10 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import Homepage from "../pages";
 import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
-import Cart from "../pages/Cart/index.jsx";
-import CheckoutPage from "../pages/Checkout/index.jsx";
-import Wishlist from "../pages/Wishlist";
-import ProductDetail from "../pages/ProductDetail";
+import Cart from "../pages/Cart.jsx";
+import CheckoutPage from "../pages/Checkout.jsx";
+import Wishlist from "../pages/Wishlist.jsx";
+import ProductDetail from "../pages/ProductDetail.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
