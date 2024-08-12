@@ -7,7 +7,8 @@ function DropdownMenu({ children, width, height, x }) {
       }
     >
       <div
-        className={`bg-zinc-100  shadow-[#c2c2c2] relative text-black -left-[${x}px] top-[5px] w-[${width}px]  h-[${height}px] block whitespace-nowrap  shadow-md  `}
+        style={{ width: `${width}px`, height: `${height}px`, left: `-${x}px` }}
+        className={`bg-zinc-100  shadow-[#c2c2c2] relative text-black top-[5px]  block whitespace-nowrap  shadow-md  `}
       >
         {children}
       </div>

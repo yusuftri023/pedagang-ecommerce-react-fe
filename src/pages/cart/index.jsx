@@ -38,7 +38,6 @@ const Cart = () => {
       window.location.href = "/checkout";
     }, 1000);
   };
-
   const totalBeforeDiscount = useMemo(() =>
     cart?.length > 0
       ? cart

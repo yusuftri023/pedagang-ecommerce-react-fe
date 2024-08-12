@@ -112,7 +112,7 @@ const Checkout = () => {
   return (
     <>
       {showModal && typeModal === "changeAddress" ? (
-        <ModalWindow>tes</ModalWindow>
+        <ModalWindow></ModalWindow>
       ) : (
         <></>
       )}

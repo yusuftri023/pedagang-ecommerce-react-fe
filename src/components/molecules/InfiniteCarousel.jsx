@@ -7,7 +7,12 @@ function InfiniteCarousel({ images, imgHeight, imgWidth }) {
           <img
             key={i}
             src={image}
-            className={`min-w-[${imgWidth}px] max-w-[${imgWidth}px]  max-h-[${imgHeight}px] object-contain inline-block px-5 hover:scale-110  transition-all duration-300`}
+            style={{
+              minWidth: `${imgWidth}px`,
+              maxWidth: `${imgWidth}px`,
+              maxHeight: `${imgHeight}px`,
+            }}
+            className={`object-contain inline-block px-5 hover:scale-110  transition-all duration-300`}
           ></img>
         ))}
       </div>
@@ -16,7 +21,12 @@ function InfiniteCarousel({ images, imgHeight, imgWidth }) {
           <img
             key={i}
             src={image}
-            className={`min-w-[${imgWidth}px] max-w-[${imgWidth}px]  max-h-[${imgHeight}px] object-contain inline-block px-5 hover:scale-110 transition-all duration-300`}
+            style={{
+              minWidth: `${imgWidth}px`,
+              maxWidth: `${imgWidth}px`,
+              maxHeight: `${imgHeight}px`,
+            }}
+            className={` object-contain inline-block px-5 hover:scale-110 transition-all duration-300`}
           ></img>
         ))}
       </div>

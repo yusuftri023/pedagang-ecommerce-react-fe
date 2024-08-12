@@ -98,11 +98,14 @@ function ProductCard({
                 </div>
                 <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                   <div
-                    className={`w-[${
-                      (100 / rating.count) * 100 > 100
-                        ? 100
-                        : (100 / rating.count) * 100
-                    }%] h-full rounded-full bg-red-500`}
+                    style={{
+                      width: `${
+                        (100 / rating.count) * 100 > 100
+                          ? 100
+                          : (100 / rating.count) * 100
+                      }%`,
+                    }}
+                    className={`h-full rounded-full bg-red-500`}
                   ></div>
                 </div>
                 <div>
@@ -151,11 +154,14 @@ function ProductCard({
                 </div>
                 <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                   <div
-                    className={`w-[${
-                      (100 / rating.count) * 100 > 100
-                        ? 100
-                        : (100 / rating.count) * 100
-                    }%] h-full rounded-full bg-red-500`}
+                    style={{
+                      width: `${
+                        (100 / rating.count) * 100 > 100
+                          ? 100
+                          : (100 / rating.count) * 100
+                      }%`,
+                    }}
+                    className={`h-full rounded-full bg-red-500`}
                   ></div>
                 </div>
                 <div>

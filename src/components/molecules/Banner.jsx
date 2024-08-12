@@ -1,18 +1,24 @@
 /* eslint-disable react/prop-types */
 function Banner({ banner, quantity }) {
+  console.log(banner, quantity);
   return (
     <div
       key={banner.id}
-      className={`min-w-[${100 / quantity}%] h-[${
-        400 - quantity * 70
-      }px] overflow-hidden`}
+      style={{
+        minWidth: `${100 / quantity}%`,
+        height: `${400 - quantity * 70}px`,
+      }}
+      className={` overflow-hidden`}
     >
       <div className="size-full hover:scale-105 duration-300 ">
         <div className="h-[140%] flex justify-end">
           <img
             src={banner.image}
-            style={{ objectPosition: "120px 100%" }}
-            className={`   w-full object-cover  bg-gradient-to-b from-[${banner.bg.color}] via-[${banner.bg.gradient}] to-[${banner.bg.color}]  `}
+            style={{
+              objectPosition: "120px 100%",
+              background: `linear-gradient(${banner.bg.color}, ${banner.bg.gradient}`,
+            }}
+            className={`w-full object-cover`}
           />
         </div>
         <div className="relative h-[100%] -translate-y-[150%] flex flex-col px-5 justify-end flex-nowrap">

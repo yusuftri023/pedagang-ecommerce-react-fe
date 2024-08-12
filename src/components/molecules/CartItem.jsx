@@ -237,7 +237,11 @@ function CartItem({
                   defaultValue={note}
                   rows={2}
                   maxLength={100}
-                  className={`w-[${noteRef?.current?.offsetWidth}px] mr-[${noteRef?.current?.children[0].clientWidth}px] px-2 absolute`}
+                  style={{
+                    width: `${noteRef?.current?.offsetWidth}px`,
+                    marginRight: `${noteRef?.current?.children[0].clientWidth}px`,
+                  }}
+                  className={` px-2 absolute`}
                   placeholder="Your note"
                   onKeyDown={handleEnterOnNote}
                 />

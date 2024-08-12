@@ -49,24 +49,18 @@ function CarouselSlide() {
     }, 5000);
     return () => clearInterval(delay);
   }, [slide]);
-
   return (
     <section className="w-full min-w-[1000px]">
       <div className="w-full  h-[calc(100vh-130px)] min-w-[1000px] mx-auto bg-black  overflow-hidden">
         <div
-          className={`  brightness-95 flex flex-row transform duration-300 ease-in-out -translate-x-[${
-            slide * 100
-          }%]`}
+          className={`brightness-95 flex flex-row transform duration-300 ease-in-out `}
+          style={{ transform: `translateX(-${slide * 100}%)` }}
         >
           {carouselContents.map((content) => (
-            <div
-              key={content.id}
-              className={`min-w-full before:w-[100%] before:h-[100%] before:bg-black before:absolute before:content-['${content.body
-                .split(" ")
-                .join(
-                  "_"
-                )}'] before:text-white before:text-[50px] before:content-center before:flex before:pt-[20%] before:items-center before:justify-center before:bg-opacity-[0.2] `}
-            >
+            <div key={content.id} className={`min-w-full relative `}>
+              <p className="absolute top-3/4 left-1/2 -translate-x-1/2 text-3xl text-white w-full text-center">
+                {content.body}
+              </p>
               <img
                 src={content.image}
                 alt="carousel image"

@@ -27,7 +27,8 @@ function Navbar() {
         <MainNavBar />
       </header>
       <div
-        className={` block pb-[${headerRef?.current?.clientHeight}px]`}
+        style={{ paddingBottom: `${headerRef?.current?.clientHeight}px` }}
+        className={` block `}
       ></div>
     </>
   );

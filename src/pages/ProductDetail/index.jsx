@@ -157,7 +157,10 @@ const ProductDetail = () => {
             <div className={`w-[40%] pt-6 pl-4 `}>
               <div
                 ref={positionAnchorRef}
-                className={`sticky top-[${positionAnchorRef.current?.offsetTop + 40}px] `}
+                style={{
+                  top: `${positionAnchorRef.current?.offsetTop + 40}px`,
+                }}
+                className={`sticky `}
               >
                 <h1 className="text-3xl font-semibold">
                   {currentVariant?.title}
