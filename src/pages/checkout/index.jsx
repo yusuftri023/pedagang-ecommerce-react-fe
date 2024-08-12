@@ -10,11 +10,8 @@ import { setAuth } from "../../store/reducers/authenticationSlicer";
 import MinimumLayouts from "../../layouts/MinimumLayouts";
 import { useSelector } from "react-redux";
 import { useMemo, useState } from "react";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
-
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { getCart } from "../../store/actions/cartAction";
-import CartItem from "../../components/molecules/CartItem";
 import PromoCodeBar from "../../components/molecules/PromoCodeBar";
 import {
   modalChange,
