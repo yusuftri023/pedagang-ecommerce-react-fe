@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Homepage from "../pages";
 import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
-import Cart from "../pages/Cart";
-import CheckoutPage from "../pages/Checkout";
+import Cart from "../pages/Cart/index.jsx";
+import CheckoutPage from "../pages/Checkout/index.jsx";
 import Wishlist from "../pages/Wishlist";
 import ProductDetail from "../pages/ProductDetail";
 export const router = createBrowserRouter([

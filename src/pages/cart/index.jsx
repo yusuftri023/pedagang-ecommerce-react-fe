@@ -3,21 +3,21 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import { getUserData } from "../../store/actions/customerAction.js";
+import { getUserData } from "../../store/actions/customerAction";
 import { getAuth } from "../../services/auth.service";
 import MainLayouts from "../../layouts/MainLayouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
-import { setAuth } from "../../store/reducers/authenticationSlicer.js";
+import { setAuth } from "../../store/reducers/authenticationSlicer";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { getCart } from "../../store/actions/cartAction.js";
-import CartItem from "../../components/molecules/CartItem.jsx";
-import PromoCodeBar from "../../components/molecules/PromoCodeBar.jsx";
+import { getCart } from "../../store/actions/cartAction";
+import CartItem from "../../components/molecules/CartItem";
+import PromoCodeBar from "../../components/molecules/PromoCodeBar";
 import {
   popUpChange,
   popUpToggle,
-} from "../../store/reducers/webContentSlicer.js";
-import BriefPopUp from "../../components/atoms/BriefPopUp.jsx";
+} from "../../store/reducers/webContentSlicer";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
