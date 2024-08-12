@@ -6,9 +6,12 @@ export const fetchUserCart = async (id) => {
 
 export const getCustomerCart = async () => {
   try {
-    const response = await axios.get(`https://127.0.0.1:8080/customers/cart`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `https://192.168.1.5:8080/customers/cart`,
+      {
+        withCredentials: true,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -19,7 +22,7 @@ export const getCustomerCart = async () => {
 export const postAddToCart = async (data) => {
   try {
     const response = await axios.post(
-      "https://127.0.0.1:8080/customers/cart",
+      "https://192.168.1.5:8080/customers/cart",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -31,7 +34,7 @@ export const postAddToCart = async (data) => {
 export const postAddNote = async ({ cart_id, note }) => {
   try {
     const response = await axios.post(
-      "https://127.0.0.1:8080/customers/cart/note",
+      "https://192.168.1.5:8080/customers/cart/note",
       JSON.stringify({ cart_id, note }),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -43,7 +46,7 @@ export const postAddNote = async ({ cart_id, note }) => {
 export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
   try {
     const response = await axios.patch(
-      `https://127.0.0.1:8080/customers/cart`,
+      `https://192.168.1.5:8080/customers/cart`,
       JSON.stringify({ cart_id: cartId, quantity }),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -56,7 +59,7 @@ export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
 export const deleteCustomerCartItem = async (cartId) => {
   try {
     const response = await axios.delete(
-      `https://127.0.0.1:8080/customers/cart/${cartId}`,
+      `https://192.168.1.5:8080/customers/cart/${cartId}`,
       {
         withCredentials: true,
       }

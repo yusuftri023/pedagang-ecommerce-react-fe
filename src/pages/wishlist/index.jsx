@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getAuth } from "../../services/auth.service";
 import MainLayouts from "../../layouts/MainLayouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,15 +10,29 @@ import { setAuth } from "../../store/reducers/authenticationSlicer";
 
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import { getWishlist } from "../../services/wishlist.service";
 import WishlistItem from "../../components/molecules/WishlistItem";
 import { getUserData } from "../../store/actions/customerAction";
 import { getUserWishlist } from "../../store/actions/wishlistAction";
+import {
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
+import AddToCartModal from "../../components/molecules/AddToCartModal";
 const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(wishlist);
+  const showModal = useSelector((state) => state.webContent.showModal);
+  const typeModal = useSelector((state) => state.webContent.typeModal);
+
+  const showPopUp = useSelector((state) => state.webContent.showPopUp);
+  const typePopUp = useSelector((state) => state.webContent.typePopUp);
+
+  const closePopUpHandler = () => {
+    dispatch(popUpToggle());
+    dispatch(popUpChange({ type: null }));
+  };
   useEffect(() => {
     getAuth()
       .then(() => dispatch(setAuth(true)))
@@ -29,11 +43,30 @@ const Wishlist = () => {
       });
     dispatch(getUserData());
   }, []);
-
+  useEffect(() => {
+    let popUpTimer = setTimeout(() => {
+      dispatch(popUpToggle(false));
+      dispatch(popUpChange({ type: null }));
+    }, 2000);
+    return () => {
+      clearTimeout(popUpTimer);
+    };
+  }, [showPopUp]);
   return (
     <>
+      {showModal && typeModal === "addedToCart" ? <AddToCartModal /> : <></>}
+      {showPopUp && typePopUp === "deleteFromWishlist" ? (
+        <BriefPopUp>
+          <span>Product deleted from wishlist</span>
+          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
+            Ok
+          </span>
+        </BriefPopUp>
+      ) : (
+        <></>
+      )}
       <MainLayouts>
-        <div className="pt-4 min-w-[1000px] bg-zinc-100">
+        <div className="pt-4 min-w-[1000px] bg-zinc-100 ">
           <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
             <FontAwesomeIcon icon={faHeart} className="size-12 " />
             <h1 className=" text-[30px] font-bold">My Wishlist</h1>

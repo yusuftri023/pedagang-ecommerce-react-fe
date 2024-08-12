@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserData } from "../actions/customerAction";
 
-export const authenticationSlice = createSlice({
+const authenticationSlice = createSlice({
   name: "authentication",
   initialState: {
     isLoggedIn: false,
@@ -46,3 +46,4 @@ export const authenticationSlice = createSlice({
 });
 export const { setLogin, setAuth, setError, clearError, logout } =
   authenticationSlice.actions;
+export default authenticationSlice.reducer;

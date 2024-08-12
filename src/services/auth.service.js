@@ -1,20 +1,20 @@
 import axios from "axios";
 
 export const getGoogleSignIn = async () => {
-  const response = await axios.get("https://127.0.0.1:8080/auth/google", {
+  const response = await axios.get("https://192.168.1.5:8080/auth/google", {
     withCredentials: true,
   });
   return response.data;
 };
 export const getSignOut = async () => {
-  const response = await axios.get("https://127.0.0.1:8080/auth/logout", {
+  const response = await axios.get("https://192.168.1.5:8080/auth/logout", {
     withCredentials: true,
   });
   return response.data;
 };
 
 export const getAuth = async () => {
-  const response = await axios.get("https://127.0.0.1:8080/auth/refresh", {
+  const response = await axios.get("https://192.168.1.5:8080/auth/refresh", {
     withCredentials: true,
   });
   return response.data;
@@ -22,7 +22,7 @@ export const getAuth = async () => {
 export const postWebSignIn = async (data) => {
   try {
     const response = await axios.post(
-      `https://127.0.0.1:8080/auth/login`,
+      `https://192.168.1.5:8080/auth/login`,
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -35,7 +35,7 @@ export const postWebSignIn = async (data) => {
 export const postWebRegister = async (data) => {
   try {
     const response = await axios.post(
-      `https://127.0.0.1:8080/auth/register`,
+      `https://192.168.1.5:8080/auth/register`,
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );

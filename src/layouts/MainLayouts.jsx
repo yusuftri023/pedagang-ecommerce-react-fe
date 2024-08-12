@@ -5,9 +5,11 @@ import Navbar from "../components/organisms/Navbar";
 function MainLayouts({ children }) {
   return (
     <>
-      <Navbar />
-      {children}
-      <Footer />
+      <main className="bg-zinc-100 -z-10">
+        <Navbar />
+        {children}
+        <Footer />
+      </main>
     </>
   );
 }

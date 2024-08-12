@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchAllProduct = async (keyword) => {
   const res = await axios.get(
-    `https://127.0.0.1:8080/api/public/products/search?keyword=${keyword}`
+    `https://192.168.1.5:8080/public/product/search?keyword=${keyword}`
   );
 
   return res.data;
@@ -15,9 +15,7 @@ export const fetchProductInCategory = async (category) => {
   );
   return res.data;
 };
-export const fetchSingleProduct = async (id) => {
-  return await axios.get(`${"https://fakestoreapi.com"}/products/${id}`);
-};
+
 export const fetchMultipleProduct = async (list) => {
   const data = await Promise.all(
     list.map(async (id) => {
@@ -33,7 +31,7 @@ export const fetchMultipleProduct = async (list) => {
 export const getAllProduct = async () => {
   try {
     const response = await axios.get(
-      `https://127.0.0.1:8080/api/public/products`,
+      `https://192.168.1.5:8080/public/product`,
       {
         withCredentials: true,
       }
@@ -46,7 +44,7 @@ export const getAllProduct = async () => {
 export const getSingleProduct = async (productId) => {
   try {
     const response = await axios.get(
-      `https://127.0.0.1:8080/customers/product/${productId}`,
+      `https://192.168.1.5:8080/public/product/${productId}`,
       {
         withCredentials: true,
       }
@@ -56,10 +54,36 @@ export const getSingleProduct = async (productId) => {
     return { success: false, message: error.response.data.message };
   }
 };
-export const getSingleProductVariation = async (productId, variationId) => {
+export const getProductRating = async (productId) => {
   try {
     const response = await axios.get(
-      `https://127.0.0.1:8080/customers/product/${productId}/variation/${variationId}`,
+      `https://192.168.1.5:8080/public/product/${productId}/rating`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const getProductReview = async (productId) => {
+  try {
+    const response = await axios.get(
+      `https://192.168.1.5:8080/public/product/${productId}/reviews`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+export const getSingleProductVariation = async (productId, productConfigId) => {
+  try {
+    const response = await axios.get(
+      `https://192.168.1.5:8080/public/product/${productId}/variation/${productConfigId}`,
       {
         withCredentials: true,
       }
@@ -72,7 +96,7 @@ export const getSingleProductVariation = async (productId, variationId) => {
 export const postNewProduct = async (data) => {
   try {
     const response = await axios.post(
-      "https://127.0.0.1:8080/customers/product",
+      "https://192.168.1.5:8080/customers/product",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -85,7 +109,7 @@ export const postNewProduct = async (data) => {
 export const deleteProduct = async (addressId) => {
   try {
     const response = await axios.delete(
-      `https://127.0.0.1:8080/customers/product/${addressId}`,
+      `https://192.168.1.5:8080/customers/product/${addressId}`,
       {
         withCredentials: true,
       }
@@ -98,7 +122,7 @@ export const deleteProduct = async (addressId) => {
 export const getProductCategories = async () => {
   try {
     const response = await axios.get(
-      `https://127.0.0.1:8080/customers/category`,
+      `https://192.168.1.5:8080/customers/category`,
       {
         withCredentials: true,
       }
@@ -111,7 +135,7 @@ export const getProductCategories = async () => {
 export const postNewProductCategory = async (data) => {
   try {
     const response = await axios.post(
-      "https://127.0.0.1:8080/customers/category",
+      "https://192.168.1.5:8080/customers/category",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );

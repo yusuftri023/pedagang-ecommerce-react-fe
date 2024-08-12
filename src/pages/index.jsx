@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import MainLayouts from "../layouts/MainLayouts";
 
 import CarouselSlide from "../components/molecules/CarouselSlide";
@@ -30,6 +29,7 @@ import payment9 from "./../assets/images/payment/QRIS.svg";
 import payment10 from "./../assets/images/payment/logo isaku.svg";
 import { useSelector } from "react-redux";
 import { getAllProduct } from "../services/product.service";
+import AddToCartModal from "../components/molecules/AddToCartModal";
 
 const featureList = [
   {
@@ -120,6 +120,9 @@ const logoPayment = [
 function Homepage() {
   const [topSellProduct, setTopSellProduct] = useState([]);
 
+  const showModal = useSelector((state) => state.webContent.showModal);
+  const typeModal = useSelector((state) => state.webContent.typeModal);
+
   useEffect(() => {
     getAllProduct().then((res) => setTopSellProduct(() => res.data));
   }, []);
@@ -127,6 +130,7 @@ function Homepage() {
   return (
     <>
       <MainLayouts>
+        {showModal && typeModal === "addedToCart" ? <AddToCartModal /> : <></>}
         <CarouselSlide />
         <div className="font-poppins w-[1000px] mx-auto">
           <section>
@@ -153,15 +157,24 @@ function Homepage() {
             {topSellProduct.length > 0 &&
               [...topSellProduct]
                 .slice(20, 30)
-                .map(({ title, id, price, image }) => (
-                  <ProductCard
-                    key={id}
-                    id={id}
-                    title={title}
-                    price={price}
-                    image={image}
-                  />
-                ))}
+                .map(
+                  ({
+                    title,
+                    id: product_config_id,
+                    product_id,
+                    price,
+                    image,
+                  }) => (
+                    <ProductCard
+                      key={product_config_id}
+                      product_config_id={product_config_id}
+                      product_id={product_id}
+                      title={title}
+                      price={price}
+                      image={image}
+                    />
+                  )
+                )}
           </ProductCardContainer>
 
           <div className="mt-28 mb-4 overflow-hidden">
@@ -180,15 +193,24 @@ function Homepage() {
             {topSellProduct.length > 0 &&
               [...topSellProduct]
                 .slice(10, 20)
-                .map(({ title, id, price, image }) => (
-                  <ProductCard
-                    key={id}
-                    id={id}
-                    title={title}
-                    price={price}
-                    image={image}
-                  />
-                ))}
+                .map(
+                  ({
+                    title,
+                    id: product_config_id,
+                    product_id,
+                    price,
+                    image,
+                  }) => (
+                    <ProductCard
+                      key={product_config_id}
+                      product_config_id={product_config_id}
+                      product_id={product_id}
+                      title={title}
+                      price={price}
+                      image={image}
+                    />
+                  )
+                )}
           </ProductCardContainer>
           <InfiniteCarousel
             images={logoPayment}

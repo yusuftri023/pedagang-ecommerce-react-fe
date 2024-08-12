@@ -1,135 +1,258 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
-import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
-import JntLogo from "../../assets/images/checkout/jnt.png";
-import PaypalLogo from "../../assets/images/checkout/logopaypal.svg";
-import Navbar from "../../components/organisms/Navbar";
-import Footer from "../../components/organisms/Footer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getUserData } from "../../store/actions/customerAction";
 import { getAuth } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { setAuth } from "../../store/reducers/authenticationSlicer";
 import MinimumLayouts from "../../layouts/MinimumLayouts";
+import { useSelector } from "react-redux";
+import { useMemo, useState } from "react";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
 
-function CheckoutPage() {
-  const GrandTotal = "";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { getCart } from "../../store/actions/cartAction";
+import CartItem from "../../components/molecules/CartItem";
+import PromoCodeBar from "../../components/molecules/PromoCodeBar";
+import {
+  modalChange,
+  modalToggle,
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
+import CheckoutItem from "../../components/molecules/CheckoutItem";
+import { getCustomerAddress } from "../../services/address.service";
+import AddToCartModal from "../../components/molecules/AddToCartModal";
+import ModalWindow from "../../components/atoms/ModalWindow";
+
+const Checkout = () => {
+  const cart = useSelector((state) => state.cart.cart);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [promo, setPromo] = useState([]);
+  const [address, setAddress] = useState([]);
+  const showPopUp = useSelector((state) => state.webContent.showPopUp);
+  const typePopUp = useSelector((state) => state.webContent.typePopUp);
+  const showModal = useSelector((state) => state.webContent.showModal);
+  const typeModal = useSelector((state) => state.webContent.typeModal);
+
+  const closePopUpHandler = () => {
+    dispatch(popUpToggle(false));
+    dispatch(popUpChange({ type: null }));
+  };
+  const handleCheckout = () => {};
+  const handleChangeAddress = () => {
+    dispatch(modalToggle(true));
+    dispatch(modalChange({ type: "changeAddress" }));
+  };
+  const totalBeforeDiscount = useMemo(() =>
+    cart?.length > 0
+      ? cart
+          ?.filter((val) => val.stock > 0)
+
+          ?.map((val) => {
+            return val.price * val.quantity;
+          })
+          ?.reduce((a, b) => a + b, 0)
+      : 0
+  );
+
+  const discount = useMemo(() =>
+    promo?.length > 0
+      ? (cart
+          ?.filter((val) => {
+            if (
+              promo
+                .map(({ category_name }) => category_name)
+                .includes(val.category_name)
+            )
+              return true;
+            else return false;
+          })
+          ?.filter((val) => val.stock > 0)
+          ?.map((val) => {
+            return val.price * val.quantity;
+          })
+          .reduce((a, b) => a + b, 0) *
+          Number(promo[0]?.discount_rate)) /
+        100
+      : 0
+  );
+  const shippingCost = 50000;
   useEffect(() => {
     getAuth()
       .then(() => dispatch(setAuth(true)))
+      .then(() => dispatch(getCart()))
       .catch(() => {
         dispatch(setAuth(false));
         setTimeout(() => navigate("/"), 1000);
       });
     dispatch(getUserData());
   }, []);
-
+  useEffect(() => {
+    let popUpTimer = setTimeout(() => {
+      dispatch(popUpToggle(false));
+      dispatch(popUpChange({ type: null }));
+    }, 2000);
+    return () => {
+      clearTimeout(popUpTimer);
+    };
+  }, [showPopUp]);
+  const selectedAddress = address.filter((val) => val.selected === 1)[0];
+  console.log(selectedAddress);
+  useEffect(() => {
+    console.log(address);
+    getCustomerAddress().then((res) => setAddress(res.data));
+  }, []);
   return (
     <>
+      {showModal && typeModal === "changeAddress" ? (
+        <ModalWindow>tes</ModalWindow>
+      ) : (
+        <></>
+      )}
+      {showPopUp && typePopUp === "addedToWishlist" ? (
+        <BriefPopUp>
+          <span>Product added to your wishlist</span>
+          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
+            Ok
+          </span>
+        </BriefPopUp>
+      ) : (
+        <></>
+      )}
       <MinimumLayouts>
-        <div className="mb-5 py-5">
-          <div className="w-3/4 mx-[12%] bg-gray-400">
-            <div className="text-center py-10 font-bold font-poppins">
-              Checkout
-            </div>
-            <div className="w-full py-5 border-b-2 font-poppins">
-              <div className="inline-block w-1/3 px-3">Product</div>
-              <div className="inline-block w-1/3 text-center">Quantity</div>
-              <div className="inline-block w-1/3 text-center">Price</div>
-            </div>
-            <div className="w-full py-5 border-b-2 font-poppins">
-              <div className="inline-block w-1/3 px-3">Mens Cotton Jacket</div>
-              <div className="inline-block w-1/3 text-center">
-                <FontAwesomeIcon icon={faPlus} className="cursor-pointer" />
-                <input type="number" className="w-9 text-center mx-2" />
-                <FontAwesomeIcon icon={faMinus} className="cursor-pointer" />
-              </div>
-              <div className="inline-block w-1/3 px-5 text-right">
-                Rp 559.900,00
-              </div>
-            </div>
-            <div className="w-full font-poppins flex">
-              <div className="inline-block w-1/2 px-3 h-24 my-auto border-r-2">
-                <FontAwesomeIcon icon={faPlus} className="cursor-pointer" />
-                <input
-                  type="text"
-                  name="discount"
-                  id=""
-                  placeholder="Discount Core"
-                  className="ml-2 rounded-lg px-2 font-poppins"
-                />
-              </div>
-              <div className="inline-block w-1/2">
-                <div className="block m-2">
-                  <div className="inline-block w-1/2">Price</div>
-                  <div className="inline-block w-1/2 px-3 text-right">
-                    Rp 559.900,00
+        <div className=" min-w-[1000px] bg-zinc-100">
+          <h1 className="w-[1000px] mx-auto text-3xl py-6 font-bold">
+            Checkout
+          </h1>
+
+          {cart?.length > 0 ? (
+            <div className="min-h-[400px] mx-auto flex  w-[1000px]">
+              <div className="w-full gap-4 flex  mb-20">
+                <div className="space-y-6">
+                  <div className="mx-auto ">
+                    <div className="bg-white  shadow-gray-500  drop-shadow-md  w-full ">
+                      <div className="p-6">
+                        <h2 className="text-xl font-medium text-gray-600">
+                          Shipping Address
+                        </h2>
+                        <h3 className="my-2">
+                          {selectedAddress?.recipient}&apos;s Address
+                        </h3>
+                        <p>
+                          {selectedAddress?.address_line} ,{" "}
+                          {selectedAddress?.city}, {selectedAddress?.region}.
+                          Postal Code: {selectedAddress?.postal_code}
+                        </p>
+                        <button
+                          onClick={handleChangeAddress}
+                          className="mt-4 py-2 px-4 text-md border-2 rounded-lg"
+                        >
+                          Change Address
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                    {cart
+                      ?.filter((val) => val.stock > 0)
+                      ?.map((val, i) => (
+                        <CheckoutItem
+                          key={i}
+                          cartId={val.cart_id}
+                          productId={val.product_id}
+                          quantity={val.quantity}
+                          productConfigId={val.product_config_id}
+                          image={val.image}
+                          price={val.price}
+                          variation_value={val.variation_value}
+                          variation_name={val.variation_name}
+                          title={val.title}
+                          stock={val.stock}
+                          note={val.note}
+                        />
+                      ))}
                   </div>
                 </div>
-                <div className="block m-2">
-                  <div className="inline-block w-1/2">Shipping</div>
-                  <div className="inline-block w-1/2 px-3 text-right"></div>
-                </div>
-                <div className="block border-t-2 m-2 py-2">
-                  <div className="inline-block w-1/2">Grand Total</div>
-                  <div className="inline-block w-1/2 px-3 text-right">
-                    {GrandTotal}
+                <div className="min-w-[250px] bg-white  shadow-gray-500  drop-shadow-md  max-w-[1000px] w-[25%] px-4 py-6 h-[fit-content]">
+                  <div>
+                    <p>Enter Promo Code</p>
+                    <PromoCodeBar setPromo={setPromo} promo={promo} />
+                    <div className="mt-10">
+                      <div className="flex justify-between">
+                        <p>Subtotal</p>
+                        <p>
+                          {new Intl.NumberFormat("id", {
+                            currency: "idr",
+                            style: "currency",
+                            maximumFractionDigits: 2,
+                            minimumFractionDigits: 0,
+                          }).format(totalBeforeDiscount)}
+                        </p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p>Shipping Cost</p>
+                        <p>
+                          {new Intl.NumberFormat("id", {
+                            currency: "idr",
+                            style: "currency",
+                            maximumFractionDigits: 2,
+                            minimumFractionDigits: 0,
+                          }).format(shippingCost)}
+                        </p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p>Discount</p>
+                        <p>
+                          {new Intl.NumberFormat("id", {
+                            currency: "idr",
+                            style: "currency",
+                            maximumFractionDigits: 2,
+                            minimumFractionDigits: 0,
+                          }).format(discount)}
+                        </p>
+                      </div>
+                      <div className="flex justify-between py-2 border-y-2 mt-2">
+                        <p>Estimated Total</p>
+                        <div>
+                          <p className=" break-words">
+                            {new Intl.NumberFormat("id", {
+                              currency: "idr",
+                              style: "currency",
+                              maximumFractionDigits: 2,
+                              minimumFractionDigits: 0,
+                            }).format(
+                              totalBeforeDiscount - discount + shippingCost
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <button
+                        className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500]  transition-colors duration-300"
+                        onClick={handleCheckout}
+                      >
+                        <FontAwesomeIcon icon={faLock} /> Proceed To Payment
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-3/4 mx-[12%] mt-3 p-3 bg-gray-400">
-            <div className="text-center py-3 font-bold font-poppins">
-              Shipping
-            </div>
-            <div className="w-[70%] mx-[15%] px-3 border-green-600 border-2 bg-green-50 flex justify-between cursor-pointer">
-              <div className="flex">
-                <img
-                  src={JntLogo}
-                  alt=""
-                  className="w-32 h-7 bg-red-700 my-3"
-                />
-                <span className="ml-3 py-3 font-poppins">J&T</span>
-              </div>
-              <div className="py-3">
-                <span className="font-bold font-poppins">Rp 20.000,-</span>
-                <input
-                  type="checkbox"
-                  checked="checked"
-                  className="ml-1 border-2 border-green-700"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="w-3/4 mx-[12%] mt-3 p-3 bg-gray-400">
-            <div className="text-center py-3 font-bold font-poppins">
-              Payment
-            </div>
-            <div className="w-[70%] mx-[15%] mt-1 px-3 border-slate-400 border-2 bg-slate-50 flex cursor-pointer">
-              <div className="flex">
-                <img src={PaypalLogo} alt="" className="w-32 h-12 my-3" />
-              </div>
-              <div className="mx-3">
-                <div className="py-1">Pay with</div>
-                <div className="py-1 font-bold">Paypal</div>
-              </div>
-            </div>
-          </div>
-          <div className="w-3/4 mx-[12%] mt-3 p-3 bg-gray-400">
-            <div className="text-center py-3 font-bold font-poppins cursor-pointer">
-              Complete your order
-            </div>
-          </div>
+          ) : (
+            <></>
+          )}
         </div>
       </MinimumLayouts>
     </>
   );
-}
+};
 
-export default CheckoutPage;
+export default Checkout;

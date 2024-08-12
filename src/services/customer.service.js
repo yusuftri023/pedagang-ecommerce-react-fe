@@ -3,7 +3,7 @@ import axios from "axios";
 export const getCustomerProfile = async () => {
   try {
     const response = await axios.get(
-      "https://127.0.0.1:8080/customers/profile",
+      "https://192.168.1.5:8080/customers/profile",
       {
         withCredentials: true,
       }
@@ -16,7 +16,7 @@ export const getCustomerProfile = async () => {
 export const updateCustomerPassword = async (data) => {
   try {
     const response = await axios.patch(
-      "https://127.0.0.1:8080/customers/changepassword",
+      "https://192.168.1.5:8080/customers/changepassword",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -28,7 +28,7 @@ export const updateCustomerPassword = async (data) => {
 export const updateCustomerProfilePic = async (formData) => {
   try {
     const response = await axios.patch(
-      `https://127.0.0.1:8080/customers/changepicture`,
+      `https://192.168.1.5:8080/customers/changepicture`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
@@ -43,7 +43,7 @@ export const updateCustomerProfilePic = async (formData) => {
 export const deleteCustomer = async () => {
   try {
     const response = await axios.delete(
-      `https://127.0.0.1:8080/customers/delete`,
+      `https://192.168.1.5:8080/customers/delete`,
       {
         withCredentials: true,
       }

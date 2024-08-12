@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCart } from "../actions/cartAction";
 import { getUserWishlist } from "../actions/wishlistAction";
 
-export const wishlistSlicer = createSlice({
+export const wishlistSlice = createSlice({
   name: "wishlist",
   initialState: {
     wishlist: null,
@@ -40,3 +39,4 @@ export const wishlistSlicer = createSlice({
       });
   },
 });
+export default wishlistSlice.reducer;

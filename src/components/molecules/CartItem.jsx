@@ -3,7 +3,6 @@
 import { faHeart, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { getSingleProductVariation } from "../../services/product.service";
 import {
   deleteCustomerCartItem,
   patchChangeCartQuantity,
@@ -12,6 +11,10 @@ import {
 import { useDispatch } from "react-redux";
 import { getCart } from "../../store/actions/cartAction";
 import { postNewWishlist } from "../../services/wishlist.service";
+import {
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
 
 function CartItem({
   cartId,
@@ -64,6 +67,7 @@ function CartItem({
         dispatch(getCart());
       });
     }
+
     setActiveNote((state) => !state);
   };
   const handleOutsideClick = (e) => {
@@ -82,8 +86,25 @@ function CartItem({
       setActiveNote(false);
     }
   };
+  const handleEnterOnNote = (e) => {
+    if (e.key === "Enter") {
+      if (noteValueRef.current?.value) {
+        postAddNote({
+          cart_id: cartId,
+          note: noteValueRef.current.value,
+        }).then(() => {
+          dispatch(getCart());
+        });
+      }
+      setActiveNote(false);
+    }
+  };
   const handleRemoveFromCart = () => {
-    deleteCustomerCartItem(cartId).then(() => dispatch(getCart()));
+    deleteCustomerCartItem(cartId).then(() => {
+      dispatch(popUpToggle(true));
+      dispatch(popUpChange({ type: "deletedFromCart" }));
+      dispatch(getCart());
+    });
   };
 
   const handleAddToWishlist = () => {
@@ -91,7 +112,10 @@ function CartItem({
       product_id: productId,
       product_config_id: productConfigId,
     };
-    postNewWishlist(data).then(() => console.log("added to wishlist"));
+    postNewWishlist(data).then(() => {
+      dispatch(popUpToggle(true));
+      dispatch(popUpChange({ type: "addedToWishlist" }));
+    });
   };
 
   useEffect(() => {
@@ -123,8 +147,13 @@ function CartItem({
               className=" mx-auto size-[60px] object-cover"
             ></img>
           </div>
-          <div className="w-[50%]">
-            <p className=" line-clamp-2">{title}</p>
+          <div className="w-[40%]">
+            <a
+              href={`/products/${encodeURIComponent(title.toLowerCase())}-${productId}+${productConfigId}`}
+              className=" line-clamp-2"
+            >
+              {title}
+            </a>
             {variation_name === "-" ? (
               <></>
             ) : (
@@ -145,24 +174,24 @@ function CartItem({
               }).format(price)}
             </p>
           </div>
-          <div className="w-[8%]">
+          <div className="w-[15%]">
             <p>Qty</p>
-            <div className="flex  overflow-hidden rounded-md  bg-slate-50 border-[2px] border-black">
+            <div className="flex  rounded-md  bg-slate-50 border-[2px] border-black">
               <button
                 onClick={() => handleQuantityCounter("-")}
-                className="mx-1"
+                className="px-1"
               >
                 -
               </button>
               <input
                 type="number"
-                className="w-full no-underline outline-none text-center"
+                className="min-w-6 no-underline outline-none text-center"
                 value={counter}
                 onChange={handleQuantityInput}
               />
               <button
                 onClick={() => handleQuantityCounter("+")}
-                className="mx-1"
+                className="px-1"
               >
                 +
               </button>
@@ -210,6 +239,7 @@ function CartItem({
                   maxLength={100}
                   className={`w-[${noteRef?.current?.offsetWidth}px] mr-[${noteRef?.current?.children[0].clientWidth}px] px-2 absolute`}
                   placeholder="Your note"
+                  onKeyDown={handleEnterOnNote}
                 />
               ) : (
                 <></>

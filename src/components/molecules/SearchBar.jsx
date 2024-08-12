@@ -4,15 +4,11 @@ import IconSearch from "../../assets/images/landing-page/icon _magnifying glass_
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchProduct } from "../../store/actions/productAction";
-import { useNavigate } from "react-router-dom";
 
 function SearchBar() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const handleLink = (title, id) => {
-    navigate(`/products/${encodeURIComponent(title.toLowerCase())}/${id}`);
-  };
   const [category, setCategory] = useState([]);
+
   useEffect(() => {
     axios
       .get(`${"https://fakestoreapi.com"}/products/categories`)
@@ -69,7 +65,7 @@ function SearchBar() {
         </select>
         <div
           ref={searchRef}
-          className="w-full min-w-[100px] items-center relative"
+          className="w-full min-w-[100px] items-center relative overflow-visible z-50 "
         >
           <input
             type="search"
@@ -80,31 +76,30 @@ function SearchBar() {
               setSearchIsActive(true);
               setSearch(e.target.value);
             }}
-            className="w-full pl-4 pt-3 text-xl outline-none"
+            className="w-full pl-4 pt-3 text-xl outline-none "
           />
           {searchIsActive &&
             searchResult &&
             (searchResult.length > 0 ? (
               <div
-                className={`absolute w-full min-h-[200px] overflow-y-scroll max-h-[calc(80vh-30px)] bg-white z-10 rounded-b-xl  `}
+                className={` absolute w-full min-h-[200px] overflow-y-scroll max-h-[calc(80vh-30px)] bg-white rounded-b-xl `}
               >
-                <div className="flex items-end  w-full px-4 text-2xl border-b-4 h-20 align-text-bottom">
+                <div className="flex items-end  w-full px-4 text-2xl border-b-4 h-20 align-text-bottom ">
                   <div className="mb-3">Products</div>
                 </div>
                 {searchResult.map((result) => (
-                  <div
-                    key={result.id}
-                    onClick={() => handleLink(result.title, result.id)}
-                    className="flex border-b-[1px]"
-                  >
+                  <div key={result.id} className="flex border-b-[1px]">
                     <img src={result.image} className="size-16 p-2"></img>
                     <div className="px-4  flex flex-col justify-center">
-                      <p className=" line-clamp-1 text-blue-600 hover:cursor-pointer">
+                      <a
+                        href={`/products/${encodeURIComponent(result.title.toLowerCase())}-${result.product_id}+${result.id}`}
+                        className=" line-clamp-1 text-blue-600 hover:cursor-pointer"
+                      >
                         {result.title}
                         {result.variation_name !== "-"
                           ? ` (${result.variation_name} : ${result.variation_value})`
                           : ""}
-                      </p>
+                      </a>
                       <p className=" font-semibold">
                         {new Intl.NumberFormat("id", {
                           currency: "idr",

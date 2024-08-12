@@ -1,10 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import trashbinSvg from "../../assets/trashbin.svg";
 import { postAddToCart } from "../../services/cart.service";
 import { deleteWishlistItem } from "../../services/wishlist.service";
 import { getUserWishlist } from "../../store/actions/wishlistAction";
+import {
+  modalChange,
+  modalToggle,
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
 
 /* eslint-disable react/prop-types */
 function WishlistItem({
@@ -20,15 +25,19 @@ function WishlistItem({
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleLink = () => {
     navigate(
-      `/products/${encodeURIComponent(title.toLowerCase())}/${productId}`
+      `/products/${encodeURIComponent(title.toLowerCase())}-${productId}+${productConfigId}`
     );
   };
-  const handleDeleteFromWishlist = () => {
+
+  const handleDeleteFromWishlists = () => {
     deleteWishlistItem(wishlistId)
       .then(() => dispatch(getUserWishlist()))
+      .then(() => {
+        dispatch(popUpToggle(true));
+        dispatch(popUpChange({ type: "deleteFromWishlist" }));
+      })
       .catch((err) => console.log(err));
   };
   const handleAddToCart = () => {
@@ -39,7 +48,12 @@ function WishlistItem({
     };
 
     postAddToCart(data)
-      .then(() => {})
+      .then(() => {
+        dispatch(modalToggle());
+        dispatch(
+          modalChange({ type: "addedToCart", content: { image, title, price } })
+        );
+      })
       .catch((err) => console.log(err));
   };
 
@@ -54,11 +68,11 @@ function WishlistItem({
             >
               <img
                 src={image}
-                alt=""
-                className=" aspect-square object-cover hover:cursor-pointer hover:brightness-90 transition-all duration-100   "
+                alt={title}
+                className=" aspect-square  hover:cursor-pointer hover:brightness-90 transition-all duration-100   "
               />
               <div
-                className={`${stock > 0 ? "bg-green-100 " : "bg-red-100 "} absolute bottom right-0 bottom-0 p-1 bg-green-100 rounded-tl-md text-sm opacity-85`}
+                className={`${stock > 0 ? "bg-green-100 " : "bg-red-100 "} absolute bottom-0 right-0 opacity-60 rounded-tl-md text-sm px-1 `}
               >
                 {stock > 0 ? `${stock} in stock` : "Out of Stock"}
               </div>
@@ -84,17 +98,14 @@ function WishlistItem({
                 </div>
                 <div className="w-full flex items-center space-x-1 mt-2">
                   <button
-                    onClick={handleDeleteFromWishlist}
-                    className=" border-green-400  hover:cursor-pointer flex items-center"
+                    onClick={handleDeleteFromWishlists}
+                    className="transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-400 flex items-center w-[46px] border-2 border-gray-200 rounded-md"
                   >
-                    <FontAwesomeIcon
-                      className=" text-md border-[1px] py-[8px] px-[9px] rounded-sm hover:bg-gray-400 transition-colors duration-300"
-                      icon={faTrash}
-                    />
+                    <img className=" w-fit p-1" src={trashbinSvg}></img>
                   </button>
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#FFCA1D] border-[1px] p-[4px] border-[#FFCA1D]  rounded-sm  hover:bg-[#968447] hover:border-[#968447] w-full text-md  font-semibold animate-fade-in-drop transition-colors duration-300"
+                    className="bg-[#FFCA1D] border-[1px] p-[4px] border-[#FFCA1D]  rounded-sm  hover:bg-[#968447] hover:border-[#968447] w-full text-md  font-semibold  transition-colors duration-300"
                   >
                     Add to Cart
                   </button>

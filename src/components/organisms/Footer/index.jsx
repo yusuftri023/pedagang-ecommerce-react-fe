@@ -9,8 +9,8 @@ function Footer({ view = "full" }) {
     <>
       <footer className="w-full min-w-[1000px] bg-[#2f3037]  text-white font-poppins text-sm ">
         {view === "full" && (
-          <div className="overflow-hidden  ">
-            <div className="flex justify-between my-10 mx-auto w-[1000px] space-x-16">
+          <div className="overflow-hidden">
+            <div className="flex justify-evenly my-10 mx-auto min-w-[1000px] space-x-16">
               <SocialMedia />
               <NewsletterSignup />
               <AppDownload />

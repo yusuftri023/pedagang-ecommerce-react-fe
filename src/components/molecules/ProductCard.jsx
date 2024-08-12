@@ -4,10 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addToCart } from "../../store/reducers/cartSlicer";
+import {
+  modalChange,
+  modalToggle,
+} from "../../store/reducers/webContentSlicer";
+import { postAddToCart } from "../../services/cart.service";
 
 function ProductCard({
-  id,
+  product_id,
+  product_config_id,
   image,
   title,
   price,
@@ -17,7 +22,9 @@ function ProductCard({
   const [isHover, setIsHover] = useState(false);
   const dispatch = useDispatch();
   const handleLink = () => {
-    navigate(`/products/${encodeURIComponent(title.toLowerCase())}/${id}`);
+    navigate(
+      `/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`
+    );
   };
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -25,14 +32,23 @@ function ProductCard({
   const handleMouseLeave = () => {
     setIsHover(false);
   };
+
   const handleAddToCart = () => {
     const data = {
-      id,
-      price: price,
+      product_id,
+      quantity: 1,
+      product_config_id,
     };
-    dispatch(addToCart(data));
-  };
 
+    postAddToCart(data)
+      .then(() => {
+        dispatch(modalToggle());
+        dispatch(
+          modalChange({ type: "addedToCart", content: { image, title, price } })
+        );
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <div

@@ -51,7 +51,7 @@ function CarouselSlide() {
   }, [slide]);
 
   return (
-    <section className="w-full min-w-[1000px]  h-[calc(100vh-130px)]">
+    <section className="w-full min-w-[1000px]">
       <div className="w-full  h-[calc(100vh-130px)] min-w-[1000px] mx-auto bg-black  overflow-hidden">
         <div
           className={`  brightness-95 flex flex-row transform duration-300 ease-in-out -translate-x-[${

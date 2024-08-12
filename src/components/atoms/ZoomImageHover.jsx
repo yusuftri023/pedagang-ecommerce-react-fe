@@ -8,7 +8,6 @@ export const ZoomImageHover = ({
   width,
   position,
   size,
-  bgsize,
   imagesrc,
 }) => {
   const divref = useRef();
@@ -37,7 +36,7 @@ export const ZoomImageHover = ({
     maxWidth: `${maxwidth}px`,
     width: `${width}px`,
     backgroundPosition: isHover ? pos : position,
-    backgroundSize: isHover ? `${size}%` : `${bgsize}%`,
+    backgroundSize: isHover ? `${size}%` : `contain`,
     backgroundRepeat: `no-repeat`,
     cursor: "zoom-in",
   };
@@ -48,7 +47,8 @@ export const ZoomImageHover = ({
         ref={divref}
         onMouseLeave={handleMouseOut}
         onMouseMove={handleMouseMove}
-        style={styles}
+        style={{ ...styles }}
+        className="mx-auto hover:transition-none transition-all duration-200"
       ></div>
     </>
   );

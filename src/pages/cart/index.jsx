@@ -1,19 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getUserData } from "../../store/actions/customerAction";
 import { getAuth } from "../../services/auth.service";
 import MainLayouts from "../../layouts/MainLayouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
-import { setAuth, setError } from "../../store/reducers/authenticationSlicer";
-import { setCartError } from "../../store/reducers/cartSlicer";
+import { setAuth } from "../../store/reducers/authenticationSlicer";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { getCart } from "../../store/actions/cartAction";
 import CartItem from "../../components/molecules/CartItem";
-import { getPromotion } from "../../services/promotion.service";
+import PromoCodeBar from "../../components/molecules/PromoCodeBar";
+import {
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
@@ -22,22 +26,32 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const [promo, setPromo] = useState([]);
+  const showPopUp = useSelector((state) => state.webContent.showPopUp);
+  const typePopUp = useSelector((state) => state.webContent.typePopUp);
 
-  const promoCodeRef = useRef();
-  const handleCheckout = () => {
-    navigate("/checkout");
+  const closePopUpHandler = () => {
+    dispatch(popUpToggle(false));
+    dispatch(popUpChange({ type: null }));
   };
-  let totalBeforeDiscount =
+  const handleCheckout = () => {
+    const delay = setTimeout(() => {
+      window.location.href = "/checkout";
+    }, 1000);
+  };
+
+  const totalBeforeDiscount = useMemo(() =>
     cart?.length > 0
       ? cart
           ?.filter((val) => val.stock > 0)
+
           ?.map((val) => {
             return val.price * val.quantity;
           })
           ?.reduce((a, b) => a + b, 0)
-      : 0;
+      : 0
+  );
 
-  let discount =
+  const discount = useMemo(() =>
     promo?.length > 0
       ? (cart
           ?.filter((val) => {
@@ -49,28 +63,16 @@ const Cart = () => {
               return true;
             else return false;
           })
+          ?.filter((val) => val.stock > 0)
           ?.map((val) => {
             return val.price * val.quantity;
           })
           .reduce((a, b) => a + b, 0) *
           Number(promo[0]?.discount_rate)) /
         100
-      : 0;
+      : 0
+  );
 
-  const handleSubmitPromoCode = async (e) => {
-    e.preventDefault();
-
-    if (promoCodeRef.current?.value?.length > 0) {
-      const promoCode = await getPromotion(promoCodeRef.current.value);
-      if (promoCode.success) {
-        setPromo(promoCode.data);
-        promoCodeRef.current.value = "";
-        e.target.blur();
-      } else {
-        dispatch(setCartError(promoCode.message));
-      }
-    }
-  };
   useEffect(() => {
     getAuth()
       .then(() => dispatch(setAuth(true)))
@@ -81,8 +83,35 @@ const Cart = () => {
       });
     dispatch(getUserData());
   }, []);
+  useEffect(() => {
+    let popUpTimer = setTimeout(() => {
+      dispatch(popUpToggle(false));
+      dispatch(popUpChange({ type: null }));
+    }, 2000);
+    return () => {
+      clearTimeout(popUpTimer);
+    };
+  }, [showPopUp]);
+
   return (
     <>
+      {showPopUp && typePopUp === "deletedFromCart" ? (
+        <BriefPopUp>
+          <span>Product deleted from cart</span>
+          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
+            Ok
+          </span>
+        </BriefPopUp>
+      ) : typePopUp === "addedToWishlist" ? (
+        <BriefPopUp>
+          <span>Product added to wishlist</span>
+          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
+            Ok
+          </span>
+        </BriefPopUp>
+      ) : (
+        <></>
+      )}
       <MainLayouts>
         <div className="pt-4 min-w-[1000px] bg-zinc-100">
           <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
@@ -91,10 +120,10 @@ const Cart = () => {
           </div>
 
           {cart?.length > 0 ? (
-            <div className="min-h-[400px] mx-auto flex px-10   w-[1000px]">
+            <div className="min-h-[400px] mx-auto flex  w-[1000px]  max-w-[1000px]">
               <div className="w-full gap-4 flex my-20">
-                <div className="space-y-6">
-                  <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                <div className="space-y-6 max-w-[calc(70%-16px)]">
+                  <div className=" bg-white p-6  shadow-gray-500   drop-shadow-md  h-[fit-content]">
                     {cart
                       ?.filter((val) => val.stock > 0)
                       ?.map((val, i) => (
@@ -116,7 +145,7 @@ const Cart = () => {
                   </div>
 
                   {cart?.some((val) => val.stock === 0) && (
-                    <div className="min-w-[600px] bg-white p-6 opacity-60  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                    <div className=" bg-white p-6 opacity-60  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
                       <p className=" font-bold text-2xl ">
                         Currently Out of Stock
                       </p>
@@ -141,44 +170,10 @@ const Cart = () => {
                     </div>
                   )}
                 </div>
-                <div className="min-w-[250px] bg-white  shadow-gray-500  drop-shadow-md  max-w-[1000px] w-[25%] px-4 py-6 h-[fit-content]">
+                <div className=" bg-white  shadow-gray-500  drop-shadow-md min-w-[30%] px-4 py-6 h-[fit-content]">
                   <div>
                     <p>Enter Promo Code</p>
-                    <div className="flex items-center">
-                      <input
-                        ref={promoCodeRef}
-                        type="text"
-                        placeholder="Promo Code"
-                        className=" outline-none p-2 w-[60%] border-2"
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            handleSubmitPromoCode(e);
-                          }
-                        }}
-                      />
-                      <button
-                        className=" bg-black text-white p-2 w-[40%] border-2 border-black"
-                        type="submit"
-                        onClick={handleSubmitPromoCode}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                    {promo?.length > 0 ? (
-                      <div className="text-green-500 p-2 border-2 mt-2 bg-zinc-100 rounded-md relative">
-                        <button
-                          onClick={() => setPromo([])}
-                          className={`text-black font-extrabold absolute right-2 top-0 hover:text-gray-500 duration-150`}
-                        >
-                          x
-                        </button>
-                        <p> Active Code :</p>
-                        <p>{promo[0].code} </p>
-                        <p>{promo[0].description} </p>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
+                    <PromoCodeBar setPromo={setPromo} promo={promo} />
                     <div className="mt-10 divide-y-2 divide-gray-400">
                       <div className="flex justify-between">
                         <p>Discount</p>
@@ -207,14 +202,14 @@ const Cart = () => {
                     </div>
                     <div>
                       <button
-                        className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500] animate-fade-in-drop transition-colors duration-300"
+                        className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500]  transition-colors duration-300"
                         onClick={handleCheckout}
                       >
                         <FontAwesomeIcon icon={faLock} /> Checkout
                       </button>
                       <button
                         onClick={() => navigate("/")}
-                        className=" bg-gray-100 w-full py-2 mt-2 border-black border-2 border-opacity-50"
+                        className=" bg-gray-100 w-full py-2 mt-2 border-black hover:brightness-50 transition-all duration-300 border-2 border-opacity-50"
                       >
                         Continue Shopping
                       </button>

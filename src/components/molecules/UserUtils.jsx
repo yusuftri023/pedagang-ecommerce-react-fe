@@ -15,7 +15,6 @@ import { useEffect, useRef, useState } from "react";
 import DropdownMenu from "./DropdownMenu";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getProductCart } from "../../store/actions/productAction";
 import { logout, setAuth } from "../../store/reducers/authenticationSlicer";
 import { getAuth, getSignOut } from "../../services/auth.service";
 import { getUserData } from "../../store/actions/customerAction";
@@ -31,7 +30,6 @@ function UserUtils() {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const [activeMenu, setActiveMenu] = useState(null);
   const cart = useSelector((state) => state.cart.cart);
-  const [products, setProducts] = useState([]);
   const refAccount = useRef();
   const refCart = useRef();
   const handleLogout = () => {
@@ -47,7 +45,11 @@ function UserUtils() {
       .then(() => dispatch(getCart()))
       .catch(() => {
         dispatch(setAuth(false));
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => {
+          if (window.location.pathname.slice(0, 9) !== "/products") {
+            navigate("/");
+          }
+        }, 1000);
       });
     dispatch(getUserData());
   }, []);
@@ -59,16 +61,15 @@ function UserUtils() {
           onMouseEnter={() => setActiveMenu(refCart)}
           onMouseLeave={() => setActiveMenu(null)}
         >
-          <div
-            onClick={() => navigate("/cart")}
-            className="  flex items-center h-full w-[100px] justify-between space-x-2  hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150"
-          >
-            <p>Cart</p>
-            <img src={IconCart} alt="icon cart" className="" />
-          </div>
+          <a href="/cart">
+            <div className="  flex items-center h-full w-[100px] justify-between space-x-2  hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150">
+              <p>Cart</p>
+              <img src={IconCart} alt="icon cart" className="" />
+            </div>
+          </a>
 
           {activeMenu === refCart && (
-            <DropdownMenu width={400} height={300} x={10}>
+            <DropdownMenu width={400} height={300} x={50}>
               <div className="overflow-y-scroll h-full no-scrollbar ">
                 <div className=" w-full border-b-[1px] border-gray-500 flex items-center h-[50px] px-[10%] align-middle bg-gray-400 bg-opacity-50 text-xl font-semibold">
                   <p>Your Cart</p>
@@ -78,6 +79,7 @@ function UserUtils() {
                     cart.map((val, i) => (
                       <DropdownCartItem
                         key={i}
+                        id={val.product_config_id}
                         title={val.title}
                         quantity={val.quantity}
                         image={val.image}
@@ -138,23 +140,24 @@ function UserUtils() {
                       </div>
                     </div>
                     <div className="px-[10%] w-full space-y-2 mt-2">
-                      <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
-                        <FontAwesomeIcon
-                          className=" align-text-bottom text-xl   min-w-10 max-w-10"
-                          icon={faHeart}
-                        />
-                        <div className="inline-block ml-4">Wishlist</div>
-                      </div>
-                      <div
-                        onClick={() => navigate("/cart")}
-                        className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
-                      >
-                        <FontAwesomeIcon
-                          className=" align-text-bottom text-xl   min-w-10 max-w-10"
-                          icon={faCartShopping}
-                        />
-                        <div className="inline-block ml-4">Your Cart</div>
-                      </div>
+                      <a href="/wishlist">
+                        <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
+                          <FontAwesomeIcon
+                            className=" align-text-bottom text-xl   min-w-10 max-w-10"
+                            icon={faHeart}
+                          />
+                          <div className="inline-block ml-4">Wishlist</div>
+                        </div>
+                      </a>
+                      <a href="/cart">
+                        <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
+                          <FontAwesomeIcon
+                            className=" align-text-bottom text-xl   min-w-10 max-w-10"
+                            icon={faCartShopping}
+                          />
+                          <div className="inline-block ml-4">Your Cart</div>
+                        </div>
+                      </a>
                       <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
                         <FontAwesomeIcon
                           className=" align-text-bottom text-xl   min-w-10 max-w-10"

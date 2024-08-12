@@ -3,7 +3,7 @@ function DropdownMenu({ children, width, height, x }) {
   return (
     <div
       className={
-        "opacity-100  z-[100]  transform ease-in-out duration-300  absolute  w-0 h-0  mt-[-10px] animate-fade-in-drop"
+        "opacity-100 z-50 transform ease-in-out duration-300  absolute  w-0 h-0  mt-[-10px] animate-fade-in-drop"
       }
     >
       <div
