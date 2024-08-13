@@ -3,7 +3,7 @@ import axios from "axios";
 export const getPromotionList = async (page = 1, limit = 10) => {
   try {
     const response = await axios.get(
-      `https://192.168.1.5:8080/customers/promotion?page=${page}&limit=${limit}`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/promotion?page=${page}&limit=${limit}`,
       {
         withCredentials: true,
       }
@@ -16,7 +16,7 @@ export const getPromotionList = async (page = 1, limit = 10) => {
 export const getPromotion = async (promotionCode) => {
   try {
     const response = await axios.get(
-      `https://192.168.1.5:8080/customers/promotion/use/${promotionCode}`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/promotion/use/${promotionCode}`,
       {
         withCredentials: true,
       }
@@ -30,7 +30,7 @@ export const getPromotion = async (promotionCode) => {
 export const postNewPromotion = async (data) => {
   try {
     const response = await axios.post(
-      "https://192.168.1.5:8080/customers/promotion",
+      "https://pedagang-ecommerce-api.onrender.com/customers/promotion",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -42,7 +42,7 @@ export const postNewPromotion = async (data) => {
 export const deletePromotion = async (promotionId) => {
   try {
     const response = await axios.delete(
-      `https://192.168.1.5:8080/customers/promotion/${promotionId}`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/promotion/${promotionId}`,
       {
         withCredentials: true,
       }

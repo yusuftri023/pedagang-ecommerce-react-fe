@@ -104,9 +104,8 @@ const Checkout = () => {
     };
   }, [showPopUp]);
   const selectedAddress = address.filter((val) => val.selected === 1)[0];
-  console.log(selectedAddress);
+
   useEffect(() => {
-    console.log(address);
     getCustomerAddress().then((res) => setAddress(res.data));
   }, []);
   return (

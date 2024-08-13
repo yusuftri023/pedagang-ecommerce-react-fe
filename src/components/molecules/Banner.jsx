@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 function Banner({ banner, quantity }) {
-  console.log(banner, quantity);
   return (
     <div
       key={banner.id}

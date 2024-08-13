@@ -1,28 +1,37 @@
 import axios from "axios";
 
 export const getGoogleSignIn = async () => {
-  const response = await axios.get("https://192.168.1.5:8080/auth/google", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://pedagang-ecommerce-api.onrender.com/auth/google",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 export const getSignOut = async () => {
-  const response = await axios.get("https://192.168.1.5:8080/auth/logout", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://pedagang-ecommerce-api.onrender.com/auth/logout",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 
 export const getAuth = async () => {
-  const response = await axios.get("https://192.168.1.5:8080/auth/refresh", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://pedagang-ecommerce-api.onrender.com/auth/refresh",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 export const postWebSignIn = async (data) => {
   try {
     const response = await axios.post(
-      `https://192.168.1.5:8080/auth/login`,
+      `https://pedagang-ecommerce-api.onrender.com/auth/login`,
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -35,7 +44,7 @@ export const postWebSignIn = async (data) => {
 export const postWebRegister = async (data) => {
   try {
     const response = await axios.post(
-      `https://192.168.1.5:8080/auth/register`,
+      `https://pedagang-ecommerce-api.onrender.com/auth/register`,
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );

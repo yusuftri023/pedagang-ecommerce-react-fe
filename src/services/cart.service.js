@@ -7,7 +7,7 @@ export const fetchUserCart = async (id) => {
 export const getCustomerCart = async () => {
   try {
     const response = await axios.get(
-      `https://192.168.1.5:8080/customers/cart`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/cart`,
       {
         withCredentials: true,
       }
@@ -22,7 +22,7 @@ export const getCustomerCart = async () => {
 export const postAddToCart = async (data) => {
   try {
     const response = await axios.post(
-      "https://192.168.1.5:8080/customers/cart",
+      "https://pedagang-ecommerce-api.onrender.com/customers/cart",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -34,7 +34,7 @@ export const postAddToCart = async (data) => {
 export const postAddNote = async ({ cart_id, note }) => {
   try {
     const response = await axios.post(
-      "https://192.168.1.5:8080/customers/cart/note",
+      "https://pedagang-ecommerce-api.onrender.com/customers/cart/note",
       JSON.stringify({ cart_id, note }),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -46,7 +46,7 @@ export const postAddNote = async ({ cart_id, note }) => {
 export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
   try {
     const response = await axios.patch(
-      `https://192.168.1.5:8080/customers/cart`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/cart`,
       JSON.stringify({ cart_id: cartId, quantity }),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -59,7 +59,7 @@ export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
 export const deleteCustomerCartItem = async (cartId) => {
   try {
     const response = await axios.delete(
-      `https://192.168.1.5:8080/customers/cart/${cartId}`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/cart/${cartId}`,
       {
         withCredentials: true,
       }

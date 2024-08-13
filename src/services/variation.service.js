@@ -3,7 +3,7 @@ import axios from "axios";
 export const getCategoryVariation = async (productId) => {
   try {
     const response = await axios.get(
-      `https://192.168.1.5:8080/customers/variation/categories/${productId}`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/variation/categories/${productId}`,
       {
         withCredentials: true,
       }
@@ -16,7 +16,7 @@ export const getCategoryVariation = async (productId) => {
 export const postNewCategoryVariation = async (data) => {
   try {
     const response = await axios.post(
-      "https://192.168.1.5:8080/customers/variation",
+      "https://pedagang-ecommerce-api.onrender.com/customers/variation",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -29,7 +29,7 @@ export const postNewCategoryVariation = async (data) => {
 export const deleteProduct = async (variationId) => {
   try {
     const response = await axios.delete(
-      `https://192.168.1.5:8080/customers/variation/${variationId}`,
+      `https://pedagang-ecommerce-api.onrender.com/customers/variation/${variationId}`,
       {
         withCredentials: true,
       }

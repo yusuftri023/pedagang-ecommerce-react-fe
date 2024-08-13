@@ -43,7 +43,7 @@ const ProductDetail = () => {
     .slice(product_title.lastIndexOf("-") + 1)
     .split("+");
   const currentVariant = product?.find(
-    (product) => product.product_config_id === Number(productConfigId)
+    (product) => Number(product.product_config_id) === Number(productConfigId)
   );
   const variation = useMemo(() =>
     product?.reduce((acc, curr) => {
@@ -71,10 +71,8 @@ const ProductDetail = () => {
       quantity: 1,
       product_config_id: productConfigId,
     };
-    console.log("add to cart");
     postAddToCart(data)
       .then(() => {
-        console.log("success");
         dispatch(modalToggle());
         dispatch(
           modalChange({
@@ -158,7 +156,7 @@ const ProductDetail = () => {
               <div
                 ref={positionAnchorRef}
                 style={{
-                  top: `${positionAnchorRef.current?.offsetTop + 40}px`,
+                  top: `${positionAnchorRef.current?.offsetTop - 40}px`,
                 }}
                 className={`sticky `}
               >
