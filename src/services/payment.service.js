@@ -3,7 +3,7 @@ import axios from "axios";
 export const paymentDetails = async (orderId) => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/customers/payment/${orderId}`,
+      `https://api.pedagang-ecommerce.site/customers/payment/${orderId}`,
       {
         withCredentials: true,
       }

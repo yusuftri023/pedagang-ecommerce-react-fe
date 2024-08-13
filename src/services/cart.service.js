@@ -7,7 +7,7 @@ export const fetchUserCart = async (id) => {
 export const getCustomerCart = async () => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/customers/cart`,
+      `https://api.pedagang-ecommerce.site/customers/cart`,
       {
         withCredentials: true,
       }
@@ -22,7 +22,7 @@ export const getCustomerCart = async () => {
 export const postAddToCart = async (data) => {
   try {
     const response = await axios.post(
-      "https://pedagang-ecommerce-api.onrender.com/customers/cart",
+      "https://api.pedagang-ecommerce.site/customers/cart",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -34,7 +34,7 @@ export const postAddToCart = async (data) => {
 export const postAddNote = async ({ cart_id, note }) => {
   try {
     const response = await axios.post(
-      "https://pedagang-ecommerce-api.onrender.com/customers/cart/note",
+      "https://api.pedagang-ecommerce.site/customers/cart/note",
       JSON.stringify({ cart_id, note }),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -46,7 +46,7 @@ export const postAddNote = async ({ cart_id, note }) => {
 export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
   try {
     const response = await axios.patch(
-      `https://pedagang-ecommerce-api.onrender.com/customers/cart`,
+      `https://api.pedagang-ecommerce.site/customers/cart`,
       JSON.stringify({ cart_id: cartId, quantity }),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -59,7 +59,7 @@ export const patchChangeCartQuantity = async ({ cartId, quantity }) => {
 export const deleteCustomerCartItem = async (cartId) => {
   try {
     const response = await axios.delete(
-      `https://pedagang-ecommerce-api.onrender.com/customers/cart/${cartId}`,
+      `https://api.pedagang-ecommerce.site/customers/cart/${cartId}`,
       {
         withCredentials: true,
       }

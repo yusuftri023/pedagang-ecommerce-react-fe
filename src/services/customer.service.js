@@ -3,7 +3,7 @@ import axios from "axios";
 export const getCustomerProfile = async () => {
   try {
     const response = await axios.get(
-      "https://pedagang-ecommerce-api.onrender.com/customers/profile",
+      "https://api.pedagang-ecommerce.site/customers/profile",
       {
         withCredentials: true,
       }
@@ -16,7 +16,7 @@ export const getCustomerProfile = async () => {
 export const updateCustomerPassword = async (data) => {
   try {
     const response = await axios.patch(
-      "https://pedagang-ecommerce-api.onrender.com/customers/changepassword",
+      "https://api.pedagang-ecommerce.site/customers/changepassword",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -28,7 +28,7 @@ export const updateCustomerPassword = async (data) => {
 export const updateCustomerProfilePic = async (formData) => {
   try {
     const response = await axios.patch(
-      `https://pedagang-ecommerce-api.onrender.com/customers/changepicture`,
+      `https://api.pedagang-ecommerce.site/customers/changepicture`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
@@ -43,7 +43,7 @@ export const updateCustomerProfilePic = async (formData) => {
 export const deleteCustomer = async () => {
   try {
     const response = await axios.delete(
-      `https://pedagang-ecommerce-api.onrender.com/customers/delete`,
+      `https://api.pedagang-ecommerce.site/customers/delete`,
       {
         withCredentials: true,
       }

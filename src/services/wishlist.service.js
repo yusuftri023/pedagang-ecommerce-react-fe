@@ -3,7 +3,7 @@ import axios from "axios";
 export const getWishlist = async (page = 1, limit = 20) => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/customers/wishlist?page=${page}&limit=${limit}`,
+      `https://api.pedagang-ecommerce.site/customers/wishlist?page=${page}&limit=${limit}`,
       {
         withCredentials: true,
       }
@@ -17,7 +17,7 @@ export const getWishlist = async (page = 1, limit = 20) => {
 export const postNewWishlist = async (data) => {
   try {
     const response = await axios.post(
-      "https://pedagang-ecommerce-api.onrender.com/customers/wishlist",
+      "https://api.pedagang-ecommerce.site/customers/wishlist",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -29,7 +29,7 @@ export const postNewWishlist = async (data) => {
 export const deleteWishlistItem = async (wishlistId) => {
   try {
     const response = await axios.delete(
-      `https://pedagang-ecommerce-api.onrender.com/customers/wishlist/${wishlistId}`,
+      `https://api.pedagang-ecommerce.site/customers/wishlist/${wishlistId}`,
       {
         withCredentials: true,
       }

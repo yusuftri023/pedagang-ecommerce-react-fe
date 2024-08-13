@@ -3,7 +3,7 @@ import axios from "axios";
 export const getCustomerAddress = async () => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/customers/address`,
+      `https://api.pedagang-ecommerce.site/customers/address`,
       {
         withCredentials: true,
       }
@@ -16,7 +16,7 @@ export const getCustomerAddress = async () => {
 export const postCustomerAddress = async (data) => {
   try {
     const response = await axios.post(
-      "https://pedagang-ecommerce-api.onrender.com/customers/address",
+      "https://api.pedagang-ecommerce.site/customers/address",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -28,7 +28,7 @@ export const postCustomerAddress = async (data) => {
 export const patchSelectedAddress = async (addressId) => {
   try {
     const response = await axios.patch(
-      `https://pedagang-ecommerce-api.onrender.com/customers/address/${addressId}/select`,
+      `https://api.pedagang-ecommerce.site/customers/address/${addressId}/select`,
       null,
       { withCredentials: true }
     );
@@ -40,7 +40,7 @@ export const patchSelectedAddress = async (addressId) => {
 export const deleteCustomerAddress = async (addressId) => {
   try {
     const response = await axios.delete(
-      `https://pedagang-ecommerce-api.onrender.com/customers/address/delete/${addressId}`,
+      `https://api.pedagang-ecommerce.site/customers/address/delete/${addressId}`,
       {
         withCredentials: true,
       }

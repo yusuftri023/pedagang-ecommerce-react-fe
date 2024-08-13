@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getGoogleSignIn = async () => {
   const response = await axios.get(
-    "https://pedagang-ecommerce-api.onrender.com/auth/google",
+    "https://api.pedagang-ecommerce.site/auth/google",
     {
       withCredentials: true,
     }
@@ -11,7 +11,7 @@ export const getGoogleSignIn = async () => {
 };
 export const getSignOut = async () => {
   const response = await axios.get(
-    "https://pedagang-ecommerce-api.onrender.com/auth/logout",
+    "https://api.pedagang-ecommerce.site/auth/logout",
     {
       withCredentials: true,
     }
@@ -21,7 +21,7 @@ export const getSignOut = async () => {
 
 export const getAuth = async () => {
   const response = await axios.get(
-    "https://pedagang-ecommerce-api.onrender.com/auth/refresh",
+    "https://api.pedagang-ecommerce.site/auth/refresh",
     {
       withCredentials: true,
     }
@@ -31,7 +31,7 @@ export const getAuth = async () => {
 export const postWebSignIn = async (data) => {
   try {
     const response = await axios.post(
-      `https://pedagang-ecommerce-api.onrender.com/auth/login`,
+      `https://api.pedagang-ecommerce.site/auth/login`,
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -44,7 +44,7 @@ export const postWebSignIn = async (data) => {
 export const postWebRegister = async (data) => {
   try {
     const response = await axios.post(
-      `https://pedagang-ecommerce-api.onrender.com/auth/register`,
+      `https://api.pedagang-ecommerce.site/auth/register`,
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );

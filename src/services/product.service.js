@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchAllProduct = async (keyword) => {
   const res = await axios.get(
-    `https://pedagang-ecommerce-api.onrender.com/public/product/search?keyword=${keyword}`
+    `https://api.pedagang-ecommerce.site/public/product/search?keyword=${keyword}`
   );
 
   return res.data;
@@ -31,7 +31,7 @@ export const fetchMultipleProduct = async (list) => {
 export const getAllProduct = async () => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/public/product`,
+      `https://api.pedagang-ecommerce.site/public/product`,
       {
         withCredentials: true,
       }
@@ -44,7 +44,7 @@ export const getAllProduct = async () => {
 export const getSingleProduct = async (productId) => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/public/product/${productId}`,
+      `https://api.pedagang-ecommerce.site/public/product/${productId}`,
       {
         withCredentials: true,
       }
@@ -57,7 +57,7 @@ export const getSingleProduct = async (productId) => {
 export const getProductRating = async (productId) => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/public/product/${productId}/rating`,
+      `https://api.pedagang-ecommerce.site/public/product/${productId}/rating`,
       {
         withCredentials: true,
       }
@@ -70,7 +70,7 @@ export const getProductRating = async (productId) => {
 export const getProductReview = async (productId) => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/public/product/${productId}/reviews`,
+      `https://api.pedagang-ecommerce.site/public/product/${productId}/reviews`,
       {
         withCredentials: true,
       }
@@ -83,7 +83,7 @@ export const getProductReview = async (productId) => {
 export const getSingleProductVariation = async (productId, productConfigId) => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/public/product/${productId}/variation/${productConfigId}`,
+      `https://api.pedagang-ecommerce.site/public/product/${productId}/variation/${productConfigId}`,
       {
         withCredentials: true,
       }
@@ -96,7 +96,7 @@ export const getSingleProductVariation = async (productId, productConfigId) => {
 export const postNewProduct = async (data) => {
   try {
     const response = await axios.post(
-      "https://pedagang-ecommerce-api.onrender.com/customers/product",
+      "https://api.pedagang-ecommerce.site/customers/product",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -109,7 +109,7 @@ export const postNewProduct = async (data) => {
 export const deleteProduct = async (addressId) => {
   try {
     const response = await axios.delete(
-      `https://pedagang-ecommerce-api.onrender.com/customers/product/${addressId}`,
+      `https://api.pedagang-ecommerce.site/customers/product/${addressId}`,
       {
         withCredentials: true,
       }
@@ -122,7 +122,7 @@ export const deleteProduct = async (addressId) => {
 export const getProductCategories = async () => {
   try {
     const response = await axios.get(
-      `https://pedagang-ecommerce-api.onrender.com/customers/category`,
+      `https://api.pedagang-ecommerce.site/customers/category`,
       {
         withCredentials: true,
       }
@@ -135,7 +135,7 @@ export const getProductCategories = async () => {
 export const postNewProductCategory = async (data) => {
   try {
     const response = await axios.post(
-      "https://pedagang-ecommerce-api.onrender.com/customers/category",
+      "https://api.pedagang-ecommerce.site/customers/category",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
