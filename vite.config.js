@@ -6,15 +6,15 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    hmr: {
-      host: "pedagang-ecommerce-api.onrender.com",
-      protocol: "wss",
-    },
-    // https: {
-    //   key: fs.readFileSync("./src/utils/SSL/192.168.1.7-key.pem"),
-    //   cert: fs.readFileSync("./src/utils/SSL/192.168.1.7.pem"),
+    // hmr: {
+    //   host: "pedagang-ecommerce-api.onrender.com",
+    //   protocol: "wss",
     // },
-    host: "0.0.0.0",
-    port: 5173,
+    // https: {
+    //   key: fs.readFileSync("./src/utils/SSL/127.0.0.1-key.pem"),
+    //   cert: fs.readFileSync("./src/utils/SSL/127.0.0.1.pem"),
+    // },
+    // host: "127.0.0.1",
+    // port: 5173,
   },
 });

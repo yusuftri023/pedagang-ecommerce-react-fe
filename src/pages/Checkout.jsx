@@ -10,11 +10,9 @@ import { setAuth } from "../store/reducers/authenticationSlicer";
 import MinimumLayouts from "../layouts/MinimumLayouts";
 import { useSelector } from "react-redux";
 import { useMemo, useState } from "react";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
 
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { getCart } from "../store/actions/cartAction";
-import CartItem from "../components/molecules/CartItem";
 import PromoCodeBar from "../components/molecules/PromoCodeBar";
 import {
   modalChange,
@@ -25,8 +23,9 @@ import {
 import BriefPopUp from "../components/atoms/BriefPopUp";
 import CheckoutItem from "../components/molecules/CheckoutItem";
 import { getCustomerAddress } from "../services/address.service";
-import AddToCartModal from "../components/molecules/AddToCartModal";
-import ModalWindow from "../components/atoms/ModalWindow";
+import AddressModal from "../components/molecules/AddressModal";
+import { checkoutOrder, patchPaymentToken } from "../services/order.service";
+import SnapPaymentModal from "../components/molecules/SnapPaymentModal";
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
@@ -36,20 +35,21 @@ const Checkout = () => {
 
   const [promo, setPromo] = useState([]);
   const [address, setAddress] = useState([]);
+  const [payment, setPayment] = useState(null);
   const showPopUp = useSelector((state) => state.webContent.showPopUp);
   const typePopUp = useSelector((state) => state.webContent.typePopUp);
   const showModal = useSelector((state) => state.webContent.showModal);
   const typeModal = useSelector((state) => state.webContent.typeModal);
-
   const closePopUpHandler = () => {
     dispatch(popUpToggle(false));
     dispatch(popUpChange({ type: null }));
   };
-  const handleCheckout = () => {};
+
   const handleChangeAddress = () => {
     dispatch(modalToggle(true));
     dispatch(modalChange({ type: "changeAddress" }));
   };
+
   const totalBeforeDiscount = useMemo(() =>
     cart?.length > 0
       ? cart
@@ -64,26 +64,111 @@ const Checkout = () => {
 
   const discount = useMemo(() =>
     promo?.length > 0
-      ? (cart
-          ?.filter((val) => {
-            if (
-              promo
-                .map(({ category_name }) => category_name)
-                .includes(val.category_name)
-            )
-              return true;
-            else return false;
-          })
-          ?.filter((val) => val.stock > 0)
-          ?.map((val) => {
-            return val.price * val.quantity;
-          })
-          .reduce((a, b) => a + b, 0) *
-          Number(promo[0]?.discount_rate)) /
-        100
+      ? Math.floor(
+          (cart
+            ?.filter((val) => {
+              if (
+                promo
+                  .map(({ category_name }) => category_name)
+                  .includes(val.category_name)
+              )
+                return true;
+              else return false;
+            })
+            ?.filter((val) => val.stock > 0)
+            ?.map((val) => {
+              return val.price * val.quantity;
+            })
+            .reduce((a, b) => a + b, 0) *
+            Number(promo[0]?.discount_rate)) /
+            100
+        )
       : 0
   );
+
   const shippingCost = 50000;
+  const selectedAddress = address.filter((val) => val.selected === 1)[0];
+  const handleCheckout = () => {
+    const items = cart.map(
+      ({
+        product_id,
+        product_config_id,
+        quantity,
+        title,
+        price,
+        category_name,
+      }) => {
+        return {
+          product_config_id,
+          name: title.slice(0, 50),
+          quantity,
+          price,
+          category: category_name,
+          url: `https://${window.location.hostname}/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`,
+        };
+      }
+    );
+    const total_price = totalBeforeDiscount - discount + shippingCost;
+    const data = {
+      order_list: {
+        items,
+        total_price,
+      },
+      discount,
+      shipping_cost: shippingCost,
+      address_id: Number(selectedAddress.address_id),
+      payment_method_id: 1,
+    };
+    const showSnapPayment = (token, orderId) => {
+      window.snap.pay(token, {
+        onSuccess: function () {
+          const data = {
+            order_id: orderId,
+            payment_token: token,
+          };
+          patchPaymentToken(data).then(() => {
+            dispatch(modalToggle(false));
+            dispatch(modalChange({ type: null, content: null }));
+            window.location.href = "/";
+          });
+        },
+        onPending: function () {
+          const data = {
+            order_id: orderId,
+            payment_token: token,
+          };
+          patchPaymentToken(data).then(() => {
+            window.location.href = "/";
+          });
+        },
+        onClose: function () {
+          alert(
+            "Closing the popup without finishing the payment will refresh this page"
+          );
+          dispatch(modalToggle(false));
+          dispatch(modalChange({ type: null, content: null }));
+          window.location.reload();
+        },
+      });
+    };
+    if (!payment) {
+      checkoutOrder(data)
+        .then(({ data }) => {
+          dispatch(modalToggle(true));
+          dispatch(modalChange({ type: "snapPayment" }));
+          return data;
+        })
+        .then((data) => {
+          setPayment(data);
+          showSnapPayment(data.token, data.order_id);
+        });
+    } else {
+      showSnapPayment(payment.token, payment.order_id);
+    }
+
+    dispatch(modalToggle(true));
+    dispatch(modalChange({ type: "snapPayment" }));
+  };
   useEffect(() => {
     getAuth()
       .then(() => dispatch(setAuth(true)))
@@ -103,18 +188,17 @@ const Checkout = () => {
       clearTimeout(popUpTimer);
     };
   }, [showPopUp]);
-  const selectedAddress = address.filter((val) => val.selected === 1)[0];
 
   useEffect(() => {
     getCustomerAddress().then((res) => setAddress(res.data));
   }, []);
+
   return (
     <>
-      {showModal && typeModal === "changeAddress" ? (
-        <ModalWindow></ModalWindow>
-      ) : (
-        <></>
+      {showModal && typeModal === "changeAddress" && (
+        <AddressModal address={address} />
       )}
+      {showModal && typeModal === "snapPayment" && <SnapPaymentModal />}
       {showPopUp && typePopUp === "addedToWishlist" ? (
         <BriefPopUp>
           <span>Product added to your wishlist</span>

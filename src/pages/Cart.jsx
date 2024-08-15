@@ -31,9 +31,7 @@ const Cart = () => {
     dispatch(popUpChange({ type: null }));
   };
   const handleCheckout = () => {
-    const delay = setTimeout(() => {
-      window.location.href = "/checkout";
-    }, 1000);
+    window.location.href = "/checkout";
   };
   const totalBeforeDiscount = useMemo(() =>
     cart?.length > 0

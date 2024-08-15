@@ -13,7 +13,7 @@ function ModalWindow({ children }) {
         <>
           <div className="fixed bottom-1/2 right-1/2 z-20 w-0">
             <div className=" bg-white -translate-x-1/2 translate-y-1/2 rounded-xl w-fit">
-              <div className="p-2">{children}</div>
+              <div>{children}</div>
             </div>
             <div
               className=" fixed top-0 left-0 bg-black w-full h-full -z-10 opacity-10 "
