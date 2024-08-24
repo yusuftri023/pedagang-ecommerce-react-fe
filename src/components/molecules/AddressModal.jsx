@@ -2,25 +2,71 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalWindow from "../atoms/ModalWindow";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import UniqueInput from "./UniqueInput";
 import { useDispatch } from "react-redux";
 import {
   modalChange,
   modalToggle,
 } from "../../store/reducers/webContentSlicer";
+import {
+  getCustomerAddress,
+  patchSelectedAddress,
+  postCustomerAddress,
+} from "../../services/address.service";
 
-function AddressModal({ address }) {
+function AddressModal({ address, setAddress }) {
   const [activeAddressInput, setActiveAddressInput] = useState(false);
   const dispatch = useDispatch();
   const closeModalHandler = () => {
     dispatch(modalToggle());
     dispatch(modalChange({ type: null, content: null }));
   };
-  const handleAddAddress = () => {
+  const handleActiveAddressInput = () => {
     setActiveAddressInput(!activeAddressInput);
   };
+  const handleAddAddress = () => {
+    const recipient = recipientRef.current.value;
+    const address_line = addressLineRef.current.value;
+    const city = cityRef.current.value;
+    const region = provinceRef.current.value;
+    const postal_code = postalRef.current.value;
+    if (
+      recipient.length > 0 &&
+      address_line.length > 0 &&
+      city.length > 0 &&
+      region.length > 0 &&
+      postal_code.length > 0
+    ) {
+      const data = {
+        recipient,
+        address_line,
+        city,
+        region,
+        postal_code,
+      };
+      postCustomerAddress(data)
+        .then(() => getCustomerAddress())
+        .then((res) => setAddress(res.data))
+        .then(() => setActiveAddressInput(!activeAddressInput));
+    } else {
+      alert("All field must be filled");
+    }
+  };
+  const handleSelectAddress = (addressId) => {
+    patchSelectedAddress(addressId)
+      .then(() => getCustomerAddress())
+      .then((res) => {
+        closeModalHandler();
+        setAddress(res.data);
+      });
+  };
   console.log(address);
+  const recipientRef = useRef();
+  const addressLineRef = useRef();
+  const cityRef = useRef();
+  const provinceRef = useRef();
+  const postalRef = useRef();
   return (
     <ModalWindow>
       <div className="w-[800px] h-[90vh] max-h-[90vh]">
@@ -45,7 +91,7 @@ function AddressModal({ address }) {
                 : `border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400`) +
               ` w-full py-2 rounded-md text-xl border-[1px]  transition-colors duration-100 text-white font-medium`
             }
-            onClick={handleAddAddress}
+            onClick={handleActiveAddressInput}
           >
             {activeAddressInput ? "Cancel" : "Add Address"}
           </button>
@@ -59,28 +105,36 @@ function AddressModal({ address }) {
                   placeholder={"Recipient Name"}
                   inputType={"text"}
                   maxLength={30}
+                  inputRef={recipientRef}
                 />
                 <UniqueInput
                   placeholder={"Address Line"}
                   inputType={"textarea"}
                   maxLength={255}
+                  inputRef={addressLineRef}
                 />
                 <UniqueInput
                   placeholder={"City"}
                   inputType={"text"}
                   maxLength={30}
+                  inputRef={cityRef}
                 />
                 <UniqueInput
                   placeholder={"Province"}
                   inputType={"text"}
                   maxLength={30}
+                  inputRef={provinceRef}
                 />
                 <UniqueInput
                   placeholder={"Postal Code"}
                   inputType={"text"}
                   maxLength={15}
+                  inputRef={postalRef}
                 />
-                <button className="w-full mt-6 py-2 rounded-md text-xl border-[1px] border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white font-medium">
+                <button
+                  onClick={handleAddAddress}
+                  className="w-full mt-6 py-2 rounded-md text-xl border-[1px] border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white font-medium"
+                >
                   Save
                 </button>
               </div>
@@ -105,7 +159,10 @@ function AddressModal({ address }) {
                         icon={faCheck}
                       />
                     ) : (
-                      <button className="py-1 px-6 rounded-md text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white">
+                      <button
+                        onClick={() => handleSelectAddress(val.id)}
+                        className="py-1 px-6 rounded-md text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white"
+                      >
                         Select
                       </button>
                     )}

@@ -1,13 +1,13 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 /* eslint-disable react/prop-types */
 function UniqueInput({
   placeholder,
   inputType,
+  inputRef,
   defaultValue = null,
   maxLength = undefined,
 }) {
-  const inputRef = useRef();
   const [currentInput, setCurrentInput] = useState(defaultValue);
   const [inputCounter, setInputCounter] = useState(defaultValue?.length || 0);
   const handleCounterChange = (e) => {
@@ -35,6 +35,7 @@ function UniqueInput({
         <input
           ref={inputRef}
           id={inputId}
+          name={inputId}
           className={`w-full rounded-md border-[1px] border-gray-300 p-2 mt-4 outline-none bg-transparent `}
           onBlur={(e) => setCurrentInput(e.target.value)}
           onChange={handleCounterChange}
@@ -47,6 +48,7 @@ function UniqueInput({
         <textarea
           ref={inputRef}
           id={inputId}
+          name={inputId}
           className={`w-full rounded-md border-[1px] border-gray-300 p-2 mt-4 outline-none bg-transparent resize-none `}
           onBlur={(e) => setCurrentInput(e.target.value)}
           onChange={handleCounterChange}

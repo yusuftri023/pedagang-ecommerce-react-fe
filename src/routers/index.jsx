@@ -6,6 +6,7 @@ import Cart from "../pages/Cart.jsx";
 import CheckoutPage from "../pages/Checkout.jsx";
 import Wishlist from "../pages/Wishlist.jsx";
 import ProductDetail from "../pages/ProductDetail.jsx";
+import UserSetting from "../pages/UserSetting.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -34,5 +35,9 @@ export const router = createBrowserRouter([
   {
     path: "/checkout",
     element: <CheckoutPage />,
+  },
+  {
+    path: "/user/settings",
+    element: <UserSetting />,
   },
 ]);

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { getProductReview } from "../../services/product.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,7 +31,6 @@ function ProductReviewTabContent({ productId }) {
     }
     return time;
   };
-  console.log(review);
   return (
     <div className="flex  items-center min-h-[150px] w-full ">
       {review.length > 0 ? (

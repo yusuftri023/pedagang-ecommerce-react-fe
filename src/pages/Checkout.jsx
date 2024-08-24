@@ -88,6 +88,9 @@ const Checkout = () => {
 
   const shippingCost = 50000;
   const selectedAddress = address.filter((val) => val.selected === 1)[0];
+  const handleSetAddress = (address) => {
+    setAddress(address);
+  };
   const handleCheckout = () => {
     const items = cart.map(
       ({
@@ -196,7 +199,7 @@ const Checkout = () => {
   return (
     <>
       {showModal && typeModal === "changeAddress" && (
-        <AddressModal address={address} />
+        <AddressModal address={address} setAddress={handleSetAddress} />
       )}
       {showModal && typeModal === "snapPayment" && <SnapPaymentModal />}
       {showPopUp && typePopUp === "addedToWishlist" ? (

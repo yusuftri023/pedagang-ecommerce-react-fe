@@ -139,7 +139,10 @@ const ProductDetail = () => {
               <span>{currentVariant?.title}</span>
             </nav>
           </div>
-          <div className="p-4 pb-10 min-w-[1000px] w-[1000px] mx-auto bg-white  rounded-t-lg  flex flex-row ">
+          <div
+            ref={positionAnchorRef}
+            className="p-4 pb-10 min-w-[1000px] w-[1000px] mx-auto bg-white  rounded-t-lg  flex flex-row "
+          >
             <div className="min-w-[60%] max-w-[60%]">
               {currentVariant?.image && (
                 <>
@@ -154,9 +157,8 @@ const ProductDetail = () => {
 
             <div className={`w-[40%] pt-6 pl-4 `}>
               <div
-                ref={positionAnchorRef}
                 style={{
-                  top: `${positionAnchorRef.current?.offsetTop - 40}px`,
+                  top: `${positionAnchorRef.current?.offsetTop - 56}px`,
                 }}
                 className={`sticky `}
               >
