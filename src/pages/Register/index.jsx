@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import FormLayouts from "../../layouts/Formlayouts";
-import registersvg from "../assets/register.svg";
+import registersvg from "../../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";

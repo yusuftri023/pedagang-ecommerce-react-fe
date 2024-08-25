@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import FormLayouts from "../../layouts/Formlayouts";
-import registersvg from "../assets/register.svg";
+import registersvg from "../../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import { setError } from "../../store/reducers/authenticationSlicer";
-import googleIcon from "../assets/images/landing-page/logo_google_g_icon.svg";
+import googleIcon from "../../assets/images/landing-page/logo_google_g_icon.svg";
 import { getGoogleSignIn, postWebSignIn } from "../../services/auth.service";
 import { getUserData } from "../../store/actions/customerAction";
 function Login() {
