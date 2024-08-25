@@ -21,6 +21,7 @@ import VariationOption from "../components/molecules/VariationOption";
 import BriefPopUp from "../components/atoms/BriefPopUp";
 import AddToCartModal from "../components/molecules/AddToCartModal";
 import ProductRating from "../components/molecules/ProductRating";
+import ShiningEffect from "../components/atoms/ShiningEffect";
 const imgsrc = [
   "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
   "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
@@ -45,6 +46,9 @@ const ProductDetail = () => {
   const currentVariant = product?.find(
     (product) => Number(product.product_config_id) === Number(productConfigId)
   );
+  const discount = currentVariant?.discount
+    ? Number(currentVariant?.discount) * 100
+    : 0;
   const variation = useMemo(() =>
     product?.reduce((acc, curr) => {
       if (!acc.some((el) => el === curr.variation_name)) {
@@ -59,7 +63,6 @@ const ProductDetail = () => {
       return { product_id, product_config_id, title, stock };
     });
   });
-  const discount = 10;
 
   const closePopUpHandler = () => {
     dispatch(popUpToggle(false));
@@ -99,7 +102,9 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    getSingleProduct(productId).then((res) => setProduct(res.data));
+    getSingleProduct(productId).then((res) =>
+      setTimeout(() => setProduct(res.data), 2000)
+    );
   }, []);
   useEffect(() => {
     let popUpTimer = setTimeout(() => {
@@ -110,20 +115,24 @@ const ProductDetail = () => {
       clearTimeout(popUpTimer);
     };
   }, [showPopUp]);
+
   return (
     <>
-      {showModal && typeModal === "addedToCart" ? <AddToCartModal /> : <></>}
-      {showPopUp && typePopUp === "addedToWishlist" ? (
-        <BriefPopUp>
-          <span>Product added to your wishlist</span>
-          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
-            Ok
-          </span>
-        </BriefPopUp>
-      ) : (
-        <></>
-      )}
       <MainLayouts>
+        {showModal && typeModal === "addedToCart" && <AddToCartModal />}
+        {showPopUp && typePopUp === "addedToWishlist" && (
+          <BriefPopUp>
+            <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
+              <span>Product added to your wishlist</span>
+              <span
+                onClick={closePopUpHandler}
+                className=" hover:cursor-pointer"
+              >
+                Ok
+              </span>
+            </div>
+          </BriefPopUp>
+        )}
         <div className="pt-8 mb-20">
           <div className=" max-w-[1000px] mx-auto bg-white mb-4 p-3 rounded-lg">
             <nav className=" space-x-2">
@@ -143,14 +152,21 @@ const ProductDetail = () => {
             ref={positionAnchorRef}
             className="p-4 pb-10 min-w-[1000px] w-[1000px] mx-auto bg-white  rounded-t-lg  flex flex-row "
           >
-            <div className="min-w-[60%] max-w-[60%]">
-              {currentVariant?.image && (
+            <div
+              className={
+                (currentVariant?.image ? "" : "bg-gray-200") +
+                " min-h-[500px] min-w-[60%] max-w-[60%] "
+              }
+            >
+              {currentVariant?.image ? (
                 <>
                   <ProductImageGallery
                     defaultImg={currentVariant?.image}
                     images={imgsrc}
                   />
                 </>
+              ) : (
+                <ShiningEffect />
               )}
               <ProductInformation product={currentVariant} />
             </div>
@@ -169,45 +185,62 @@ const ProductDetail = () => {
                     : ` (${currentVariant?.variation_name}: ${currentVariant?.variation_value})`}
                 </h1>
                 <ProductRating productId={productId} />
-                <div>
-                  {discount > 0 ? (
-                    <div>
-                      <span className="text-3xl font-semibold">
-                        {new Intl.NumberFormat("id", {
-                          currency: "idr",
-                          style: "currency",
-                          maximumFractionDigits: 2,
-                          minimumFractionDigits: 0,
-                        }).format(
-                          currentVariant?.price -
-                            (currentVariant?.price * discount) / 100
-                        )}
-                      </span>
-                    </div>
+                <div
+                  className={" min-w-[200px] min-h-[50px] relative bg-gray-200"}
+                >
+                  <ShiningEffect />
+                </div>
+                <div
+                  className={
+                    (!currentVariant?.price ? "bg-gray-200 " : " ") +
+                    " min-w-[100px] min-h-[40px] mt-2 relative "
+                  }
+                >
+                  {currentVariant?.price ? (
+                    <>
+                      {currentVariant?.price && (
+                        <div>
+                          <span className="text-3xl font-semibold">
+                            {new Intl.NumberFormat("id", {
+                              currency: "idr",
+                              style: "currency",
+                              maximumFractionDigits: 2,
+                              minimumFractionDigits: 0,
+                            }).format(
+                              currentVariant?.price -
+                                (currentVariant?.price * discount) / 100
+                            )}
+                          </span>
+                        </div>
+                      )}
+                      {discount > 0 ? (
+                        <span className="text-red-600 bg-red-300 px-1 rounded-sm mr-2">
+                          {discount}% off
+                        </span>
+                      ) : (
+                        <></>
+                      )}
+                      {currentVariant?.price && (
+                        <span
+                          className={
+                            (discount > 0
+                              ? `line-through text-gray-400`
+                              : `text-3xl`) + ` font-semibold`
+                          }
+                        >
+                          {new Intl.NumberFormat("id", {
+                            currency: "idr",
+                            style: "currency",
+                            maximumFractionDigits: 2,
+                            minimumFractionDigits: 0,
+                          }).format(currentVariant?.price)}
+                        </span>
+                      )}
+                    </>
                   ) : (
-                    <></>
+                    <ShiningEffect />
                   )}
-                  {discount > 0 ? (
-                    <span className="text-red-600 bg-red-300 px-1 rounded-sm mr-2">
-                      {discount}% off
-                    </span>
-                  ) : (
-                    <></>
-                  )}
-                  <span
-                    className={
-                      (discount > 0
-                        ? `line-through text-gray-400`
-                        : `text-3xl`) + ` font-semibold`
-                    }
-                  >
-                    {new Intl.NumberFormat("id", {
-                      currency: "idr",
-                      style: "currency",
-                      maximumFractionDigits: 2,
-                      minimumFractionDigits: 0,
-                    }).format(currentVariant?.price)}
-                  </span>
+                  <ShiningEffect />
                 </div>
                 {currentVariant?.variation_name === "-" ? (
                   <></>

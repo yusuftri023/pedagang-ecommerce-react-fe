@@ -3,15 +3,23 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { getProductRating } from "../../services/product.service";
+import ShiningEffect from "../atoms/ShiningEffect";
 
 function ProductRating({ productId }) {
   const [rating, setRating] = useState(null);
   useEffect(() => {
-    getProductRating(productId).then((res) => setRating(res.data[0]));
+    getProductRating(productId).then((res) =>
+      setTimeout(() => setRating(res.data[0]), 2000)
+    );
   }, []);
   return (
     <div className="flex text-md space-x-4 mt-6">
-      <div>
+      <div
+        className={
+          (rating ? "" : "bg-gray-200") +
+          " min-w-[100px] min-h-[20px]  relative"
+        }
+      >
         {rating ? (
           new Array(5)
             .fill(1)
@@ -27,11 +35,18 @@ function ProductRating({ productId }) {
               />
             ))
         ) : (
-          <></>
+          <ShiningEffect />
         )}
       </div>
-      <div>
-        {rating?.total_review > 0 ? (
+      <div
+        className={
+          (rating ? "" : "bg-gray-200") +
+          " min-w-[100px] min-h-[20px]  relative"
+        }
+      >
+        {!rating ? (
+          <ShiningEffect />
+        ) : rating?.total_review > 0 ? (
           <span className="space-x-2">
             <span>
               {Intl.NumberFormat("en", {

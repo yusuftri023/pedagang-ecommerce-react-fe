@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
 import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
@@ -8,8 +8,7 @@ import { setError } from "../store/reducers/authenticationSlicer";
 import googleIcon from "../assets/images/landing-page/logo_google_g_icon.svg";
 import { getGoogleSignIn, postWebSignIn } from "../services/auth.service";
 import { getUserData } from "../store/actions/customerAction";
-function LoginPage() {
-  const navigate = useNavigate();
+function Login() {
   const password = useRef();
   const email = useRef();
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ function LoginPage() {
       dispatch(setError("Lengkapi input terlebih dahulu"));
     } else if (response.success) {
       dispatch(setError(null));
-      navigate("/");
+      window.location.href = "/";
     } else {
       dispatch(setError("Email or password is incorrect"));
     }
@@ -41,10 +40,10 @@ function LoginPage() {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   useEffect(() => {
     dispatch(getUserData());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     if (isLoggedIn) {
-      setTimeout(() => navigate("/"), 1000);
+      setTimeout(() => (window.location.href = "/"), 1000);
     }
   }, [isLoggedIn]);
   return (
@@ -104,7 +103,7 @@ function LoginPage() {
               <div className="text-center mt-4 space-x-1">
                 <span className="">Do not have an account? </span>
                 <span
-                  onClick={() => navigate("/register")}
+                  onClick={() => (window.location.href = "/register")}
                   className="hover:cursor-pointer"
                 >
                   Signup
@@ -126,4 +125,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;

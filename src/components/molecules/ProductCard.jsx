@@ -3,7 +3,6 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   modalChange,
   modalToggle,
@@ -18,13 +17,10 @@ function ProductCard({
   price,
   rating = { rate: 5, count: 150 },
 }) {
-  const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
   const dispatch = useDispatch();
   const handleLink = () => {
-    navigate(
-      `/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`
-    );
+    window.location.href = `/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`;
   };
   const handleMouseEnter = () => {
     setIsHover(true);

@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
 import { getUserData } from "../store/actions/customerAction";
@@ -20,7 +18,6 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [promo, setPromo] = useState([]);
   const showPopUp = useSelector((state) => state.webContent.showPopUp);
@@ -73,7 +70,7 @@ const Cart = () => {
       .then(() => dispatch(getCart()))
       .catch(() => {
         dispatch(setAuth(false));
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => (window.location.href = "/"), 1000);
       });
     dispatch(getUserData());
   }, []);
@@ -89,24 +86,34 @@ const Cart = () => {
 
   return (
     <>
-      {showPopUp && typePopUp === "deletedFromCart" ? (
-        <BriefPopUp>
-          <span>Product deleted from cart</span>
-          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
-            Ok
-          </span>
-        </BriefPopUp>
-      ) : typePopUp === "addedToWishlist" ? (
-        <BriefPopUp>
-          <span>Product added to wishlist</span>
-          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
-            Ok
-          </span>
-        </BriefPopUp>
-      ) : (
-        <></>
-      )}
       <MainLayouts>
+        {showPopUp && typePopUp === "deletedFromCart" ? (
+          <BriefPopUp>
+            <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
+              <span>Product deleted from cart</span>
+              <span
+                onClick={closePopUpHandler}
+                className=" hover:cursor-pointer"
+              >
+                Ok
+              </span>
+            </div>
+          </BriefPopUp>
+        ) : (
+          typePopUp === "addedToWishlist" && (
+            <BriefPopUp>
+              <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
+                <span>Product added to wishlist</span>
+                <span
+                  onClick={closePopUpHandler}
+                  className=" hover:cursor-pointer"
+                >
+                  Ok
+                </span>
+              </div>
+            </BriefPopUp>
+          )
+        )}
         <div className="pt-4 min-w-[1000px] bg-zinc-100">
           <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
             <FontAwesomeIcon icon={faCartShopping} className="size-12 " />
@@ -202,7 +209,7 @@ const Cart = () => {
                         <FontAwesomeIcon icon={faLock} /> Checkout
                       </button>
                       <button
-                        onClick={() => navigate("/")}
+                        onClick={() => (window.location.href = "/")}
                         className=" bg-gray-100 w-full py-2 mt-2 border-black hover:brightness-50 transition-all duration-300 border-2 border-opacity-50"
                       >
                         Continue Shopping
@@ -220,7 +227,7 @@ const Cart = () => {
                 </h1>
               </div>
               <button
-                onClick={() => navigate("/")}
+                onClick={() => (window.location.href = "/")}
                 className="right-0 w-[fit-content]  py-3 px-8 my-4  mt-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500] animate-fade-in-drop transition-colors duration-300"
               >
                 Return to Shop

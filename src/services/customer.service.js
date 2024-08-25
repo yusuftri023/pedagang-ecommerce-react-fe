@@ -13,10 +13,10 @@ export const getCustomerProfile = async () => {
     return { success: false, message: error.response.data.message };
   }
 };
-export const updateCustomerPassword = async (data) => {
+export const updateCustomerProfile = async (data) => {
   try {
     const response = await axios.patch(
-      "https://api.pedagang-ecommerce.site/customers/changepassword",
+      "https://api.pedagang-ecommerce.site/customers/change-profile",
       JSON.stringify(data),
       { headers: { "Content-Type": "application/json" }, withCredentials: true }
     );
@@ -25,13 +25,40 @@ export const updateCustomerPassword = async (data) => {
     return { success: false, message: error.response.data.message };
   }
 };
-export const updateCustomerProfilePic = async (formData) => {
+export const updateCustomerPassword = async (data) => {
   try {
     const response = await axios.patch(
-      `https://api.pedagang-ecommerce.site/customers/changepicture`,
-      formData,
+      "https://api.pedagang-ecommerce.site/customers/change-password",
+      JSON.stringify(data),
+      { headers: { "Content-Type": "application/json" }, withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
+// export const updateCustomerProfilePic = async (formData) => {
+//   try {
+//     const response = await axios.patch(
+//       `https://api.pedagang-ecommerce.site/customers/changepicture`,
+//       formData,
+//       {
+//         headers: { "Content-Type": "multipart/form-data" },
+//         withCredentials: true,
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     return { success: false, message: error.response.data.message };
+//   }
+// };
+export const updateCustomerProfilePic = async (data) => {
+  try {
+    const response = await axios.patch(
+      `https://api.pedagang-ecommerce.site/customers/change-picture`,
+      JSON.stringify(data),
       {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
       }
     );

@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-function DropdownMenu({ children, width, height, x }) {
+function DropdownMenu({ children, width, height, x, isHover = false }) {
   return (
     <div
+      style={{ display: isHover ? "block" : "none" }}
       className={
-        "opacity-100 z-50 transform ease-in-out duration-300  absolute  w-0 h-0  mt-[-10px] animate-fade-in-drop"
+        "z-50 transform ease-in-out duration-300  absolute  w-0 h-0  mt-[-10px] animate-fade-in-drop"
       }
     >
       <div

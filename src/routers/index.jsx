@@ -1,12 +1,17 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter } from "react-router-dom";
-import Homepage from "../pages";
-import LoginPage from "../pages/login";
-import RegisterPage from "../pages/register";
-import Cart from "../pages/Cart.jsx";
-import CheckoutPage from "../pages/Checkout.jsx";
-import Wishlist from "../pages/Wishlist.jsx";
-import ProductDetail from "../pages/ProductDetail.jsx";
-import UserSetting from "../pages/UserSetting.jsx";
+import { lazy } from "react";
+// import Testing from "../pages/Testing.jsx";
+
+const Homepage = lazy(() => import("../pages/index.jsx"));
+const LoginPage = lazy(() => import("../pages/Login.jsx"));
+const RegisterPage = lazy(() => import("../pages/Register.jsx"));
+const Cart = lazy(() => import("../pages/Cart.jsx"));
+const CheckoutPage = lazy(() => import("../pages/Checkout.jsx"));
+const Wishlist = lazy(() => import("../pages/Wishlist.jsx"));
+const ProductDetail = lazy(() => import("../pages/ProductDetail.jsx"));
+const UserSetting = lazy(() => import("../pages/UserSetting.jsx"));
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -40,4 +45,8 @@ export const router = createBrowserRouter([
     path: "/user/settings",
     element: <UserSetting />,
   },
+  // {
+  //   path: "/testing",
+  //   element: <Testing />,
+  // },
 ]);

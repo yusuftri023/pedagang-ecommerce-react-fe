@@ -1,11 +1,17 @@
+/* eslint-disable react/prop-types */
 import axios from "axios";
 import { IKContext, IKUpload } from "imagekitio-react";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShiningEffect from "../atoms/ShiningEffect";
 import useHover from "../../hooks/useHover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { updateCustomerProfilePic } from "../../services/customer.service";
+import {
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
 
 const publicKey = "public_omYOHHks28WDo//7DNptNtTY1Mk=";
 const urlEndpoint = "https://ik.imagekit.io/neuros123/binar-academy";
@@ -22,15 +28,23 @@ const authenticator = async () => {
     throw new Error(`Authentication request failed: ${error.message}`);
   }
 };
-function ImageKit() {
+function ImageKit({ currentImage, onUpdateValue }) {
   const ikUploadRef = useRef(null);
   const loggedInUserData = useSelector(
     (state) => state.authentication.loggedInUserData
   );
   const imageRef = useRef(null);
   const isHover = useHover(imageRef);
+  const dispatch = useDispatch();
   const handleChangeImage = () => {
     ikUploadRef.current.click();
+  };
+  const handleForwardImageUrl = (result) => {
+    updateCustomerProfilePic({ url: result.url }).then(() => {
+      onUpdateValue();
+      dispatch(popUpToggle(true));
+      dispatch(popUpChange({ type: "profileChanged" }));
+    });
   };
   return (
     <IKContext
@@ -40,7 +54,7 @@ function ImageKit() {
     >
       <IKUpload
         onError={(error) => console.log(error)}
-        onSuccess={() => console.log("success")}
+        onSuccess={handleForwardImageUrl}
         ref={ikUploadRef}
         fileName={`${loggedInUserData?.username}.jpg`}
         folder={`/Ecommerce-Pedagang/profile-picture`}
@@ -61,11 +75,11 @@ function ImageKit() {
             <div>Change Image</div>
           </div>
         )}
-        {loggedInUserData?.picture ? (
+        {currentImage ? (
           <>
             <img
               className=" size-full object-cover"
-              src={loggedInUserData?.picture}
+              src={currentImage}
               alt="profile-pic"
             />
           </>

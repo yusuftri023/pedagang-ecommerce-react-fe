@@ -15,7 +15,8 @@ const webContentSlice = createSlice({
         typeof action.payload === "boolean" ? action.payload : !state.showModal;
     },
     popUpToggle: (state, action) => {
-      state.showPopUp = action.payload;
+      state.showPopUp =
+        typeof action.payload === "boolean" ? action.payload : !state.showPopUp;
     },
     modalChange: (state, action) => {
       state.typeModal = action.payload.type;

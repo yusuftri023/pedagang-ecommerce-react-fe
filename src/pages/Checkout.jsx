@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getUserData } from "../store/actions/customerAction";
 import { getAuth } from "../services/auth.service";
-import { useNavigate } from "react-router-dom";
 import { setAuth } from "../store/reducers/authenticationSlicer";
 import MinimumLayouts from "../layouts/MinimumLayouts";
 import { useSelector } from "react-redux";
@@ -31,7 +30,6 @@ const Checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [promo, setPromo] = useState([]);
   const [address, setAddress] = useState([]);
@@ -178,7 +176,7 @@ const Checkout = () => {
       .then(() => dispatch(getCart()))
       .catch(() => {
         dispatch(setAuth(false));
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => (window.location.href = "/"), 1000);
       });
     dispatch(getUserData());
   }, []);
@@ -198,21 +196,24 @@ const Checkout = () => {
 
   return (
     <>
-      {showModal && typeModal === "changeAddress" && (
-        <AddressModal address={address} setAddress={handleSetAddress} />
-      )}
-      {showModal && typeModal === "snapPayment" && <SnapPaymentModal />}
-      {showPopUp && typePopUp === "addedToWishlist" ? (
-        <BriefPopUp>
-          <span>Product added to your wishlist</span>
-          <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
-            Ok
-          </span>
-        </BriefPopUp>
-      ) : (
-        <></>
-      )}
       <MinimumLayouts>
+        {showModal && typeModal === "changeAddress" && (
+          <AddressModal address={address} setAddress={handleSetAddress} />
+        )}
+        {showModal && typeModal === "snapPayment" && <SnapPaymentModal />}
+        {showPopUp && typePopUp === "addedToWishlist" && (
+          <BriefPopUp>
+            <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
+              <span>Product added to your wishlist</span>
+              <span
+                onClick={closePopUpHandler}
+                className=" hover:cursor-pointer"
+              >
+                Ok
+              </span>
+            </div>
+          </BriefPopUp>
+        )}
         <div className=" min-w-[1000px] bg-zinc-100">
           <h1 className="w-[1000px] mx-auto text-3xl py-6 font-bold">
             Checkout

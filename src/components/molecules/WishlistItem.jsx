@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import trashbinSvg from "../../assets/trashbin.svg";
 import { postAddToCart } from "../../services/cart.service";
 import { deleteWishlistItem } from "../../services/wishlist.service";
@@ -23,12 +22,9 @@ function WishlistItem({
   stock,
   productConfigId,
 }) {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLink = () => {
-    navigate(
-      `/products/${encodeURIComponent(title.toLowerCase())}-${productId}+${productConfigId}`
-    );
+    window.location.href = `/products/${encodeURIComponent(title.toLowerCase())}-${productId}+${productConfigId}`;
   };
 
   const handleDeleteFromWishlists = () => {

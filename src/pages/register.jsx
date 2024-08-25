@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
 import FormLayouts from "../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
@@ -8,8 +8,7 @@ import { setError } from "../store/reducers/authenticationSlicer";
 import { postWebRegister } from "../services/auth.service";
 import { getUserData } from "../store/actions/customerAction";
 
-function RegisterPage() {
-  const navigate = useNavigate();
+function Register() {
   const username = useRef();
   const password = useRef();
   const confirmPassword = useRef();
@@ -37,7 +36,7 @@ function RegisterPage() {
       const responseRegister = await postWebRegister(data);
       if (responseRegister.success) {
         dispatch(setError(null));
-        navigate("/login");
+        window.location.href = "/login";
       } else {
         dispatch(setError("Your email already exist"));
       }
@@ -50,7 +49,7 @@ function RegisterPage() {
   }, []);
   useEffect(() => {
     if (isLoggedIn) {
-      setTimeout(() => navigate("/"), 1000);
+      setTimeout(() => (window.location.href = "/"), 1000);
     }
   }, [isLoggedIn]);
   return (
@@ -126,7 +125,7 @@ function RegisterPage() {
             <div className="text-center mt-4 space-x-1">
               <span className="">Already have an account? </span>
               <span
-                onClick={() => navigate("/login")}
+                onClick={() => (window.location.href = "/login")}
                 className="hover:cursor-pointer"
               >
                 Sign In
@@ -139,4 +138,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default Register;
