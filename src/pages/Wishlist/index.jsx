@@ -2,19 +2,22 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAuth } from "../services/auth.service";
-import MainLayouts from "../layouts/MainLayouts";
+import { getAuth } from "../../services/auth.service";
+import MainLayouts from "../../layouts/MainLayouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { setAuth } from "../store/reducers/authenticationSlicer";
+import { setAuth } from "../../store/reducers/authenticationSlicer";
 
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import WishlistItem from "../components/molecules/WishlistItem";
-import { getUserData } from "../store/actions/customerAction";
-import { getUserWishlist } from "../store/actions/wishlistAction";
-import { popUpChange, popUpToggle } from "../store/reducers/webContentSlicer";
-import BriefPopUp from "../components/atoms/BriefPopUp";
-import AddToCartModal from "../components/molecules/AddToCartModal";
+import WishlistItem from "../../components/molecules/WishlistItem";
+import { getUserData } from "../../store/actions/customerAction";
+import { getUserWishlist } from "../../store/actions/wishlistAction";
+import {
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
+import AddToCartModal from "../../components/molecules/AddToCartModal";
 const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const dispatch = useDispatch();

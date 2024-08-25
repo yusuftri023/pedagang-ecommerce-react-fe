@@ -4,13 +4,13 @@ import { lazy } from "react";
 // import Testing from "../pages/Testing.jsx";
 
 const Homepage = lazy(() => import("../pages/index.jsx"));
-const LoginPage = lazy(() => import("../pages/Login.jsx"));
-const RegisterPage = lazy(() => import("../pages/Register.jsx"));
-const Cart = lazy(() => import("../pages/Cart.jsx"));
-const CheckoutPage = lazy(() => import("../pages/Checkout.jsx"));
-const Wishlist = lazy(() => import("../pages/Wishlist.jsx"));
-const ProductDetail = lazy(() => import("../pages/ProductDetail.jsx"));
-const UserSetting = lazy(() => import("../pages/UserSetting.jsx"));
+const LoginPage = lazy(() => import("../pages/Login"));
+const RegisterPage = lazy(() => import("../pages/Register"));
+const Cart = lazy(() => import("../pages/Cart"));
+const CheckoutPage = lazy(() => import("../pages/Checkout"));
+const Wishlist = lazy(() => import("../pages/Wishlist"));
+const ProductDetail = lazy(() => import("../pages/ProductDetail"));
+const UserSetting = lazy(() => import("../pages/UserSetting/index.jsx"));
 
 export const router = createBrowserRouter([
   {

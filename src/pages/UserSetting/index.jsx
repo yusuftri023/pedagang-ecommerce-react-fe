@@ -1,15 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux";
-import BriefPopUp from "../components/atoms/BriefPopUp";
-import MainLayouts from "../layouts/MainLayouts";
-import { popUpChange, popUpToggle } from "../store/reducers/webContentSlicer";
-import ImageKit from "../components/molecules/ImageKit";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
+import MainLayouts from "../../layouts/MainLayouts";
+import {
+  popUpChange,
+  popUpToggle,
+} from "../../store/reducers/webContentSlicer";
+import ImageKit from "../../components/molecules/ImageKit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { getCustomerProfile } from "../services/customer.service";
-import ProfileContent from "../components/molecules/ProfileContent";
-import ProfileChangeModal from "../components/molecules/ProfileChangeModal";
+import { getCustomerProfile } from "../../services/customer.service";
+import ProfileContent from "../../components/molecules/ProfileContent";
+import ProfileChangeModal from "../../components/molecules/ProfileChangeModal";
 
 function UserSetting() {
   const dispatch = useDispatch();

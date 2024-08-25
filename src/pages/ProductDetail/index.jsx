@@ -2,26 +2,26 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useRef, useState } from "react";
-import MainLayouts from "../layouts/MainLayouts";
+import MainLayouts from "../../layouts/MainLayouts";
 import {
   modalChange,
   modalToggle,
   popUpChange,
   popUpToggle,
-} from "../store/reducers/webContentSlicer";
+} from "../../store/reducers/webContentSlicer";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { postAddToCart } from "../services/cart.service";
-import { postNewWishlist } from "../services/wishlist.service";
-import { getSingleProduct } from "../services/product.service";
-import ProductImageGallery from "../components/molecules/ProductImageGallery";
-import ProductInformation from "../components/molecules/ProductInformation";
-import VariationOption from "../components/molecules/VariationOption";
-import BriefPopUp from "../components/atoms/BriefPopUp";
-import AddToCartModal from "../components/molecules/AddToCartModal";
-import ProductRating from "../components/molecules/ProductRating";
-import ShiningEffect from "../components/atoms/ShiningEffect";
+import { postAddToCart } from "../../services/cart.service";
+import { postNewWishlist } from "../../services/wishlist.service";
+import { getSingleProduct } from "../../services/product.service";
+import ProductImageGallery from "../../components/molecules/ProductImageGallery";
+import ProductInformation from "../../components/molecules/ProductInformation";
+import VariationOption from "../../components/molecules/VariationOption";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
+import AddToCartModal from "../../components/molecules/AddToCartModal";
+import ProductRating from "../../components/molecules/ProductRating";
+import ShiningEffect from "../../components/atoms/ShiningEffect";
 const imgsrc = [
   "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
   "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",

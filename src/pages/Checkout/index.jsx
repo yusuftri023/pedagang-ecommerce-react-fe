@@ -3,28 +3,28 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getUserData } from "../store/actions/customerAction";
-import { getAuth } from "../services/auth.service";
-import { setAuth } from "../store/reducers/authenticationSlicer";
-import MinimumLayouts from "../layouts/MinimumLayouts";
+import { getUserData } from "../../store/actions/customerAction";
+import { getAuth } from "../../services/auth.service";
+import { setAuth } from "../../store/reducers/authenticationSlicer";
+import MinimumLayouts from "../../layouts/MinimumLayouts";
 import { useSelector } from "react-redux";
 import { useMemo, useState } from "react";
 
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { getCart } from "../store/actions/cartAction";
-import PromoCodeBar from "../components/molecules/PromoCodeBar";
+import { getCart } from "../../store/actions/cartAction";
+import PromoCodeBar from "../../components/molecules/PromoCodeBar";
 import {
   modalChange,
   modalToggle,
   popUpChange,
   popUpToggle,
-} from "../store/reducers/webContentSlicer";
-import BriefPopUp from "../components/atoms/BriefPopUp";
-import CheckoutItem from "../components/molecules/CheckoutItem";
-import { getCustomerAddress } from "../services/address.service";
-import AddressModal from "../components/molecules/AddressModal";
-import { checkoutOrder, patchPaymentToken } from "../services/order.service";
-import SnapPaymentModal from "../components/molecules/SnapPaymentModal";
+} from "../../store/reducers/webContentSlicer";
+import BriefPopUp from "../../components/atoms/BriefPopUp";
+import CheckoutItem from "../../components/molecules/CheckoutItem";
+import { getCustomerAddress } from "../../services/address.service";
+import AddressModal from "../../components/molecules/AddressModal";
+import { checkoutOrder, patchPaymentToken } from "../../services/order.service";
+import SnapPaymentModal from "../../components/molecules/SnapPaymentModal";
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart.cart);

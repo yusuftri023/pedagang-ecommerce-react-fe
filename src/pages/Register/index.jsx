@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import FormLayouts from "../layouts/Formlayouts";
+import FormLayouts from "../../layouts/Formlayouts";
 import registersvg from "../assets/register.svg";
 // import googleIcon from "../assets/google-icon.svg";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setError } from "../store/reducers/authenticationSlicer";
-import { postWebRegister } from "../services/auth.service";
-import { getUserData } from "../store/actions/customerAction";
+import { setError } from "../../store/reducers/authenticationSlicer";
+import { postWebRegister } from "../../services/auth.service";
+import { getUserData } from "../../store/actions/customerAction";
 
 function Register() {
   const username = useRef();
