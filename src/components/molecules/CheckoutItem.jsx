@@ -1,41 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
-import { faHeart, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
-import {
-  deleteCustomerCartItem,
-  patchChangeCartQuantity,
-  postAddNote,
-} from "../../services/cart.service";
-import { useDispatch } from "react-redux";
-import { getCart } from "../../store/actions/cartAction";
-import { postNewWishlist } from "../../services/wishlist.service";
-import {
-  popUpChange,
-  popUpToggle,
-} from "../../store/reducers/webContentSlicer";
 
+import { formatRupiah } from "../../utils/utils";
+
+/* eslint-disable react/prop-types */
 function CheckoutItem({
   cartId,
-  productId,
   quantity,
-  productConfigId,
   image,
   price,
   variation_name,
   variation_value,
   title,
-  stock,
   note,
+  discount = 0.1,
 }) {
-  const [counter, setCounter] = useState(quantity);
-
-  const [activeNote, setActiveNote] = useState(false);
-  const noteRef = useRef();
-  const noteValueRef = useRef();
-  const dispatch = useDispatch();
-
   return (
     <div>
       <div className="p-2">
@@ -59,28 +37,19 @@ function CheckoutItem({
             </div>
             <div className=" space-x-2 font-semibold">
               <span>
-                {counter} pc{counter > 1 ? "s" : ""}
+                {quantity} pc{quantity > 1 ? "s" : ""}
               </span>
               <span>x</span>
-              <span className=" ">
-                {new Intl.NumberFormat("id", {
-                  currency: "idr",
-                  style: "currency",
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 0,
-                }).format(price)}
-              </span>
+              <span className=" ">{formatRupiah(price * (1 - discount))}</span>
             </div>
           </div>
         </div>
         <div>
           <div className="flex  gap-2 items-center ">
-            {note && !activeNote ? (
+            {note && (
               <p className=" bg-zinc-100 px-2 rounded-md border-2 border-gray-200  max-w-full">
                 note: {note}
               </p>
-            ) : (
-              <></>
             )}
           </div>
         </div>

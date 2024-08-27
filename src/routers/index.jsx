@@ -1,7 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
-// import Testing from "../pages/Testing.jsx";
+import Order from "../pages/Order/index.jsx";
+import Testing from "../pages/Testing.jsx";
 
 const Homepage = lazy(() => import("../pages/index.jsx"));
 const LoginPage = lazy(() => import("../pages/Login"));
@@ -45,8 +46,13 @@ export const router = createBrowserRouter([
     path: "/user/settings",
     element: <UserSetting />,
   },
-  // {
-  //   path: "/testing",
-  //   element: <Testing />,
-  // },
+  {
+    path: "/user/orders",
+    element: <Order />,
+  },
+
+  {
+    path: "/testing",
+    element: <Testing />,
+  },
 ]);

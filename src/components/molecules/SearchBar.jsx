@@ -4,6 +4,7 @@ import IconSearch from "../../assets/images/landing-page/icon _magnifying glass_
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchProduct } from "../../store/actions/productAction";
+import { formatRupiah } from "../../utils/utils";
 
 function SearchBar() {
   const dispatch = useDispatch();
@@ -101,12 +102,7 @@ function SearchBar() {
                           : ""}
                       </a>
                       <p className=" font-semibold">
-                        {new Intl.NumberFormat("id", {
-                          currency: "idr",
-                          style: "currency",
-                          maximumFractionDigits: 2,
-                          minimumFractionDigits: 0,
-                        }).format(result.price)}
+                        {formatRupiah(result.price)}
                       </p>
                     </div>
                   </div>

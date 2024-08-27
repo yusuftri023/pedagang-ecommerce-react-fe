@@ -8,7 +8,7 @@ import { getAuth } from "../../services/auth.service";
 import { setAuth } from "../../store/reducers/authenticationSlicer";
 import MinimumLayouts from "../../layouts/MinimumLayouts";
 import { useSelector } from "react-redux";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { getCart } from "../../store/actions/cartAction";
@@ -25,9 +25,15 @@ import { getCustomerAddress } from "../../services/address.service";
 import AddressModal from "../../components/molecules/AddressModal";
 import { checkoutOrder, patchPaymentToken } from "../../services/order.service";
 import SnapPaymentModal from "../../components/molecules/SnapPaymentModal";
+import BriefPopUpContent from "../../components/molecules/BriefPopUpContent";
+import { getCustomerCart } from "../../services/cart.service";
+import { useDiscount, useTotalBeforeDiscount } from "../../utils/discount";
+import { formatRupiah } from "../../utils/utils";
+import AddressCard from "../../components/molecules/AddressCard";
+import { patchProductStockInTransaction } from "../../services/product.service";
 
 const Checkout = () => {
-  const cart = useSelector((state) => state.cart.cart);
+  const [cart, setCart] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -38,72 +44,34 @@ const Checkout = () => {
   const typePopUp = useSelector((state) => state.webContent.typePopUp);
   const showModal = useSelector((state) => state.webContent.showModal);
   const typeModal = useSelector((state) => state.webContent.typeModal);
-  const closePopUpHandler = () => {
-    dispatch(popUpToggle(false));
-    dispatch(popUpChange({ type: null }));
-  };
-
-  const handleChangeAddress = () => {
-    dispatch(modalToggle(true));
-    dispatch(modalChange({ type: "changeAddress" }));
-  };
-
-  const totalBeforeDiscount = useMemo(() =>
-    cart?.length > 0
-      ? cart
-          ?.filter((val) => val.stock > 0)
-
-          ?.map((val) => {
-            return val.price * val.quantity;
-          })
-          ?.reduce((a, b) => a + b, 0)
-      : 0
-  );
-
-  const discount = useMemo(() =>
-    promo?.length > 0
-      ? Math.floor(
-          (cart
-            ?.filter((val) => {
-              if (
-                promo
-                  .map(({ category_name }) => category_name)
-                  .includes(val.category_name)
-              )
-                return true;
-              else return false;
-            })
-            ?.filter((val) => val.stock > 0)
-            ?.map((val) => {
-              return val.price * val.quantity;
-            })
-            .reduce((a, b) => a + b, 0) *
-            Number(promo[0]?.discount_rate)) /
-            100
-        )
-      : 0
-  );
-
+  const cartWithStock = cart?.filter((val) => val.stock > 0);
+  const totalBeforeDiscount = useTotalBeforeDiscount(cart);
+  const discount = useDiscount(cart, promo);
+  console.log(cartWithStock);
   const shippingCost = 50000;
   const selectedAddress = address.filter((val) => val.selected === 1)[0];
   const handleSetAddress = (address) => {
     setAddress(address);
+    dispatch(popUpToggle(true));
+    dispatch(popUpChange({ type: "addressChanged", content: null }));
   };
+  console.log(cartWithStock);
   const handleCheckout = () => {
-    const items = cart.map(
+    const items = cartWithStock.map(
       ({
         product_id,
         product_config_id,
         quantity,
         title,
         price,
+        discount,
         category_name,
       }) => {
         return {
           product_config_id,
           name: title.slice(0, 50),
           quantity,
-          price,
+          price: price * (1 - discount),
           category: category_name,
           url: `https://${window.location.hostname}/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`,
         };
@@ -127,11 +95,19 @@ const Checkout = () => {
             order_id: orderId,
             payment_token: token,
           };
-          patchPaymentToken(data).then(() => {
-            dispatch(modalToggle(false));
-            dispatch(modalChange({ type: null, content: null }));
-            window.location.href = "/";
+          const items = cartWithStock.map((val) => {
+            return {
+              product_config_id: val.product_config_id,
+              quantity: val.quantity,
+            };
           });
+          patchProductStockInTransaction({ items })
+            .then(() => patchPaymentToken(data))
+            .then(() => {
+              dispatch(modalToggle(false));
+              dispatch(modalChange({ type: null, content: null }));
+              window.location.href = "/";
+            });
         },
         onPending: function () {
           const data = {
@@ -180,20 +156,24 @@ const Checkout = () => {
       });
     dispatch(getUserData());
   }, []);
-  useEffect(() => {
-    let popUpTimer = setTimeout(() => {
-      dispatch(popUpToggle(false));
-      dispatch(popUpChange({ type: null }));
-    }, 2000);
-    return () => {
-      clearTimeout(popUpTimer);
-    };
-  }, [showPopUp]);
 
   useEffect(() => {
     getCustomerAddress().then((res) => setAddress(res.data));
   }, []);
 
+  useEffect(() => {
+    getCustomerCart().then((res) => {
+      const noProductWithStock = res.data.some((val) => val.stock > 0);
+      if (!noProductWithStock) {
+        dispatch(popUpToggle(true));
+        dispatch(popUpChange({ type: "cartEmpty" }));
+        setTimeout(() => {
+          window.location.href = "/cart";
+        }, 2000);
+      }
+      setCart(res.data);
+    });
+  }, []);
   return (
     <>
       <MinimumLayouts>
@@ -201,141 +181,84 @@ const Checkout = () => {
           <AddressModal address={address} setAddress={handleSetAddress} />
         )}
         {showModal && typeModal === "snapPayment" && <SnapPaymentModal />}
-        {showPopUp && typePopUp === "addedToWishlist" && (
+        {showPopUp && typePopUp === "addressChanged" && (
           <BriefPopUp>
-            <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
-              <span>Product added to your wishlist</span>
-              <span
-                onClick={closePopUpHandler}
-                className=" hover:cursor-pointer"
-              >
-                Ok
-              </span>
-            </div>
+            <BriefPopUpContent text={"Address successfully changed"} />
+          </BriefPopUp>
+        )}
+        {showPopUp && typePopUp === "cartEmpty" && (
+          <BriefPopUp>
+            <BriefPopUpContent text={"Your cart is empty"} />
           </BriefPopUp>
         )}
         <div className=" min-w-[1000px] bg-zinc-100">
           <h1 className="w-[1000px] mx-auto text-3xl py-6 font-bold">
             Checkout
           </h1>
-
-          {cart?.length > 0 ? (
-            <div className="min-h-[400px] mx-auto flex  w-[1000px]">
-              <div className="w-full gap-4 flex  mb-20">
-                <div className="space-y-6">
-                  <div className="mx-auto ">
-                    <div className="bg-white  shadow-gray-500  drop-shadow-md  w-full ">
-                      <div className="p-6">
-                        <h2 className="text-xl font-medium text-gray-600">
-                          Shipping Address
-                        </h2>
-                        <h3 className="my-2">
-                          {selectedAddress?.recipient}&apos;s Address
-                        </h3>
-                        <p>
-                          {selectedAddress?.address_line} ,{" "}
-                          {selectedAddress?.city}, {selectedAddress?.region}.
-                          Postal Code: {selectedAddress?.postal_code}
-                        </p>
-                        <button
-                          onClick={handleChangeAddress}
-                          className="mt-4 py-2 px-4 text-md border-2 rounded-lg"
-                        >
-                          Change Address
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
-                    {cart
-                      ?.filter((val) => val.stock > 0)
-                      ?.map((val, i) => (
-                        <CheckoutItem
-                          key={i}
-                          cartId={val.cart_id}
-                          productId={val.product_id}
-                          quantity={val.quantity}
-                          productConfigId={val.product_config_id}
-                          image={val.image}
-                          price={val.price}
-                          variation_value={val.variation_value}
-                          variation_name={val.variation_name}
-                          title={val.title}
-                          stock={val.stock}
-                          note={val.note}
-                        />
-                      ))}
-                  </div>
+          <div className="min-h-[400px] mx-auto flex  w-[1000px]">
+            <div className="w-full gap-4 flex  mb-20">
+              <div className="space-y-6">
+                <div className="mx-auto ">
+                  <AddressCard selectedAddress={selectedAddress} />
                 </div>
-                <div className="min-w-[250px] bg-white  shadow-gray-500  drop-shadow-md  max-w-[1000px] w-[25%] px-4 py-6 h-[fit-content]">
+                <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                  {cart
+                    ?.filter((val) => val.stock > 0)
+                    ?.map((val, i) => (
+                      <CheckoutItem
+                        key={i}
+                        cartId={val.cart_id}
+                        quantity={val.quantity}
+                        image={val.image}
+                        price={val.price}
+                        variation_value={val.variation_value}
+                        variation_name={val.variation_name}
+                        title={val.title}
+                        note={val.note}
+                        discount={val.discount}
+                      />
+                    ))}
+                </div>
+              </div>
+              <div className="min-w-[250px] bg-white  shadow-gray-500  drop-shadow-md  max-w-[1000px] w-[25%] px-4 py-6 h-[fit-content]">
+                <div>
+                  <PromoCodeBar setPromo={setPromo} promo={promo} />
+                  <div className="mt-10">
+                    <div className="flex justify-between">
+                      <p>Subtotal</p>
+                      <p>{formatRupiah(totalBeforeDiscount)}</p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p>Shipping Cost</p>
+                      <p>{formatRupiah(shippingCost)}</p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p>Discount</p>
+                      <p>{formatRupiah(discount)}</p>
+                    </div>
+                    <div className="flex justify-between py-2 border-y-2 mt-2">
+                      <p>Estimated Total</p>
+                      <div>
+                        <p className=" break-words">
+                          {formatRupiah(
+                            totalBeforeDiscount - discount + shippingCost
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                   <div>
-                    <p>Enter Promo Code</p>
-                    <PromoCodeBar setPromo={setPromo} promo={promo} />
-                    <div className="mt-10">
-                      <div className="flex justify-between">
-                        <p>Subtotal</p>
-                        <p>
-                          {new Intl.NumberFormat("id", {
-                            currency: "idr",
-                            style: "currency",
-                            maximumFractionDigits: 2,
-                            minimumFractionDigits: 0,
-                          }).format(totalBeforeDiscount)}
-                        </p>
-                      </div>
-                      <div className="flex justify-between">
-                        <p>Shipping Cost</p>
-                        <p>
-                          {new Intl.NumberFormat("id", {
-                            currency: "idr",
-                            style: "currency",
-                            maximumFractionDigits: 2,
-                            minimumFractionDigits: 0,
-                          }).format(shippingCost)}
-                        </p>
-                      </div>
-                      <div className="flex justify-between">
-                        <p>Discount</p>
-                        <p>
-                          {new Intl.NumberFormat("id", {
-                            currency: "idr",
-                            style: "currency",
-                            maximumFractionDigits: 2,
-                            minimumFractionDigits: 0,
-                          }).format(discount)}
-                        </p>
-                      </div>
-                      <div className="flex justify-between py-2 border-y-2 mt-2">
-                        <p>Estimated Total</p>
-                        <div>
-                          <p className=" break-words">
-                            {new Intl.NumberFormat("id", {
-                              currency: "idr",
-                              style: "currency",
-                              maximumFractionDigits: 2,
-                              minimumFractionDigits: 0,
-                            }).format(
-                              totalBeforeDiscount - discount + shippingCost
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <button
-                        className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500]  transition-colors duration-300"
-                        onClick={handleCheckout}
-                      >
-                        <FontAwesomeIcon icon={faLock} /> Proceed To Payment
-                      </button>
-                    </div>
+                    <button
+                      className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500]  transition-colors duration-300"
+                      onClick={handleCheckout}
+                    >
+                      <FontAwesomeIcon icon={faLock} /> Proceed To Payment
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          ) : (
-            <></>
-          )}
+          </div>
         </div>
       </MinimumLayouts>
     </>

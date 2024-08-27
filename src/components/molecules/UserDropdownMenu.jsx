@@ -5,28 +5,56 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
   faHeart,
+  faList,
+  faListCheck,
   faSignOutAlt,
   faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import { getSignOut } from "../../services/auth.service";
 import { logout } from "../../store/reducers/authenticationSlicer";
 
-function UserDropdownMenu({ isHover }) {
-  console.log(isHover);
+const DropdownMenuItem = ({ title, icon, link, onClick = undefined }) => {
+  return (
+    <li
+      onClick={onClick}
+      className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
+    >
+      <a href={link}>
+        <FontAwesomeIcon
+          className=" align-text-bottom text-xl   min-w-10 max-w-10"
+          icon={icon}
+        />
+        <div className="inline-block ml-4">{title}</div>
+      </a>
+    </li>
+  );
+};
+
+function UserDropdownMenu({ isHover, type }) {
+  isHover = isHover && type === "account" ? true : false;
   const dispatch = useDispatch();
   const loggedInUserData = useSelector(
     (state) => state.authentication.loggedInUserData
   );
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     getSignOut()
       .then(() => dispatch(logout()))
       .then(() => (window.location.href = "/"));
   };
+
+  const content = [
+    { title: "Wishlist", icon: faHeart, link: "/wishlist" },
+    { title: "Your Cart", icon: faCartShopping, link: "/cart" },
+    { title: "Your Orders", icon: faList, link: "/user/orders" },
+    { title: "User Settings", icon: faWrench, link: "/user/settings" },
+    { title: "Logout", icon: faSignOutAlt, link: "/", onClick: handleLogout },
+  ];
   return (
-    <DropdownMenu width={250} height={320} x={110} isHover={isHover}>
-      <div className="overflow-y-scroll h-full no-scrollbar ] ">
+    <DropdownMenu width={250} height={"fit-content"} x={110} isHover={isHover}>
+      <div className="overflow-y-scroll no-scrollbar pb-4 ">
         <div className=" w-full  flex items-center py-4 px-[10%] align-middle text-xl font-semibold">
-          <div className="rounded-full bg-zinc-200 min-w-fit">
+          <div className="rounded-full bg-zinc-200 ">
             <img
               className={`size-16 rounded-full `}
               src={
@@ -45,45 +73,17 @@ function UserDropdownMenu({ isHover }) {
             </p>
           </div>
         </div>
-        <div className="px-[10%] w-full space-y-2 mt-2">
-          <a href="/wishlist">
-            <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
-              <FontAwesomeIcon
-                className=" align-text-bottom text-xl   min-w-10 max-w-10"
-                icon={faHeart}
-              />
-              <div className="inline-block ml-4">Wishlist</div>
-            </div>
-          </a>
-          <a href="/cart">
-            <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
-              <FontAwesomeIcon
-                className=" align-text-bottom text-xl   min-w-10 max-w-10"
-                icon={faCartShopping}
-              />
-              <div className="inline-block ml-4">Your Cart</div>
-            </div>
-          </a>
-          <a href="/user/settings">
-            <div className="p-2 rounded-md hover:bg-white hover:cursor-pointer">
-              <FontAwesomeIcon
-                className=" align-text-bottom text-xl   min-w-10 max-w-10"
-                icon={faWrench}
-              />
-              <div className="inline-block ml-4">User Settings</div>
-            </div>
-          </a>
-          <div
-            onClick={handleLogout}
-            className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
-          >
-            <FontAwesomeIcon
-              className=" align-text-bottom text-xl   min-w-10 max-w-10"
-              icon={faSignOutAlt}
+        <ul className="px-[10%] w-full space-y-2 mt-2">
+          {content.map((val, i) => (
+            <DropdownMenuItem
+              key={i}
+              title={val.title}
+              icon={val.icon}
+              link={val.link}
+              onClick={val.onClick}
             />
-            <div className="inline-block ml-4">Log Out</div>
-          </div>
-        </div>
+          ))}
+        </ul>
       </div>
     </DropdownMenu>
   );

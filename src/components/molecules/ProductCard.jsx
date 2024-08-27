@@ -8,6 +8,7 @@ import {
   modalToggle,
 } from "../../store/reducers/webContentSlicer";
 import { postAddToCart } from "../../services/cart.service";
+import { formatRupiah } from "../../utils/utils";
 
 function ProductCard({
   product_id,
@@ -84,14 +85,7 @@ function ProductCard({
                 <div>(100 reviews)</div>
               </div>
               <div className="flex flex-col ">
-                <div className="mt-2 font-bold">
-                  {new Intl.NumberFormat("id", {
-                    currency: "idr",
-                    style: "currency",
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 0,
-                  }).format(price)}
-                </div>
+                <div className="mt-2 font-bold">{formatRupiah(price)}</div>
                 <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                   <div
                     style={{
@@ -140,14 +134,7 @@ function ProductCard({
                 <div>(100 reviews)</div>
               </div>
               <div className="flex flex-col ">
-                <div className="mt-2 font-bold">
-                  {new Intl.NumberFormat("id", {
-                    currency: "idr",
-                    style: "currency",
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 0,
-                  }).format(price)}
-                </div>
+                <div className="mt-2 font-bold">{formatRupiah(price)}</div>
                 <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
                   <div
                     style={{

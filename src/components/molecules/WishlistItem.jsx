@@ -9,6 +9,7 @@ import {
   popUpChange,
   popUpToggle,
 } from "../../store/reducers/webContentSlicer";
+import { formatRupiah } from "../../utils/utils";
 
 /* eslint-disable react/prop-types */
 function WishlistItem({
@@ -84,14 +85,7 @@ function WishlistItem({
                   : `(${variation_name}: ${variation_value})`}
               </div>
               <div className="flex flex-col ">
-                <div className=" font-semibold">
-                  {new Intl.NumberFormat("id", {
-                    currency: "idr",
-                    style: "currency",
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 0,
-                  }).format(price)}
-                </div>
+                <div className=" font-semibold">{formatRupiah(price)}</div>
                 <div className="w-full flex items-center space-x-1 mt-2">
                   <button
                     onClick={handleDeleteFromWishlists}

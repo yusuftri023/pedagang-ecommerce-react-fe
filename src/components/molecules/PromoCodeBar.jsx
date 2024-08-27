@@ -25,6 +25,7 @@ function PromoCodeBar({ setPromo, promo }) {
   };
   return (
     <>
+      <p>Enter Promo Code</p>
       <div className="flex items-center">
         <input
           ref={promoCodeRef}

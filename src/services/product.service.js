@@ -105,6 +105,18 @@ export const postNewProduct = async (data) => {
     return { success: false, message: error.response.data.message };
   }
 };
+export const patchProductStockInTransaction = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://api.pedagang-ecommerce.site/customers/product/decrease-stock",
+      JSON.stringify(data),
+      { headers: { "Content-Type": "application/json" }, withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
 
 export const deleteProduct = async (addressId) => {
   try {

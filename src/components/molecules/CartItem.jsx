@@ -15,6 +15,7 @@ import {
   popUpChange,
   popUpToggle,
 } from "../../store/reducers/webContentSlicer";
+import { formatRupiah } from "../../utils/utils";
 
 function CartItem({
   cartId,
@@ -28,6 +29,7 @@ function CartItem({
   title,
   stock,
   note,
+  discount = 0.1,
 }) {
   const [counter, setCounter] = useState(quantity);
 
@@ -165,14 +167,7 @@ function CartItem({
           </div>
           <div className="w-[15%]">
             <p>Price</p>
-            <p className=" break-words">
-              {new Intl.NumberFormat("id", {
-                currency: "idr",
-                style: "currency",
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 0,
-              }).format(price)}
-            </p>
+            <p className=" break-words">{formatRupiah(price)}</p>
           </div>
           <div className="w-[15%]">
             <p>Qty</p>
@@ -200,12 +195,7 @@ function CartItem({
           <div className="w-[15%]">
             <p>Total</p>
             <p className="line-clamp-3 break-words">
-              {new Intl.NumberFormat("id", {
-                currency: "idr",
-                style: "currency",
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 0,
-              }).format(price * counter)}
+              {formatRupiah(price * (1 - discount) * counter)}
             </p>
           </div>
         </div>

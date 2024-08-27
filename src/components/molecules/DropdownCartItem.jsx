@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 
+import { formatRupiah } from "../../utils/utils";
+
 function DropdownCartItem({ id, image, title, product_id, quantity, price }) {
   return (
     <li className="h-10 w-full flex justify-between px-6 items-center my-4 space-x-2">
@@ -12,14 +14,7 @@ function DropdownCartItem({ id, image, title, product_id, quantity, price }) {
       </a>
 
       <div className="w-[10%]">x{quantity}</div>
-      <div className="truncate w-[30%]">
-        {new Intl.NumberFormat("id", {
-          currency: "idr",
-          style: "currency",
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 0,
-        }).format(price * 10000000)}
-      </div>
+      <div className="truncate w-[30%]">{formatRupiah(price)}</div>
     </li>
   );
 }

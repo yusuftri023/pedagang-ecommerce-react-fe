@@ -61,12 +61,28 @@ function AddressModal({ address, setAddress }) {
         setAddress(res.data);
       });
   };
-  console.log(address);
   const recipientRef = useRef();
   const addressLineRef = useRef();
   const cityRef = useRef();
   const provinceRef = useRef();
   const postalRef = useRef();
+  const inputContent = [
+    {
+      placeholder: "Recipient Name",
+      ref: recipientRef,
+      type: "text",
+      maxLength: 30,
+    },
+    {
+      placeholder: "Address Line",
+      ref: addressLineRef,
+      type: "textarea",
+      maxLength: 255,
+    },
+    { placeholder: "City", ref: cityRef, type: "text", maxLength: 30 },
+    { placeholder: "Province", ref: provinceRef, type: "text", maxLength: 30 },
+    { placeholder: "Postal Code", ref: postalRef, type: "text", maxLength: 15 },
+  ];
   return (
     <ModalWindow>
       <div className="w-[800px] h-[90vh] max-h-[90vh]">
@@ -101,36 +117,15 @@ function AddressModal({ address, setAddress }) {
             <div className="p-4 ">
               <div className="max-h-[65vh] overflow-y-auto">
                 <h1 className="text-xl font-medium">Address Details Input</h1>
-                <UniqueInput
-                  placeholder={"Recipient Name"}
-                  inputType={"text"}
-                  maxLength={30}
-                  inputRef={recipientRef}
-                />
-                <UniqueInput
-                  placeholder={"Address Line"}
-                  inputType={"textarea"}
-                  maxLength={255}
-                  inputRef={addressLineRef}
-                />
-                <UniqueInput
-                  placeholder={"City"}
-                  inputType={"text"}
-                  maxLength={30}
-                  inputRef={cityRef}
-                />
-                <UniqueInput
-                  placeholder={"Province"}
-                  inputType={"text"}
-                  maxLength={30}
-                  inputRef={provinceRef}
-                />
-                <UniqueInput
-                  placeholder={"Postal Code"}
-                  inputType={"text"}
-                  maxLength={15}
-                  inputRef={postalRef}
-                />
+                {inputContent.map((val, i) => (
+                  <UniqueInput
+                    key={val.placeholder + i}
+                    type={val.type}
+                    placeholder={val.placeholder}
+                    maxLength={val.maxLength}
+                    ref={val.ref}
+                  />
+                ))}
                 <button
                   onClick={handleAddAddress}
                   className="w-full mt-6 py-2 rounded-md text-xl border-[1px] border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white font-medium"

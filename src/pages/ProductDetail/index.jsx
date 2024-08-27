@@ -22,6 +22,10 @@ import BriefPopUp from "../../components/atoms/BriefPopUp";
 import AddToCartModal from "../../components/molecules/AddToCartModal";
 import ProductRating from "../../components/molecules/ProductRating";
 import ShiningEffect from "../../components/atoms/ShiningEffect";
+import ProductTitle from "../../components/molecules/ProductTitle";
+import BriefPopUpContent from "../../components/molecules/BriefPopUpContent";
+import ProductPrice from "../../components/molecules/ProductPrice";
+import ProductNavigation from "../../components/molecules/ProductNavigation";
 const imgsrc = [
   "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
   "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
@@ -31,6 +35,7 @@ const imgsrc = [
   "https://images.tokopedia.net/img/cache/900/product-1/2019/7/27/23167793/23167793_ed15828b-a1df-4f29-9dea-dcee8fecb342_2048_2048",
   "https://images.tokopedia.net/img/cache/900/product-1/2020/2/27/23167793/23167793_e295d484-b1ab-402d-b33b-39d3de0b08ef_2048_2048",
 ];
+
 const ProductDetail = () => {
   const { product_title } = useParams();
   const dispatch = useDispatch();
@@ -47,7 +52,7 @@ const ProductDetail = () => {
     (product) => Number(product.product_config_id) === Number(productConfigId)
   );
   const discount = currentVariant?.discount
-    ? Number(currentVariant?.discount) * 100
+    ? Number(currentVariant?.discount)
     : 0;
   const variation = useMemo(() =>
     product?.reduce((acc, curr) => {
@@ -64,11 +69,12 @@ const ProductDetail = () => {
     });
   });
 
-  const closePopUpHandler = () => {
-    dispatch(popUpToggle(false));
-    dispatch(popUpChange({ type: null }));
-  };
   const handleAddToCart = () => {
+    if (currentVariant.stock < 1) {
+      dispatch(popUpChange({ type: "outOfStock" }));
+      dispatch(popUpToggle(true));
+      return;
+    }
     const data = {
       product_id: productId,
       quantity: 1,
@@ -103,18 +109,9 @@ const ProductDetail = () => {
 
   useEffect(() => {
     getSingleProduct(productId).then((res) =>
-      setTimeout(() => setProduct(res.data), 2000)
+      setTimeout(() => setProduct(res.data), 1000)
     );
   }, []);
-  useEffect(() => {
-    let popUpTimer = setTimeout(() => {
-      dispatch(popUpToggle(false));
-      dispatch(popUpChange({ type: null }));
-    }, 2000);
-    return () => {
-      clearTimeout(popUpTimer);
-    };
-  }, [showPopUp]);
 
   return (
     <>
@@ -122,32 +119,16 @@ const ProductDetail = () => {
         {showModal && typeModal === "addedToCart" && <AddToCartModal />}
         {showPopUp && typePopUp === "addedToWishlist" && (
           <BriefPopUp>
-            <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
-              <span>Product added to your wishlist</span>
-              <span
-                onClick={closePopUpHandler}
-                className=" hover:cursor-pointer"
-              >
-                Ok
-              </span>
-            </div>
+            <BriefPopUpContent text={"Product added to your wishlist"} />
+          </BriefPopUp>
+        )}
+        {showPopUp && typePopUp === "outOfStock" && (
+          <BriefPopUp>
+            <BriefPopUpContent text={"Product is out of stock"} />
           </BriefPopUp>
         )}
         <div className="pt-8 mb-20">
-          <div className=" max-w-[1000px] mx-auto bg-white mb-4 p-3 rounded-lg">
-            <nav className=" space-x-2">
-              <span>Home</span>
-              <span>&gt;</span>
-              <span>
-                {product?.[0]
-                  ? product?.[0].category_name[0].toUpperCase() +
-                    product?.[0].category_name.slice(1)
-                  : ""}
-              </span>
-              <span>&gt;</span>
-              <span>{currentVariant?.title}</span>
-            </nav>
-          </div>
+          <ProductNavigation currentVariant={currentVariant} />
           <div
             ref={positionAnchorRef}
             className="p-4 pb-10 min-w-[1000px] w-[1000px] mx-auto bg-white  rounded-t-lg  flex flex-row "
@@ -178,82 +159,39 @@ const ProductDetail = () => {
                 }}
                 className={`sticky `}
               >
-                <h1 className="text-3xl font-semibold">
-                  {currentVariant?.title}
-                  {currentVariant?.variation_name === "-"
-                    ? ""
-                    : ` (${currentVariant?.variation_name}: ${currentVariant?.variation_value})`}
-                </h1>
+                <ProductTitle
+                  title={currentVariant?.title}
+                  variation_name={currentVariant?.variation_name}
+                  variation_value={currentVariant?.variation_value}
+                />
                 <ProductRating productId={productId} />
-                <div
-                  className={" min-w-[200px] min-h-[50px] relative bg-gray-200"}
-                >
-                  <ShiningEffect />
-                </div>
+
                 <div
                   className={
-                    (!currentVariant?.price ? "bg-gray-200 " : " ") +
-                    " min-w-[100px] min-h-[40px] mt-2 relative "
+                    (!currentVariant?.price
+                      ? "bg-gray-200 rounded-full overflow-hidden"
+                      : " ") + " min-w-[100px] min-h-[40px] mt-2 relative flex"
                   }
                 >
-                  {currentVariant?.price ? (
-                    <>
-                      {currentVariant?.price && (
-                        <div>
-                          <span className="text-3xl font-semibold">
-                            {new Intl.NumberFormat("id", {
-                              currency: "idr",
-                              style: "currency",
-                              maximumFractionDigits: 2,
-                              minimumFractionDigits: 0,
-                            }).format(
-                              currentVariant?.price -
-                                (currentVariant?.price * discount) / 100
-                            )}
-                          </span>
-                        </div>
-                      )}
-                      {discount > 0 ? (
-                        <span className="text-red-600 bg-red-300 px-1 rounded-sm mr-2">
-                          {discount}% off
-                        </span>
-                      ) : (
-                        <></>
-                      )}
-                      {currentVariant?.price && (
-                        <span
-                          className={
-                            (discount > 0
-                              ? `line-through text-gray-400`
-                              : `text-3xl`) + ` font-semibold`
-                          }
-                        >
-                          {new Intl.NumberFormat("id", {
-                            currency: "idr",
-                            style: "currency",
-                            maximumFractionDigits: 2,
-                            minimumFractionDigits: 0,
-                          }).format(currentVariant?.price)}
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    <ShiningEffect />
-                  )}
-                  <ShiningEffect />
+                  <ProductPrice
+                    currentVariant={currentVariant}
+                    discount={discount}
+                  />
                 </div>
                 {currentVariant?.variation_name === "-" ? (
                   <></>
-                ) : variation?.length > 0 ? (
-                  <VariationOption
-                    variation={variation}
-                    variationConfig={variationConfig}
-                    currentConfigId={currentVariant?.product_config_id}
-                  />
                 ) : (
-                  <></>
+                  variation?.length > 0 && (
+                    <VariationOption
+                      variation={variation}
+                      variationConfig={variationConfig}
+                      currentConfigId={currentVariant?.product_config_id}
+                    />
+                  )
                 )}
-
+                {currentVariant?.stock < 1 && (
+                  <span className="text-red-600">Out of Stock</span>
+                )}
                 <div
                   className={
                     (currentVariant?.variation_name === "-" ? `mt-20` : ``) +
@@ -262,9 +200,12 @@ const ProductDetail = () => {
                 >
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#FFCA1D] justify-evenly flex items-center  border-[1px] py-2  border-[#FFCA1D]  rounded-xl  hover:bg-[#968447] hover:border-[#968447] w-3/4 text-3xl font-normal  transition-colors duration-300"
+                    className={
+                      (currentVariant?.stock < 1 ? " brightness-[0.3]" : "") +
+                      " bg-[#FFCA1D] justify-evenly flex items-center  border-[1px] py-2  border-[#FFCA1D]  rounded-xl  hover:bg-[#968447] hover:border-[#968447] w-3/4 text-3xl font-normal  transition-colors duration-300"
+                    }
                   >
-                    <FontAwesomeIcon icon={faCartShopping} />{" "}
+                    <FontAwesomeIcon icon={faCartShopping} />
                     <span className="text-2xl text-center ">Add to Cart</span>
                   </button>
                   <button

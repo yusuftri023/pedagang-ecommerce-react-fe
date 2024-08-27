@@ -1,11 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import BriefPopUp from "../../components/atoms/BriefPopUp";
 import MainLayouts from "../../layouts/MainLayouts";
-import {
-  popUpChange,
-  popUpToggle,
-} from "../../store/reducers/webContentSlicer";
 import ImageKit from "../../components/molecules/ImageKit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons";
@@ -13,9 +9,9 @@ import { useEffect, useState } from "react";
 import { getCustomerProfile } from "../../services/customer.service";
 import ProfileContent from "../../components/molecules/ProfileContent";
 import ProfileChangeModal from "../../components/molecules/ProfileChangeModal";
+import BriefPopUpContent from "../../components/molecules/BriefPopUpContent";
 
 function UserSetting() {
-  const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState(null);
   const showModal = useSelector((state) => state.webContent.showModal);
   const typeModal = useSelector((state) => state.webContent.typeModal);
@@ -26,10 +22,6 @@ function UserSetting() {
     getCustomerProfile().then(({ data }) => {
       setUserProfile(data);
     });
-  };
-  const closePopUpHandler = () => {
-    dispatch(popUpToggle());
-    dispatch(popUpChange({ type: null }));
   };
 
   const profileContent = userProfile
@@ -44,15 +36,7 @@ function UserSetting() {
   useEffect(() => {
     handleSetUserProfile();
   }, []);
-  useEffect(() => {
-    let popUpTimer = setTimeout(() => {
-      dispatch(popUpToggle(false));
-      dispatch(popUpChange({ type: null }));
-    }, 2000);
-    return () => {
-      clearTimeout(popUpTimer);
-    };
-  }, [showPopUp]);
+
   return (
     <>
       <MainLayouts>
@@ -65,15 +49,7 @@ function UserSetting() {
         )}
         {showPopUp && typePopUp === "profileChanged" && (
           <BriefPopUp>
-            <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
-              <span>Profile Changed</span>
-              <span
-                onClick={closePopUpHandler}
-                className=" hover:cursor-pointer"
-              >
-                Ok
-              </span>
-            </div>
+            <BriefPopUpContent text={"Profile has been changed"} />
           </BriefPopUp>
         )}
         <div className="my-10 text-center   border-y-4 border-gray-700 py-4">

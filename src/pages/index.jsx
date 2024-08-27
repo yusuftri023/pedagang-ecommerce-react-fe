@@ -27,6 +27,7 @@ import payment7 from "./../assets/images/payment/Logo_ovo_purple.svg";
 import payment8 from "./../assets/images/payment/ShopeePay Logo.svg";
 import payment9 from "./../assets/images/payment/QRIS.svg";
 import payment10 from "./../assets/images/payment/logo isaku.svg";
+
 import { useSelector } from "react-redux";
 import { getAllProduct } from "../services/product.service";
 import AddToCartModal from "../components/molecules/AddToCartModal";

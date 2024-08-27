@@ -2,9 +2,10 @@
 import DropdownCartItem from "./DropdownCartItem";
 import DropdownMenu from "./DropdownMenu";
 
-function CartDropdownMenu({ cart, isHover }) {
+function CartDropdownMenu({ cart, isHover, type }) {
+  isHover = isHover && type === "cart" ? true : false;
   return (
-    <DropdownMenu width={400} height={300} x={50} isHover={isHover}>
+    <DropdownMenu width={400} height={"300px"} x={50} isHover={isHover}>
       <div className="overflow-y-scroll h-full no-scrollbar ">
         <div className=" w-full border-b-[1px] border-gray-500 flex items-center h-[50px] px-[10%] align-middle bg-gray-400 bg-opacity-50 text-xl font-semibold">
           <p>Your Cart</p>

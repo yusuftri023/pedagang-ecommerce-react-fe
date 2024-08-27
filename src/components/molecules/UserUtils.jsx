@@ -35,7 +35,6 @@ function UserUtils() {
       .catch(() => {
         dispatch(setAuth(false));
         setTimeout(() => {
-          console.log(window.location.pathname);
           if (
             window.location.pathname.slice(0, 9) !== "/products" &&
             window.location.pathname.slice(0, 9) !== "/"
@@ -46,7 +45,7 @@ function UserUtils() {
       });
   }, []);
   return (
-    <div className=" text-white w-[750px] ">
+    <div className=" text-white  ">
       <ul className=" flex  justify-end ">
         <CartHeaderWithDropdown
           faIcon={faCartShopping}
