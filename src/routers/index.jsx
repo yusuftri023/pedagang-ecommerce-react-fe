@@ -2,7 +2,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import Order from "../pages/Order/index.jsx";
-import Testing from "../pages/Testing.jsx";
+// import Testing from "../pages/Testing.jsx";
 
 const Homepage = lazy(() => import("../pages/index.jsx"));
 const LoginPage = lazy(() => import("../pages/Login"));
@@ -51,8 +51,8 @@ export const router = createBrowserRouter([
     element: <Order />,
   },
 
-  {
-    path: "/testing",
-    element: <Testing />,
-  },
+  // {
+  //   path: "/testing",
+  //   element: <Testing />,
+  // },
 ]);
