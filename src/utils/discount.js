@@ -17,7 +17,7 @@ export const useDiscount = (cart, promo) => {
               })
               ?.filter((val) => val.stock > 0)
               ?.map((val) => {
-                return val.price * val.quantity * (1 - 0.1);
+                return val.price * val.quantity * (1 - val.discount);
               })
               .reduce((a, b) => a + b, 0) *
               Number(promo[0]?.discount_rate)) /
@@ -34,7 +34,7 @@ export const useTotalBeforeDiscount = (cart) =>
         ? cart
             ?.filter((val) => val.stock > 0)
             ?.map((val) => {
-              return val.price * val.quantity * (1 - 0.1);
+              return val.price * val.quantity * (1 - val.discount);
             })
             ?.reduce((a, b) => a + b, 0)
         : 0,

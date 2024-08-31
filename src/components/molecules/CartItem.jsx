@@ -29,7 +29,7 @@ function CartItem({
   title,
   stock,
   note,
-  discount = 0.1,
+  discount,
 }) {
   const [counter, setCounter] = useState(quantity);
 

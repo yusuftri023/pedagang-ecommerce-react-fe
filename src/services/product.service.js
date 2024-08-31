@@ -1,31 +1,11 @@
 import axios from "axios";
 
-export const fetchAllProduct = async (keyword) => {
+export const searchProduct = async (keyword, category) => {
   const res = await axios.get(
-    `https://api.pedagang-ecommerce.site/public/product/search?keyword=${keyword}`
+    `https://api.pedagang-ecommerce.site/public/product/search?keyword=${keyword}&category=${category}`
   );
 
   return res.data;
-};
-export const fetchProductInCategory = async (category) => {
-  const res = await axios.get(
-    encodeURI(
-      `${"https://fakestoreapi.com"}/products/category/${category.toLowerCase()}`
-    )
-  );
-  return res.data;
-};
-
-export const fetchMultipleProduct = async (list) => {
-  const data = await Promise.all(
-    list.map(async (id) => {
-      const res = await axios.get(
-        `${"https://fakestoreapi.com"}/products/${id}`
-      );
-      return res.data;
-    })
-  );
-  return data;
 };
 
 export const getAllProduct = async () => {
@@ -134,7 +114,7 @@ export const deleteProduct = async (addressId) => {
 export const getProductCategories = async () => {
   try {
     const response = await axios.get(
-      `https://api.pedagang-ecommerce.site/customers/category`,
+      `https://api.pedagang-ecommerce.site/public/category`,
       {
         withCredentials: true,
       }

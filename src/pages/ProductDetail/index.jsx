@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import MainLayouts from "../../layouts/MainLayouts";
 import {
   modalChange,
@@ -12,8 +12,13 @@ import {
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { postAddToCart } from "../../services/cart.service";
-import { postNewWishlist } from "../../services/wishlist.service";
+import {
+  deleteWishlistItem,
+  getWishlist,
+  postNewWishlist,
+} from "../../services/wishlist.service";
 import { getSingleProduct } from "../../services/product.service";
 import ProductImageGallery from "../../components/molecules/ProductImageGallery";
 import ProductInformation from "../../components/molecules/ProductInformation";
@@ -26,15 +31,6 @@ import ProductTitle from "../../components/molecules/ProductTitle";
 import BriefPopUpContent from "../../components/molecules/BriefPopUpContent";
 import ProductPrice from "../../components/molecules/ProductPrice";
 import ProductNavigation from "../../components/molecules/ProductNavigation";
-const imgsrc = [
-  "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
-  "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
-  "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
-  "https://images.tokopedia.net/img/cache/900/product-1/2019/7/27/23167793/23167793_7b8ec44c-cb48-4235-81a7-626b1c854a08_2048_2048",
-  "https://images.tokopedia.net/img/cache/900/product-1/2019/7/27/23167793/23167793_7829a469-09eb-4584-a8b8-b5d3bee02611_2048_2048",
-  "https://images.tokopedia.net/img/cache/900/product-1/2019/7/27/23167793/23167793_ed15828b-a1df-4f29-9dea-dcee8fecb342_2048_2048",
-  "https://images.tokopedia.net/img/cache/900/product-1/2020/2/27/23167793/23167793_e295d484-b1ab-402d-b33b-39d3de0b08ef_2048_2048",
-];
 
 const ProductDetail = () => {
   const { product_title } = useParams();
@@ -51,6 +47,10 @@ const ProductDetail = () => {
   const currentVariant = product?.find(
     (product) => Number(product.product_config_id) === Number(productConfigId)
   );
+  const [wishlist, setWishlist] = useState([]);
+  const isInWishlist = useMemo(() => {
+    return wishlist.some((item) => item.product_config_id === productConfigId);
+  });
   const discount = currentVariant?.discount
     ? Number(currentVariant?.discount)
     : 0;
@@ -69,6 +69,7 @@ const ProductDetail = () => {
     });
   });
 
+  const imageGallery = product?.[0].image;
   const handleAddToCart = () => {
     if (currentVariant.stock < 1) {
       dispatch(popUpChange({ type: "outOfStock" }));
@@ -87,7 +88,7 @@ const ProductDetail = () => {
           modalChange({
             type: "addedToCart",
             content: {
-              image: currentVariant.image,
+              image: currentVariant.image[0],
               title: currentVariant.title,
               price: currentVariant.price,
             },
@@ -97,36 +98,62 @@ const ProductDetail = () => {
       .catch((err) => console.log(err));
   };
   const handleAddToWishlist = () => {
-    const data = {
-      product_id: productId,
-      product_config_id: productConfigId,
-    };
-    postNewWishlist(data).then(() => {
-      dispatch(popUpToggle(true));
-      dispatch(popUpChange({ type: "addedToWishlist" }));
-    });
+    if (isInWishlist) {
+      const itemInWishlist = wishlist.find(
+        (item) => item.product_config_id === productConfigId
+      );
+      deleteWishlistItem(itemInWishlist.wishlist_id)
+        .then(() => {
+          dispatch(popUpToggle(true));
+          dispatch(popUpChange({ type: "removedFromWishlist" }));
+        })
+        .then(() => getWishlist())
+        .then((res) => setWishlist(res.data));
+    } else {
+      const data = {
+        product_id: productId,
+        product_config_id: productConfigId,
+      };
+      postNewWishlist(data)
+        .then(() => {
+          dispatch(popUpToggle(true));
+          dispatch(popUpChange({ type: "addedToWishlist" }));
+        })
+        .then(() => getWishlist())
+        .then((res) => setWishlist(res.data));
+    }
   };
 
   useEffect(() => {
-    getSingleProduct(productId).then((res) =>
-      setTimeout(() => setProduct(res.data), 1000)
-    );
+    getSingleProduct(productId).then((res) => setProduct(res.data));
+    getWishlist().then((res) => setWishlist(res.data));
   }, []);
-
+  const popUp = [
+    {
+      type: "outOfStock",
+      text: "Product is out of stock",
+    },
+    {
+      type: "removedFromWishlist",
+      text: "Product removed from your wishlist",
+    },
+    { type: "addedToWishlist", text: "Product added to your wishlist" },
+    {},
+  ];
   return (
     <>
       <MainLayouts>
         {showModal && typeModal === "addedToCart" && <AddToCartModal />}
-        {showPopUp && typePopUp === "addedToWishlist" && (
-          <BriefPopUp>
-            <BriefPopUpContent text={"Product added to your wishlist"} />
-          </BriefPopUp>
-        )}
-        {showPopUp && typePopUp === "outOfStock" && (
-          <BriefPopUp>
-            <BriefPopUpContent text={"Product is out of stock"} />
-          </BriefPopUp>
-        )}
+        {popUp.map((item, i) => (
+          <Fragment key={item.type + i}>
+            {showPopUp && typePopUp === item.type && (
+              <BriefPopUp>
+                <BriefPopUpContent text={item.text} />
+              </BriefPopUp>
+            )}
+          </Fragment>
+        ))}
+
         <div className="pt-8 mb-20">
           <ProductNavigation currentVariant={currentVariant} />
           <div
@@ -135,15 +162,15 @@ const ProductDetail = () => {
           >
             <div
               className={
-                (currentVariant?.image ? "" : "bg-gray-200") +
+                (currentVariant?.image[0] ? "" : "bg-gray-200") +
                 " min-h-[500px] min-w-[60%] max-w-[60%] "
               }
             >
-              {currentVariant?.image ? (
+              {currentVariant?.image[0] ? (
                 <>
                   <ProductImageGallery
-                    defaultImg={currentVariant?.image}
-                    images={imgsrc}
+                    defaultImg={imageGallery[0]}
+                    images={imageGallery}
                   />
                 </>
               ) : (
@@ -210,9 +237,15 @@ const ProductDetail = () => {
                   </button>
                   <button
                     onClick={handleAddToWishlist}
-                    className="transition-colors p-2 duration-300 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-400 flex items-center w-fit border-2 border-gray-200 rounded-xl"
+                    className={
+                      (isInWishlist ? "text-red-600" : "text-black ") +
+                      " transition-colors p-2 duration-300 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-400 flex items-center w-fit border-2 border-gray-200 rounded-xl"
+                    }
                   >
-                    <FontAwesomeIcon icon={faHeart} className="text-3xl" />
+                    <FontAwesomeIcon
+                      icon={isInWishlist ? faHeart : faHeartRegular}
+                      className={" text-3xl"}
+                    />
                   </button>
                 </div>
               </div>

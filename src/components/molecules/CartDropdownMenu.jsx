@@ -18,7 +18,7 @@ function CartDropdownMenu({ cart, isHover, type }) {
                 id={val.product_config_id}
                 title={val.title}
                 quantity={val.quantity}
-                image={val.image}
+                image={val.image[0]}
                 product_id={val.product_id}
                 price={val.price}
               />

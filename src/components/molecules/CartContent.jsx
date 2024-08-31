@@ -18,13 +18,14 @@ function CartContent({ cart, cartType = null }) {
           productId={val.product_id}
           quantity={val.quantity}
           productConfigId={val.product_config_id}
-          image={val.image}
+          image={val.image[0]}
           price={val.price}
           variation_value={val.variation_value}
           variation_name={val.variation_name}
           title={val.title}
           stock={val.stock}
           note={val.note}
+          discount={val.discount}
         />
       ))}
     </div>

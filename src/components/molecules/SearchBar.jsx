@@ -1,25 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import IconSearch from "../../assets/images/landing-page/icon _magnifying glass_.svg";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchProduct } from "../../store/actions/productAction";
 import { formatRupiah } from "../../utils/utils";
+import { getProductCategories } from "../../services/product.service";
 
 function SearchBar() {
   const dispatch = useDispatch();
   const [category, setCategory] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(`${"https://fakestoreapi.com"}/products/categories`)
-      .then((res) => setCategory(() => [...res.data]));
-  }, []);
   const [search, setSearch] = useState("");
   const searchResult = useSelector((state) => state.searchResult.data);
   const [searchIsActive, setSearchIsActive] = useState(false);
-  const refCategoryOption = useRef("all");
+  const refCategoryOption = useRef("All");
   const searchRef = useRef();
+  useEffect(() => {
+    getProductCategories().then((res) => {
+      const listCategory = res.data
+        .map((val) => {
+          return { name: val.name, id: val.id };
+        })
+        .sort((a, b) => a.name.localeCompare(b.name));
+      setCategory([...listCategory]);
+    });
+  }, []);
   useEffect(() => {
     if (search) {
       const intervalSearch = setInterval(() => {
@@ -53,14 +58,11 @@ function SearchBar() {
             refCategoryOption.current = e.target.value;
           }}
         >
-          <option value="all">All </option>
+          <option value="All">All</option>
           {category.length > 0 &&
             category.map((val, i) => (
-              <option
-                key={i}
-                value={val.slice(0, 1).toUpperCase() + val.slice(1)}
-              >
-                {val.slice(0, 1).toUpperCase() + val.slice(1)}
+              <option key={"option+" + i} value={val.id}>
+                {val.name.slice(0, 1).toUpperCase() + val.name.slice(1)}
               </option>
             ))}
         </select>
@@ -90,7 +92,7 @@ function SearchBar() {
                 </div>
                 {searchResult.map((result) => (
                   <div key={result.id} className="flex border-b-[1px]">
-                    <img src={result.image} className="size-16 p-2"></img>
+                    <img src={result.image[0]} className="size-16 p-2"></img>
                     <div className="px-4  flex flex-col justify-center">
                       <a
                         href={`/products/${encodeURIComponent(result.title.toLowerCase())}-${result.product_id}+${result.id}`}

@@ -8,17 +8,18 @@ import { setError } from "../../store/reducers/authenticationSlicer";
 import googleIcon from "../../assets/images/landing-page/logo_google_g_icon.svg";
 import { getGoogleSignIn, postWebSignIn } from "../../services/auth.service";
 import { getUserData } from "../../store/actions/customerAction";
+import InputForm from "../../components/atoms/InputForm";
 function Login() {
-  const password = useRef();
-  const email = useRef();
+  const passwordRef = useRef();
+  const emailRef = useRef();
   const dispatch = useDispatch();
   const error = useSelector((state) => state.authentication.error);
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const data = {
-      password: password.current.value,
-      email: email.current.value,
+      password: passwordRef.current.value,
+      email: emailRef.current.value,
     };
 
     const response = await postWebSignIn(data);
@@ -59,31 +60,18 @@ function Login() {
                 Sign In To Your Account
               </h1>
               <form action="" className="">
-                <div className="">
-                  <p className="pl-4 ">Email</p>
-                  <label htmlFor="email"></label>
-                  <input
-                    type="email"
-                    className="w-full pl-4 rounded-md py-1 text-black"
-                    placeholder="Enter your email"
-                    ref={email}
-                    onClick={() => dispatch(setError(null))}
-                    required
-                  />
-                </div>
-
-                <div className="">
-                  <p className="pl-4 ">Password</p>
-                  <label htmlFor="password"></label>
-                  <input
-                    type="password"
-                    className="w-full pl-4 rounded-md py-1 text-black"
-                    placeholder="Enter Your Password"
-                    ref={password}
-                    onClick={() => dispatch(setError(null))}
-                    required
-                  />
-                </div>
+                <InputForm
+                  placeholder={"Email"}
+                  ref={emailRef}
+                  inputType={"email"}
+                  maxLength={50}
+                />
+                <InputForm
+                  placeholder={"Password"}
+                  ref={passwordRef}
+                  inputType={"password"}
+                  maxLength={50}
+                />
 
                 <button
                   onClick={handleLogin}

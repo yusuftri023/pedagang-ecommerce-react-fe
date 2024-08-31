@@ -23,14 +23,14 @@ import BriefPopUp from "../../components/atoms/BriefPopUp";
 import CheckoutItem from "../../components/molecules/CheckoutItem";
 import { getCustomerAddress } from "../../services/address.service";
 import AddressModal from "../../components/molecules/AddressModal";
-import { checkoutOrder, patchPaymentToken } from "../../services/order.service";
+import { checkoutOrder } from "../../services/order.service";
 import SnapPaymentModal from "../../components/molecules/SnapPaymentModal";
 import BriefPopUpContent from "../../components/molecules/BriefPopUpContent";
 import { getCustomerCart } from "../../services/cart.service";
 import { useDiscount, useTotalBeforeDiscount } from "../../utils/discount";
 import { formatRupiah } from "../../utils/utils";
 import AddressCard from "../../components/molecules/AddressCard";
-import { patchProductStockInTransaction } from "../../services/product.service";
+import { postRajaOngkirCost } from "../../services/shipment.service";
 
 const Checkout = () => {
   const [cart, setCart] = useState([]);
@@ -47,15 +47,14 @@ const Checkout = () => {
   const cartWithStock = cart?.filter((val) => val.stock > 0);
   const totalBeforeDiscount = useTotalBeforeDiscount(cart);
   const discount = useDiscount(cart, promo);
-  console.log(cartWithStock);
-  const shippingCost = 50000;
+  const [shippingCost, setShippingCost] = useState(0);
   const selectedAddress = address.filter((val) => val.selected === 1)[0];
   const handleSetAddress = (address) => {
     setAddress(address);
     dispatch(popUpToggle(true));
     dispatch(popUpChange({ type: "addressChanged", content: null }));
   };
-  console.log(cartWithStock);
+
   const handleCheckout = () => {
     const items = cartWithStock.map(
       ({
@@ -83,40 +82,22 @@ const Checkout = () => {
         items,
         total_price,
       },
-      discount,
+      discount: -discount,
       shipping_cost: shippingCost,
       address_id: Number(selectedAddress.address_id),
       payment_method_id: 1,
     };
-    const showSnapPayment = (token, orderId) => {
+    const showSnapPayment = (token) => {
       window.snap.pay(token, {
         onSuccess: function () {
-          const data = {
-            order_id: orderId,
-            payment_token: token,
-          };
-          const items = cartWithStock.map((val) => {
-            return {
-              product_config_id: val.product_config_id,
-              quantity: val.quantity,
-            };
-          });
-          patchProductStockInTransaction({ items })
-            .then(() => patchPaymentToken(data))
-            .then(() => {
-              dispatch(modalToggle(false));
-              dispatch(modalChange({ type: null, content: null }));
-              window.location.href = "/";
-            });
+          dispatch(modalToggle(false));
+          dispatch(modalChange({ type: null, content: null }));
+          window.location.href = "/user/orders";
         },
         onPending: function () {
-          const data = {
-            order_id: orderId,
-            payment_token: token,
-          };
-          patchPaymentToken(data).then(() => {
-            window.location.href = "/";
-          });
+          dispatch(modalToggle(false));
+          dispatch(modalChange({ type: null, content: null }));
+          window.location.href = "/user/orders";
         },
         onClose: function () {
           alert(
@@ -137,10 +118,10 @@ const Checkout = () => {
         })
         .then((data) => {
           setPayment(data);
-          showSnapPayment(data.token, data.order_id);
+          showSnapPayment(data.token);
         });
     } else {
-      showSnapPayment(payment.token, payment.order_id);
+      showSnapPayment(payment.token);
     }
 
     dispatch(modalToggle(true));
@@ -174,6 +155,20 @@ const Checkout = () => {
       setCart(res.data);
     });
   }, []);
+  useEffect(() => {
+    if (selectedAddress) {
+      const shippingData = {
+        destination_id: String(selectedAddress.destination_id),
+        weight: 2000,
+        courier: "jne",
+      };
+      postRajaOngkirCost(shippingData).then((res) => {
+        const cost = res.data[0].costs.find((val) => val.service === "REG")
+          .cost[0].value;
+        setShippingCost(cost);
+      });
+    }
+  }, [selectedAddress]);
   return (
     <>
       <MinimumLayouts>
@@ -209,7 +204,7 @@ const Checkout = () => {
                         key={i}
                         cartId={val.cart_id}
                         quantity={val.quantity}
-                        image={val.image}
+                        image={val.image[0]}
                         price={val.price}
                         variation_value={val.variation_value}
                         variation_name={val.variation_name}

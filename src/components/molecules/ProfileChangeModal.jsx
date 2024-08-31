@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
 import ModalWindow from "../atoms/ModalWindow";
-import UniqueInput from "./UniqueInput";
+import InputText from "./InputText";
 import { useDispatch } from "react-redux";
 import {
   modalChange,
@@ -57,6 +57,7 @@ function ProfileChangeModal({ content, oldValue, onUpdateValue }) {
           current_password: inputRef3.current.value,
           new_password: inputRef1.current.value,
         };
+
         updateCustomerPassword(data).then(() => {
           dispatch(modalToggle(false));
           dispatch(modalChange({ type: null, content: null }));
@@ -111,26 +112,26 @@ function ProfileChangeModal({ content, oldValue, onUpdateValue }) {
         </div>
         <div className="mx-[10%] mt-6">
           {content.name === "Password" && (
-            <UniqueInput
+            <InputText
               placeholder={placeholder3}
-              inputRef={inputRef3}
+              ref={inputRef3}
               inputType={inputType}
               defaultValue={defaultValue}
               maxLength={maxLength}
             />
           )}
-          <UniqueInput
+          <InputText
             placeholder={placeholder1}
-            inputRef={inputRef1}
+            ref={inputRef1}
             inputType={inputType}
             defaultValue={defaultValue}
             maxLength={maxLength}
           />
           {content.name === "Password" && (
             <>
-              <UniqueInput
+              <InputText
                 placeholder={placeholder2}
-                inputRef={inputRef2}
+                ref={inputRef2}
                 inputType={inputType}
                 defaultValue={defaultValue}
                 maxLength={maxLength}

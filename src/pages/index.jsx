@@ -172,7 +172,7 @@ function Homepage() {
                       product_id={product_id}
                       title={title}
                       price={price}
-                      image={image}
+                      image={image[0]}
                     />
                   )
                 )}
@@ -208,7 +208,7 @@ function Homepage() {
                       product_id={product_id}
                       title={title}
                       price={price}
-                      image={image}
+                      image={image[0]}
                     />
                   )
                 )}

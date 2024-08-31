@@ -1,88 +1,30 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalWindow from "../atoms/ModalWindow";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
-import UniqueInput from "./UniqueInput";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   modalChange,
   modalToggle,
 } from "../../store/reducers/webContentSlicer";
-import {
-  getCustomerAddress,
-  patchSelectedAddress,
-  postCustomerAddress,
-} from "../../services/address.service";
+import AddressModalNew from "./AddressModalNew";
+import AddressListCard from "./AddressListCard";
+import AddressModalEdit from "./AddressModalEdit";
 
 function AddressModal({ address, setAddress }) {
   const [activeAddressInput, setActiveAddressInput] = useState(false);
+  const [inputType, setInputType] = useState("");
   const dispatch = useDispatch();
+  const [editAddress, setEditAddress] = useState(null);
   const closeModalHandler = () => {
     dispatch(modalToggle());
     dispatch(modalChange({ type: null, content: null }));
   };
   const handleActiveAddressInput = () => {
     setActiveAddressInput(!activeAddressInput);
+    setInputType("new");
   };
-  const handleAddAddress = () => {
-    const recipient = recipientRef.current.value;
-    const address_line = addressLineRef.current.value;
-    const city = cityRef.current.value;
-    const region = provinceRef.current.value;
-    const postal_code = postalRef.current.value;
-    if (
-      recipient.length > 0 &&
-      address_line.length > 0 &&
-      city.length > 0 &&
-      region.length > 0 &&
-      postal_code.length > 0
-    ) {
-      const data = {
-        recipient,
-        address_line,
-        city,
-        region,
-        postal_code,
-      };
-      postCustomerAddress(data)
-        .then(() => getCustomerAddress())
-        .then((res) => setAddress(res.data))
-        .then(() => setActiveAddressInput(!activeAddressInput));
-    } else {
-      alert("All field must be filled");
-    }
-  };
-  const handleSelectAddress = (addressId) => {
-    patchSelectedAddress(addressId)
-      .then(() => getCustomerAddress())
-      .then((res) => {
-        closeModalHandler();
-        setAddress(res.data);
-      });
-  };
-  const recipientRef = useRef();
-  const addressLineRef = useRef();
-  const cityRef = useRef();
-  const provinceRef = useRef();
-  const postalRef = useRef();
-  const inputContent = [
-    {
-      placeholder: "Recipient Name",
-      ref: recipientRef,
-      type: "text",
-      maxLength: 30,
-    },
-    {
-      placeholder: "Address Line",
-      ref: addressLineRef,
-      type: "textarea",
-      maxLength: 255,
-    },
-    { placeholder: "City", ref: cityRef, type: "text", maxLength: 30 },
-    { placeholder: "Province", ref: provinceRef, type: "text", maxLength: 30 },
-    { placeholder: "Postal Code", ref: postalRef, type: "text", maxLength: 15 },
-  ];
   return (
     <ModalWindow>
       <div className="w-[800px] h-[90vh] max-h-[90vh]">
@@ -112,70 +54,37 @@ function AddressModal({ address, setAddress }) {
             {activeAddressInput ? "Cancel" : "Add Address"}
           </button>
         </div>
-        {activeAddressInput && (
+        {activeAddressInput && inputType === "new" && (
           <>
-            <div className="p-4 ">
-              <div className="max-h-[65vh] overflow-y-auto">
-                <h1 className="text-xl font-medium">Address Details Input</h1>
-                {inputContent.map((val, i) => (
-                  <UniqueInput
-                    key={val.placeholder + i}
-                    type={val.type}
-                    placeholder={val.placeholder}
-                    maxLength={val.maxLength}
-                    ref={val.ref}
-                  />
-                ))}
-                <button
-                  onClick={handleAddAddress}
-                  className="w-full mt-6 py-2 rounded-md text-xl border-[1px] border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white font-medium"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
+            <AddressModalNew
+              setAddress={setAddress}
+              setActiveAddressInput={setActiveAddressInput}
+              activeAddressInput={activeAddressInput}
+            />
+          </>
+        )}
+        {activeAddressInput && inputType === "edit" && (
+          <>
+            <AddressModalEdit
+              setAddress={setAddress}
+              setActiveAddressInput={setActiveAddressInput}
+              activeAddressInput={activeAddressInput}
+              editAddress={editAddress}
+            />
           </>
         )}
         {!activeAddressInput && (
           <div className="px-4 pb-6 mt-4">
             <div className="max-h-[65vh] overflow-y-auto space-y-2 ">
               {address.map((val) => (
-                <div
+                <AddressListCard
                   key={"address-" + val.id}
-                  className={
-                    (val.selected === 1 ? "bg-blue-100" : "") +
-                    ` rounded-lg border-[1px] border-opacity-50 border-blue-600 p-4 relative shadow-[0_0_2px_1px_rgba(0,0,0,0.1)] `
-                  }
-                >
-                  <div className="absolute right-4 top-0 h-full flex items-center">
-                    {val.selected === 1 ? (
-                      <FontAwesomeIcon
-                        className="text-3xl text-gray-500"
-                        icon={faCheck}
-                      />
-                    ) : (
-                      <button
-                        onClick={() => handleSelectAddress(val.id)}
-                        className="py-1 px-6 rounded-md text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white"
-                      >
-                        Select
-                      </button>
-                    )}
-                  </div>
-                  <h3 className="mb-2">{val.recipient}</h3>
-                  <p>
-                    {val.address_line} , {val.city}, {val.region}. Postal Code:{" "}
-                    {val.postal_code}
-                  </p>
-                  <div className="mt-4 space-x-8">
-                    <span className="text-blue-500 hover:cursor-pointer">
-                      Edit
-                    </span>
-                    <span className="text-red-500 hover:cursor-pointer">
-                      Delete
-                    </span>
-                  </div>
-                </div>
+                  address={val}
+                  setAddress={setAddress}
+                  setInputType={setInputType}
+                  setEditAddress={setEditAddress}
+                  setActiveAddressInput={setActiveAddressInput}
+                />
               ))}
             </div>
           </div>

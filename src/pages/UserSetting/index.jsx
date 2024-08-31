@@ -57,7 +57,7 @@ function UserSetting() {
           <h1 className=" text-[30px] font-bold">User Settings</h1>
         </div>
 
-        <section className="mx-auto max-w-[1000px] flex flex-row bg-white p-4 mb-20">
+        <section className="mx-auto max-w-[1000px] flex flex-row bg-white p-4 mb-20 shadow-gray-500  drop-shadow-md ">
           <div className="w-full">
             <div className="p-4">
               <h1 className="text-3xl font-medium">Profile</h1>

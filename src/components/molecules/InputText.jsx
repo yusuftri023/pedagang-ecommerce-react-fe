@@ -1,13 +1,10 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 
 /* eslint-disable react/prop-types */
-function UniqueInput({
-  placeholder,
-  inputType,
-  inputRef,
-  defaultValue = null,
-  maxLength = undefined,
-}) {
+function InputComponent(
+  { placeholder, inputType, defaultValue = null, maxLength = undefined },
+  ref
+) {
   const [currentInput, setCurrentInput] = useState(defaultValue);
   const [inputCounter, setInputCounter] = useState(defaultValue?.length || 0);
   const handleCounterChange = (e) => {
@@ -33,7 +30,7 @@ function UniqueInput({
       <label htmlFor={inputId}> </label>
       {inputType !== "textarea" && (
         <input
-          ref={inputRef}
+          ref={ref}
           id={inputId}
           name={inputId}
           className={`w-full rounded-md border-[1px] border-gray-300 p-2 mt-4 outline-none bg-transparent `}
@@ -46,7 +43,7 @@ function UniqueInput({
       )}
       {inputType === "textarea" && (
         <textarea
-          ref={inputRef}
+          ref={ref}
           id={inputId}
           name={inputId}
           className={`w-full rounded-md border-[1px] border-gray-300 p-2 mt-4 outline-none bg-transparent resize-none `}
@@ -65,5 +62,6 @@ function UniqueInput({
     </div>
   );
 }
+const InputText = forwardRef(InputComponent);
 
-export default UniqueInput;
+export default InputText;

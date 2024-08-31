@@ -25,6 +25,18 @@ export const postCustomerAddress = async (data) => {
     return { success: false, message: error.response.data.message };
   }
 };
+export const patchCustomerAddress = async (data) => {
+  try {
+    const response = await axios.patch(
+      `https://api.pedagang-ecommerce.site/customers/address/${data.address_id}`,
+      JSON.stringify(data),
+      { headers: { "Content-Type": "application/json" }, withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
 export const patchSelectedAddress = async (addressId) => {
   try {
     const response = await axios.patch(
@@ -40,7 +52,7 @@ export const patchSelectedAddress = async (addressId) => {
 export const deleteCustomerAddress = async (addressId) => {
   try {
     const response = await axios.delete(
-      `https://api.pedagang-ecommerce.site/customers/address/delete/${addressId}`,
+      `https://api.pedagang-ecommerce.site/customers/address/${addressId}`,
       {
         withCredentials: true,
       }

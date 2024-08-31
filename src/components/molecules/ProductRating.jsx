@@ -9,9 +9,7 @@ import ShiningEffect from "../atoms/ShiningEffect";
 function ProductRating({ productId }) {
   const [rating, setRating] = useState(null);
   useEffect(() => {
-    getProductRating(productId).then((res) =>
-      setTimeout(() => setRating(res.data[0]), 1000)
-    );
+    getProductRating(productId).then((res) => setRating(res.data[0]));
   }, []);
   return (
     <div className="flex text-md space-x-4 mt-6">

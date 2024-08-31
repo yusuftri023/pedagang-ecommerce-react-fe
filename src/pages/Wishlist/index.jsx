@@ -60,7 +60,7 @@ const Wishlist = () => {
                       wishlistId={val.wishlist_id}
                       productId={val.product_id}
                       productConfigId={val.product_config_id}
-                      image={val.image}
+                      image={val.image[0]}
                       price={val.price}
                       variation_value={val.variation_value}
                       variation_name={val.variation_name}
