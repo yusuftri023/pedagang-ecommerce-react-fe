@@ -48,7 +48,7 @@ const Checkout = () => {
   const totalBeforeDiscount = useTotalBeforeDiscount(cart);
   const discount = useDiscount(cart, promo);
   const [shippingCost, setShippingCost] = useState(0);
-  const selectedAddress = address.filter((val) => val.selected === 1)[0];
+  const selectedAddress = address?.filter((val) => val.selected === 1)[0];
   const handleSetAddress = (address) => {
     setAddress(address);
     dispatch(popUpToggle(true));
