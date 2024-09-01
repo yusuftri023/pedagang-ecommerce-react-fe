@@ -14,8 +14,6 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { getCart } from "../../store/actions/cartAction";
 import PromoCodeBar from "../../components/molecules/PromoCodeBar";
 import {
-  modalChange,
-  modalToggle,
   popUpChange,
   popUpToggle,
 } from "../../store/reducers/webContentSlicer";
@@ -23,7 +21,6 @@ import BriefPopUp from "../../components/atoms/BriefPopUp";
 import CheckoutItem from "../../components/molecules/CheckoutItem";
 import { getCustomerAddress } from "../../services/address.service";
 import AddressModal from "../../components/molecules/AddressModal";
-import { checkoutOrder } from "../../services/order.service";
 import SnapPaymentModal from "../../components/molecules/SnapPaymentModal";
 import BriefPopUpContent from "../../components/molecules/BriefPopUpContent";
 import { getCustomerCart } from "../../services/cart.service";
@@ -31,6 +28,7 @@ import { useDiscount, useTotalBeforeDiscount } from "../../utils/discount";
 import { formatRupiah } from "../../utils/utils";
 import AddressCard from "../../components/molecules/AddressCard";
 import { postRajaOngkirCost } from "../../services/shipment.service";
+import CheckoutButton from "../../components/molecules/CheckoutButton";
 
 const Checkout = () => {
   const [cart, setCart] = useState([]);
@@ -38,8 +36,7 @@ const Checkout = () => {
   const dispatch = useDispatch();
 
   const [promo, setPromo] = useState([]);
-  const [address, setAddress] = useState([]);
-  const [payment, setPayment] = useState(null);
+  const [address, setAddress] = useState(null);
   const showPopUp = useSelector((state) => state.webContent.showPopUp);
   const typePopUp = useSelector((state) => state.webContent.typePopUp);
   const showModal = useSelector((state) => state.webContent.showModal);
@@ -55,78 +52,6 @@ const Checkout = () => {
     dispatch(popUpChange({ type: "addressChanged", content: null }));
   };
 
-  const handleCheckout = () => {
-    const items = cartWithStock.map(
-      ({
-        product_id,
-        product_config_id,
-        quantity,
-        title,
-        price,
-        discount,
-        category_name,
-      }) => {
-        return {
-          product_config_id,
-          name: title.slice(0, 50),
-          quantity,
-          price: price * (1 - discount),
-          category: category_name,
-          url: `https://${window.location.hostname}/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`,
-        };
-      }
-    );
-    const total_price = totalBeforeDiscount - discount + shippingCost;
-    const data = {
-      order_list: {
-        items,
-        total_price,
-      },
-      discount: -discount,
-      shipping_cost: shippingCost,
-      address_id: Number(selectedAddress.address_id),
-      payment_method_id: 1,
-    };
-    const showSnapPayment = (token) => {
-      window.snap.pay(token, {
-        onSuccess: function () {
-          dispatch(modalToggle(false));
-          dispatch(modalChange({ type: null, content: null }));
-          window.location.href = "/user/orders";
-        },
-        onPending: function () {
-          dispatch(modalToggle(false));
-          dispatch(modalChange({ type: null, content: null }));
-          window.location.href = "/user/orders";
-        },
-        onClose: function () {
-          alert(
-            "Closing the popup without finishing the payment will refresh this page"
-          );
-          dispatch(modalToggle(false));
-          dispatch(modalChange({ type: null, content: null }));
-          window.location.reload();
-        },
-      });
-    };
-    if (!payment) {
-      checkoutOrder(data)
-        .then(({ data }) => {
-          dispatch(modalToggle(true));
-          dispatch(modalChange({ type: "snapPayment" }));
-          return data;
-        })
-        .then((data) => {
-          setPayment(data);
-          showSnapPayment(data.token);
-        });
-    } else {
-      showSnapPayment(payment.token);
-    }
-
-    dispatch(modalToggle(true));
-    dispatch(modalChange({ type: "snapPayment" }));
-  };
   useEffect(() => {
     getAuth()
       .then(() => dispatch(setAuth(true)))
@@ -193,9 +118,13 @@ const Checkout = () => {
           <div className="min-h-[400px] mx-auto flex  w-[1000px]">
             <div className="w-full gap-4 flex  mb-20">
               <div className="space-y-6">
-                <div className="mx-auto ">
-                  <AddressCard selectedAddress={selectedAddress} />
-                </div>
+                {address !== null ? (
+                  <div className="mx-auto ">
+                    <AddressCard selectedAddress={selectedAddress} />
+                  </div>
+                ) : (
+                  <AddressCard />
+                )}
                 <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
                   {cart
                     ?.filter((val) => val.stock > 0)
@@ -243,12 +172,15 @@ const Checkout = () => {
                     </div>
                   </div>
                   <div>
-                    <button
-                      className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500]  transition-colors duration-300"
-                      onClick={handleCheckout}
+                    <CheckoutButton
+                      cartWithStock={cartWithStock}
+                      totalBeforeDiscount={totalBeforeDiscount}
+                      discount={discount}
+                      shippingCost={shippingCost}
+                      selectedAddress={selectedAddress}
                     >
                       <FontAwesomeIcon icon={faLock} /> Proceed To Payment
-                    </button>
+                    </CheckoutButton>
                   </div>
                 </div>
               </div>

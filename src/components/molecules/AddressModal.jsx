@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalWindow from "../atoms/ModalWindow";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   modalChange,
@@ -25,6 +25,12 @@ function AddressModal({ address, setAddress }) {
     setActiveAddressInput(!activeAddressInput);
     setInputType("new");
   };
+  useEffect(() => {
+    if (address === null) {
+      setActiveAddressInput(true);
+      setInputType("new");
+    }
+  }, []);
   return (
     <ModalWindow>
       <div className="w-[800px] h-[90vh] max-h-[90vh]">
@@ -76,7 +82,7 @@ function AddressModal({ address, setAddress }) {
         {!activeAddressInput && (
           <div className="px-4 pb-6 mt-4">
             <div className="max-h-[65vh] overflow-y-auto space-y-2 ">
-              {address.map((val) => (
+              {address?.map((val) => (
                 <AddressListCard
                   key={"address-" + val.id}
                   address={val}

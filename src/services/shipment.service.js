@@ -1,5 +1,18 @@
 import axios from "axios";
 
+export const getShipmentAddress = async (shipmentId) => {
+  try {
+    const response = await axios.get(
+      `https://api.pedagang-ecommerce.site/customers/shipments/${shipmentId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { success: false, message: error.response.data.message };
+  }
+};
 export const rajaOngkirProvince = async () => {
   try {
     const response = await axios.get(

@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListAlt } from "@fortawesome/free-solid-svg-icons";
 import OrderTable from "../../components/molecules/OrderTable";
 import { OrderContext } from "../../context";
-import ModalWindow from "../../components/atoms/ModalWindow";
 import { useSelector } from "react-redux";
+import OrderDetailModal from "../../components/molecules/OrderDetailModal";
 
 function Order() {
   const [orders, setOrders] = useState([]);
@@ -16,7 +16,7 @@ function Order() {
   const showModal = useSelector((state) => state.webContent.showModal);
   const typeModal = useSelector((state) => state.webContent.typeModal);
   const contentModal = useSelector((state) => state.webContent.contentModal);
-
+  console.log(showModal, typeModal, contentModal);
   const handleSetOrders = (newOrder) => {
     setOrders(newOrder);
   };
@@ -37,7 +37,7 @@ function Order() {
     <>
       <MainLayouts>
         {showModal && typeModal === "showOrderDetail" && (
-          <ModalWindow content={contentModal}></ModalWindow>
+          <OrderDetailModal content={contentModal} />
         )}
         <div className="pt-4 min-w-[1000px] bg-zinc-100 ">
           <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
