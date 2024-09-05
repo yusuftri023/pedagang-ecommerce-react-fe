@@ -4,11 +4,11 @@ import IconAndroid from "../../assets/images/landing-page/app_android.png";
 function AppDownload() {
   return (
     <div className="">
-      <h3 className="text-xl mb-5">Download App</h3>
+      <h3 className="mb-5 text-xl">Download App</h3>
       <p>
         Pedagang App is now available on App Store & Google Play. Get it now.
       </p>
-      <div className="flex w-full space-x-4 mt-4">
+      <div className="mt-4 flex w-full space-x-4">
         <a href="#">
           <img src={IconIOS} alt="" srcSet="" className="w-52" />
         </a>

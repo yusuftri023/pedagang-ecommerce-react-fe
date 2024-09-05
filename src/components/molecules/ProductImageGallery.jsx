@@ -9,7 +9,7 @@ function ProductImageGallery({ defaultImg, images }) {
   };
   return (
     <div className="p-6">
-      <div className=" overflow-hidden rounded-2xl">
+      <div className="overflow-hidden  rounded-2xl">
         <ZoomImageHover
           imagesrc={currentImage}
           height={500}
@@ -19,8 +19,8 @@ function ProductImageGallery({ defaultImg, images }) {
           position={"center"}
         />
       </div>
-      <div className=" overflow-y-hidden py-2 no-scrollbar max-w-[500px] mx-auto">
-        <div className="flex justify-left gap-x-2">
+      <div className=" no-scrollbar mx-auto max-w-[500px] overflow-y-hidden py-2">
+        <div className="justify-left flex gap-x-2">
           {images?.map((val, i) => (
             <img
               key={"product-img" + i}
@@ -28,7 +28,7 @@ function ProductImageGallery({ defaultImg, images }) {
                 (currentImage === val
                   ? `border-[2px] border-blue-600 border-opacity-50 `
                   : ``) +
-                ` size-[76px] aspect-square rounded-xl hover:cursor-pointer hover:brightness-75 transition-all duration-100`
+                ` aspect-square size-[76px] rounded-xl transition-all duration-100 hover:cursor-pointer hover:brightness-75`
               }
               src={val}
               onClick={() => handleThumbnail(val)}

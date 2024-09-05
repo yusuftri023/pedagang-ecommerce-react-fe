@@ -5,12 +5,12 @@ function ProductTitle({ title, variation_name, variation_value }) {
   return (
     <div
       className={
-        (title ? "" : "bg-gray-200 overflow-hidden") +
-        " min-w-[100px] min-h-[20px] rounded-full flex"
+        (title ? "" : "overflow-hidden bg-gray-200") +
+        " flex min-h-[20px] min-w-[100px] rounded-full"
       }
     >
       {title ? (
-        <div className=" text-3xl font-semibold">
+        <div className="text-3xl font-semibold ">
           {title}
           {variation_name === "-"
             ? ""

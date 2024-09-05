@@ -4,7 +4,7 @@ import Navbar from "../components/organisms/Navbar";
 
 function MainLayouts({ children }) {
   return (
-    <main className="bg-zinc-100 -z-10 min-h-[100vh] ">
+    <main className="-z-10 min-h-[100vh] bg-zinc-100 ">
       <Navbar />
       {children}
       <Footer />

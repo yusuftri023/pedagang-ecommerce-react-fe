@@ -23,18 +23,18 @@ function AddToCartModal() {
   };
   return (
     <ModalWindow>
-      <div className="w-[400px] py-4 px-4">
+      <div className="w-[400px] px-4 py-4">
         <div className="flex justify-between">
           <p>Item successfully added to Cart</p>
           <button
             onClick={closeModalHandler}
-            className="size-8 text-lg font-bold active:border-2 rounded-md"
+            className="size-8 rounded-md text-lg font-bold active:border-2"
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>
         </div>
         <div className="my-2">
-          <img src={contentModal.image} className="size-[200px] mx-auto"></img>
+          <img src={contentModal.image} className="mx-auto size-[200px]"></img>
           <p className="text-center">{contentModal.title}</p>
           <p className="text-center font-semibold">
             {formatRupiah(contentModal.price)}
@@ -43,13 +43,13 @@ function AddToCartModal() {
         <div className="my-2 mt-4">
           <button
             onClick={navigateModalToCart}
-            className="w-full h-12 bg-green-600 border-2 border-green-500 text-white"
+            className="h-12 w-full border-2 border-green-500 bg-green-600 text-white"
           >
             View Your Cart
           </button>
         </div>
         <div>
-          <button onClick={closeModalHandler} className="w-full h-12 border-2">
+          <button onClick={closeModalHandler} className="h-12 w-full border-2">
             Continue Shopping
           </button>
         </div>

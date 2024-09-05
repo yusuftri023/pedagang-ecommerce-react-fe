@@ -52,12 +52,12 @@ function UserSetting() {
             <BriefPopUpContent text={"Profile has been changed"} />
           </BriefPopUp>
         )}
-        <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
+        <div className="my-10 border-y-4 border-gray-700 py-4 text-center">
           <FontAwesomeIcon icon={faWrench} className="size-12 " />
           <h1 className=" text-[30px] font-bold">User Settings</h1>
         </div>
 
-        <section className="mx-auto max-w-[1000px] flex flex-row bg-white p-4 mb-20 shadow-gray-500  drop-shadow-md ">
+        <section className="mx-auto mb-20 flex max-w-[1000px] flex-row bg-white p-4 shadow-gray-500  drop-shadow-md ">
           <div className="w-full">
             <div className="p-4">
               <h1 className="text-3xl font-medium">Profile</h1>

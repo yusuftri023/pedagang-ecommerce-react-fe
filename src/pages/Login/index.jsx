@@ -51,12 +51,12 @@ function Login() {
     <>
       <FormLayouts>
         <div className="pt-16">
-          <div className="w-[800px] h-[500px] mx-auto flex rounded-xl overflow-hidden text-zinc-100 ">
-            <div className="w-[50%] h-full flex items-center justify-center bg-blue-100 bg-opacity-50 ">
+          <div className="mx-auto flex h-[500px] w-[800px] overflow-hidden rounded-xl text-zinc-100 ">
+            <div className="flex h-full w-[50%] items-center justify-center bg-blue-100 bg-opacity-50 ">
               <img src={registersvg} className="w-[80%] "></img>
             </div>
-            <div className="w-[50%] px-10 py-2 bg-blue-700 bg-opacity-55">
-              <h1 className="text-center text-3xl my-5">
+            <div className="w-[50%] bg-blue-700 bg-opacity-55 px-10 py-2">
+              <h1 className="my-5 text-center text-3xl">
                 Sign In To Your Account
               </h1>
               <form action="" className="">
@@ -75,20 +75,20 @@ function Login() {
 
                 <button
                   onClick={handleLogin}
-                  className="flex items-center justify-center py-2 px-4 rounded-lg bg-[#FFCA1D] text-white w-full my-3"
+                  className="my-3 flex w-full items-center justify-center rounded-lg bg-[#FFCA1D] px-4 py-2 text-white"
                 >
                   Sign In
                 </button>
                 {error && (
                   <div>
-                    <p className="text-center text-md font-light text-red-500 ">
+                    <p className="text-md text-center font-light text-red-500 ">
                       {error}
                     </p>
                   </div>
                 )}
               </form>
 
-              <div className="text-center mt-4 space-x-1">
+              <div className="mt-4 space-x-1 text-center">
                 <span className="">Do not have an account? </span>
                 <span
                   onClick={() => (window.location.href = "/register")}
@@ -99,10 +99,10 @@ function Login() {
               </div>
 
               <div
-                className="flex items-center justify-center py-2 px-4 mt-10 rounded-lg bg-gray-700 text-white w-full transition-colors duration-150 hover:cursor-pointer hover:bg-gray-500"
+                className="mt-10 flex w-full items-center justify-center rounded-lg bg-gray-700 px-4 py-2 text-white transition-colors duration-150 hover:cursor-pointer hover:bg-gray-500"
                 onClick={googleHandle}
               >
-                <img src={googleIcon} className=" size-7 mr-4" />
+                <img src={googleIcon} className="mr-4  size-7" />
                 Signin with Google
               </div>
             </div>

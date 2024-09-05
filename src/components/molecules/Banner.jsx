@@ -9,8 +9,8 @@ function Banner({ banner, quantity }) {
       }}
       className={` overflow-hidden`}
     >
-      <div className="size-full hover:scale-105 duration-300 ">
-        <div className="h-[140%] flex justify-end">
+      <div className="size-full duration-300 hover:scale-105 ">
+        <div className="flex h-[140%] justify-end">
           <img
             src={banner.image}
             style={{
@@ -20,8 +20,8 @@ function Banner({ banner, quantity }) {
             className={`w-full object-cover`}
           />
         </div>
-        <div className="relative h-[100%] -translate-y-[150%] flex flex-col px-5 justify-end flex-nowrap">
-          <h2 className="mb-4 text-xl w-[50%]">{banner.title}</h2>
+        <div className="relative flex h-[100%] -translate-y-[150%] flex-col flex-nowrap justify-end px-5">
+          <h2 className="mb-4 w-[50%] text-xl">{banner.title}</h2>
           <h2>{banner.body}</h2>
         </div>
       </div>

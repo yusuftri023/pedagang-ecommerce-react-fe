@@ -16,6 +16,7 @@ import {
   popUpToggle,
 } from "../../store/reducers/webContentSlicer";
 import { formatRupiah } from "../../utils/utils";
+import { useUpdateCartMutation } from "../../store/reducers/apiSlicer";
 
 function CartItem({
   cartId,
@@ -50,7 +51,7 @@ function CartItem({
   const handleQuantityInput = (e) => {
     if (Number(e.target.value) > 0) {
       setCounter(
-        Number(e.target.value) > stock ? stock : Number(e.target.value)
+        Number(e.target.value) > stock ? stock : Number(e.target.value),
       );
     } else {
       setCounter(1);
@@ -62,7 +63,7 @@ function CartItem({
       postAddNote({ cart_id: cartId, note: noteValueRef.current.value }).then(
         () => {
           dispatch(getCart());
-        }
+        },
       );
     } else if (noteValueRef.current?.value?.length === 0) {
       postAddNote({ cart_id: cartId, note: null }).then(() => {
@@ -78,7 +79,7 @@ function CartItem({
         postAddNote({ cart_id: cartId, note: noteValueRef.current.value }).then(
           () => {
             dispatch(getCart());
-          }
+          },
         );
       } else if (noteValueRef.current?.value?.length === 0) {
         postAddNote({ cart_id: cartId, note: null }).then(() => {
@@ -133,11 +134,9 @@ function CartItem({
   }, [setActiveNote]);
 
   useEffect(() => {
-    patchChangeCartQuantity({ cartId, quantity: counter })
-      .then(() => {
-        dispatch(getCart());
-      })
-      .catch((err) => console.log(err));
+    patchChangeCartQuantity({ cartId, quantity: counter }).catch((err) =>
+      console.log(err),
+    );
   }, [counter]);
   return (
     <div>
@@ -167,11 +166,11 @@ function CartItem({
           </div>
           <div className="w-[15%]">
             <p>Price</p>
-            <p className=" break-words">{formatRupiah(price)}</p>
+            <p className="break-words ">{formatRupiah(price)}</p>
           </div>
           <div className="w-[15%]">
             <p>Qty</p>
-            <div className="flex  rounded-md  bg-slate-50 border-[2px] border-black">
+            <div className="flex  rounded-md  border-[2px] border-black bg-slate-50">
               <button
                 onClick={() => handleQuantityCounter("-")}
                 className="px-1"
@@ -180,7 +179,7 @@ function CartItem({
               </button>
               <input
                 type="number"
-                className="min-w-6 no-underline outline-none text-center"
+                className="min-w-6 text-center no-underline outline-none"
                 value={counter}
                 onChange={handleQuantityInput}
               />
@@ -200,7 +199,7 @@ function CartItem({
           </div>
         </div>
         <div>
-          <div className="flex flex-row-reverse gap-2 items-center ">
+          <div className="flex flex-row-reverse items-center gap-2 ">
             <FontAwesomeIcon
               icon={faTrash}
               className="px-1 hover:cursor-pointer"
@@ -213,7 +212,7 @@ function CartItem({
               onClick={handleAddToWishlist}
             />
             <div
-              className="w-1/2 flex flex-row-reverse items-center"
+              className="flex w-1/2 flex-row-reverse items-center"
               ref={noteRef}
             >
               <FontAwesomeIcon
@@ -231,7 +230,7 @@ function CartItem({
                     width: `${noteRef?.current?.offsetWidth}px`,
                     marginRight: `${noteRef?.current?.children[0].clientWidth}px`,
                   }}
-                  className={` px-2 absolute`}
+                  className={` absolute px-2`}
                   placeholder="Your note"
                   onKeyDown={handleEnterOnNote}
                 />
@@ -239,7 +238,7 @@ function CartItem({
                 <></>
               )}
               {note && !activeNote ? (
-                <p className=" bg-zinc-100 px-2 rounded-md border-2 border-gray-200 truncate max-w-full">
+                <p className="max-w-full truncate rounded-md border-2 border-gray-200 bg-zinc-100 px-2">
                   note: {note}
                 </p>
               ) : (

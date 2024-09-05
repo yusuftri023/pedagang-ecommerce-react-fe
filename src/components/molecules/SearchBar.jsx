@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSearchProduct } from "../../store/actions/productAction";
 import { formatRupiah } from "../../utils/utils";
 import { getProductCategories } from "../../services/product.service";
+import { useClickOutsideElement } from "../../hooks/useClickOutsideElement";
+import useDebounceCallback from "../../hooks/useDebounce";
+import SearchBarResult from "./SearchBarResult";
 
 function SearchBar() {
   const dispatch = useDispatch();
@@ -13,8 +16,22 @@ function SearchBar() {
   const [search, setSearch] = useState("");
   const searchResult = useSelector((state) => state.searchResult.data);
   const [searchIsActive, setSearchIsActive] = useState(false);
+  const handleSetSearchIsActive = () => setSearchIsActive(false);
   const refCategoryOption = useRef("All");
   const searchRef = useRef();
+  const handleDebounce = () => {
+    if (search.length > 0) {
+      dispatch(
+        getSearchProduct({
+          searchString: search,
+          category: refCategoryOption.current,
+        }),
+      );
+    }
+  };
+
+  useDebounceCallback(handleDebounce, 1000, search, searchIsActive);
+  useClickOutsideElement(searchRef, handleSetSearchIsActive);
   useEffect(() => {
     getProductCategories().then((res) => {
       const listCategory = res.data
@@ -25,31 +42,9 @@ function SearchBar() {
       setCategory([...listCategory]);
     });
   }, []);
-  useEffect(() => {
-    if (search) {
-      const intervalSearch = setInterval(() => {
-        clearInterval(intervalSearch);
-        dispatch(
-          getSearchProduct({
-            searchString: search,
-            category: refCategoryOption.current,
-          })
-        );
-      }, 1000);
-      return () => clearInterval(intervalSearch);
-    }
-  }, [search]);
-  useEffect(() => {
-    if (searchIsActive) {
-      const handleOutsideClick = (e) => {
-        if (!searchRef.current.contains(e.target)) setSearchIsActive(false);
-      };
-      document.addEventListener("click", handleOutsideClick);
-      return () => document.removeEventListener("click", handleOutsideClick);
-    }
-  }, [searchIsActive]);
+
   return (
-    <div className="w-full mx-10 bg-white rounded-md">
+    <div className="mx-10 w-full rounded-md bg-white">
       <div className="flex">
         <select
           id="kategori-option"
@@ -68,7 +63,7 @@ function SearchBar() {
         </select>
         <div
           ref={searchRef}
-          className="w-full min-w-[100px] items-center relative overflow-visible z-50 "
+          className="relative z-50 w-full min-w-[100px] items-center overflow-visible "
         >
           <input
             type="search"
@@ -84,41 +79,16 @@ function SearchBar() {
           {searchIsActive &&
             searchResult &&
             (searchResult.length > 0 ? (
-              <div
-                className={` absolute w-full min-h-[200px] overflow-y-scroll max-h-[calc(80vh-30px)] bg-white rounded-b-xl `}
-              >
-                <div className="flex items-end  w-full px-4 text-2xl border-b-4 h-20 align-text-bottom ">
-                  <div className="mb-3">Products</div>
-                </div>
-                {searchResult.map((result) => (
-                  <div key={result.id} className="flex border-b-[1px]">
-                    <img src={result.image[0]} className="size-16 p-2"></img>
-                    <div className="px-4  flex flex-col justify-center">
-                      <a
-                        href={`/products/${encodeURIComponent(result.title.toLowerCase())}-${result.product_id}+${result.id}`}
-                        className=" line-clamp-1 text-blue-600 hover:cursor-pointer"
-                      >
-                        {result.title}
-                        {result.variation_name !== "-"
-                          ? ` (${result.variation_name} : ${result.variation_value})`
-                          : ""}
-                      </a>
-                      <p className=" font-semibold">
-                        {formatRupiah(result.price)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <SearchBarResult searchResult={searchResult} />
             ) : (
               <div
-                className={`absolute w-full min-h-[50px] overflow-y-scroll max-h-[calc(80vh-30px)] bg-white z-10 rounded-b-xl `}
+                className={`absolute z-10 max-h-[calc(80vh-30px)] min-h-[50px] w-full overflow-y-scroll rounded-b-xl bg-white `}
               >
                 <p className="py-4 text-center">No result found</p>
               </div>
             ))}
         </div>
-        <button className="h-full w-20 bg-[#FFCA1D] p-2 rounded-md transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 ">
+        <button className="h-full w-20 rounded-md bg-[#FFCA1D] p-2 transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 ">
           <img src={IconSearch} alt="search button" className="mx-auto" />
         </button>
       </div>

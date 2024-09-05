@@ -13,23 +13,23 @@ function OfferCountdown() {
     return () => clearInterval(delay);
   }, [time]);
   return (
-    <div className="h-full flex space-x-5 items-center ">
+    <div className="flex h-full items-center space-x-5 ">
       <p>Offers ends in: </p>
-      <div className=" bg-red-600 px-4 flex text-white text-sm items-baseline  space-x-2 ">
+      <div className="flex items-baseline space-x-2 bg-red-600 px-4 text-sm text-white ">
         <div className="flex items-baseline ">
-          <div className="text-xl min-w-[28px]">
+          <div className="min-w-[28px] text-xl">
             {hours < 10 ? "0" + hours : hours}
           </div>
           <div>Hours</div>
         </div>
         <div className="flex items-baseline">
-          <div className="text-xl min-w-[28px]">
+          <div className="min-w-[28px] text-xl">
             {minutes < 10 ? "0" + minutes : minutes}
           </div>
           <div>Minutes</div>
         </div>
         <div className="flex items-baseline">
-          <div className="text-xl min-w-[28px]">
+          <div className="min-w-[28px] text-xl">
             {seconds < 10 ? "0" + seconds : seconds}
           </div>
           <div>Seconds</div>

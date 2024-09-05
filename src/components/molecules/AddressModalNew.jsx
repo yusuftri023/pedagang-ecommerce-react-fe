@@ -75,7 +75,7 @@ function AddressModalNew({
         />
         <button
           onClick={handleAddAddress}
-          className="w-full mt-6 py-2 rounded-md text-xl border-[1px] border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white font-medium"
+          className="mt-6 w-full rounded-md border-[1px] border-blue-600 border-opacity-50 bg-blue-500 py-2 text-xl font-medium text-white transition-colors duration-100 hover:bg-blue-400"
         >
           Save
         </button>

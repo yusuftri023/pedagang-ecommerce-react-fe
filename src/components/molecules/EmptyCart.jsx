@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 function EmptyCart({ text }) {
   return (
-    <div className="min-h-[400px] mx-auto  px-10   w-[1000px]">
-      <div className="bg-white py-20  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+    <div className="mx-auto min-h-[400px]  w-[1000px]   px-10">
+      <div className="h-[fit-content] w-full  bg-white  py-20  shadow-gray-500 drop-shadow-md">
         <h1 className="text-center text-2xl">{text}</h1>
       </div>
       <button
         onClick={() => (window.location.href = "/")}
-        className="right-0 w-[fit-content]  py-3 px-8 my-4  mt-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500] animate-fade-in-drop transition-colors duration-300"
+        className="right-0 my-4  mt-2 w-[fit-content] animate-fade-in-drop  bg-[#FFCA1D] px-8 py-3 font-[500] transition-colors duration-300 hover:bg-[#968447]"
       >
         Return to Shop
       </button>

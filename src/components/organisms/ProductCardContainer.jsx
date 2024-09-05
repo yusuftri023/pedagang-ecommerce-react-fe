@@ -22,25 +22,25 @@ function ProductCardContainer({ children, title }) {
     slideRef.current.scrollBy({ left: width, behavior: "smooth" });
   };
   return (
-    <section className="mt-4 overflow-y-visible mb-40  max-h-[280px] ">
-      <div className="border-b-2 border-gray-400 mb-4 flex -z-10  justify-between">
-        <div className="border-b-2 border-[#FFCA1D] -mb-[2px]">{title}</div>
+    <section className="mb-40 mt-4 max-h-[280px]  overflow-y-visible ">
+      <div className="-z-10 mb-4 flex justify-between border-b-2  border-gray-400">
+        <div className="-mb-[2px] border-b-2 border-[#FFCA1D]">{title}</div>
         {title === "Top Selling Product" && <OfferCountdown />}
       </div>
 
-      <div ref={slideRef} className="overflow-x-scroll no-scrollbar   ">
+      <div ref={slideRef} className="no-scrollbar overflow-x-scroll   ">
         <FontAwesomeIcon
           onClick={handleLeftArrow}
           icon={faArrowCircleLeft}
-          className=" mt-[140px] h-[35px] items-center absolute   text-3xl text-zinc-200 hover:cursor-pointer hover:opacity-100 opacity-20 transition-opacity duration-300 "
+          className=" absolute mt-[140px] h-[35px] items-center   text-3xl text-zinc-200 opacity-20 transition-opacity duration-300 hover:cursor-pointer hover:opacity-100 "
         />
         <FontAwesomeIcon
           onClick={handleRightArrow}
           icon={faArrowCircleRight}
-          className=" ml-[1000px] mt-[140px] translate-x-[-100%]  h-[35px] items-center absolute  text-3xl text-zinc-200 hover:cursor-pointer hover:opacity-100 opacity-20 transition-opacity duration-300 "
+          className=" absolute ml-[1000px] mt-[140px]  h-[35px] translate-x-[-100%] items-center  text-3xl text-zinc-200 opacity-20 transition-opacity duration-300 hover:cursor-pointer hover:opacity-100 "
         />
 
-        <div className=" flex  justify-left   ">{children}</div>
+        <div className=" justify-left  flex   ">{children}</div>
       </div>
     </section>
   );

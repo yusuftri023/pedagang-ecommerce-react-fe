@@ -1,8 +1,18 @@
 import { useEffect } from "react";
-import useTimeout from "./useTimeout";
 
-export default function useDebounce(callback, delay, dependencies) {
-  const { reset, clear } = useTimeout(callback, delay);
-  useEffect(reset, [...dependencies, reset]);
-  useEffect(clear, []);
+export default function useDebounceCallback(
+  callback,
+  delay,
+  dependency,
+  toggle = null
+) {
+  useEffect(() => {
+    if (toggle === true) {
+      const debounceCallback = setTimeout(callback, 1000);
+      return () => clearTimeout(debounceCallback);
+    } else if (toggle === null) {
+      const debounceCallback = setTimeout(callback, 1000);
+      return () => clearTimeout(debounceCallback);
+    }
+  }, [callback, delay, dependency, toggle]);
 }

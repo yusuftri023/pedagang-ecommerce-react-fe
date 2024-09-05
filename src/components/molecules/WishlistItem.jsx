@@ -48,7 +48,10 @@ function WishlistItem({
       .then(() => {
         dispatch(modalToggle());
         dispatch(
-          modalChange({ type: "addedToCart", content: { image, title, price } })
+          modalChange({
+            type: "addedToCart",
+            content: { image, title, price },
+          }),
         );
       })
       .catch((err) => console.log(err));
@@ -56,28 +59,28 @@ function WishlistItem({
 
   return (
     <>
-      <div className=" border-gray-200 border-[1px] rounded-md drop-shadow-md shadow-black pb-2 h-[fit-content] overflow-hidden">
+      <div className=" h-[fit-content] overflow-hidden rounded-md border-[1px] border-gray-200 pb-2 shadow-black drop-shadow-md">
         <div>
-          <div className=" mx-auto">
+          <div className="mx-auto ">
             <div
-              className="overflow-hidden flex justify-center relative "
+              className="relative flex justify-center overflow-hidden "
               onClick={handleLink}
             >
               <img
                 src={image}
                 alt={title}
-                className=" aspect-square  hover:cursor-pointer hover:brightness-90 transition-all duration-100   "
+                className="aspect-square transition-all  duration-100 hover:cursor-pointer hover:brightness-90"
               />
               <div
-                className={`${stock > 0 ? "bg-green-100 " : "bg-red-100 "} absolute bottom-0 right-0 opacity-60 rounded-tl-md text-sm px-1 `}
+                className={`${stock > 0 ? "bg-green-100 " : "bg-red-100 "} absolute bottom-0 right-0 rounded-tl-md px-1 text-sm opacity-60 `}
               >
                 {stock > 0 ? `${stock} in stock` : "Out of Stock"}
               </div>
             </div>
-            <div className="w-[90%] mx-auto">
+            <div className="mx-auto w-[90%]">
               <div
                 onClick={handleLink}
-                className="text-blue-600 my-2 line-clamp-2 hover:cursor-pointer"
+                className="my-2 line-clamp-2 text-blue-600 hover:cursor-pointer"
               >
                 {title}{" "}
                 {variation_name === "-"
@@ -85,17 +88,17 @@ function WishlistItem({
                   : `(${variation_name}: ${variation_value})`}
               </div>
               <div className="flex flex-col ">
-                <div className=" font-semibold">{formatRupiah(price)}</div>
-                <div className="w-full flex items-center space-x-1 mt-2">
+                <div className="font-semibold ">{formatRupiah(price)}</div>
+                <div className="mt-2 flex w-full items-center space-x-1">
                   <button
                     onClick={handleDeleteFromWishlists}
-                    className="transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-400 flex items-center w-[46px] border-2 border-gray-200 rounded-md"
+                    className="flex w-[46px] items-center rounded-md border-2 border-gray-200 transition-colors duration-300 hover:cursor-pointer hover:border-gray-400 hover:bg-gray-400"
                   >
-                    <img className=" w-fit p-1" src={trashbinSvg}></img>
+                    <img className="w-fit  p-1" src={trashbinSvg}></img>
                   </button>
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#FFCA1D] border-[1px] p-[4px] border-[#FFCA1D]  rounded-sm  hover:bg-[#968447] hover:border-[#968447] w-full text-md  font-semibold  transition-colors duration-300"
+                    className="text-md w-full rounded-sm border-[1px]  border-[#FFCA1D]  bg-[#FFCA1D] p-[4px] font-semibold transition-colors  duration-300  hover:border-[#968447] hover:bg-[#968447]"
                   >
                     Add to Cart
                   </button>

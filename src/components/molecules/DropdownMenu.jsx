@@ -10,12 +10,12 @@ function DropdownMenu({
     <div
       className={
         (isHover ? "" : "hidden") +
-        " z-50 transform ease-in-out duration-300  absolute  w-0 h-0  mt-[-10px] animate-fade-in-drop"
+        " absolute z-50 mt-[-10px] h-0  w-0  transform animate-fade-in-drop  duration-300 ease-in-out"
       }
     >
       <div
         style={{ width: `${width}px`, height: `${height}`, left: `-${x}px` }}
-        className={`bg-zinc-100  shadow-[#c2c2c2] relative text-black top-[5px]  block whitespace-nowrap  shadow-md`}
+        className={`relative  top-[5px] block whitespace-nowrap bg-zinc-100  text-black shadow-md  shadow-[#c2c2c2]`}
       >
         {children}
       </div>

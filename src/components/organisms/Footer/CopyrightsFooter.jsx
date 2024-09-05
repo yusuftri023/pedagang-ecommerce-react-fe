@@ -1,7 +1,7 @@
 function CopyrightsFooter() {
   return (
-    <div className="bg-black text-zinc-100 p-6 overflow-hidden  ">
-      <div className="w-[1000px] mx-auto">
+    <div className="overflow-hidden bg-black p-6 text-zinc-100  ">
+      <div className="mx-auto w-[1000px]">
         <p>Copyright © PedagangEcommerce 2024 - All Rights Reserved</p>
       </div>
     </div>

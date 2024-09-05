@@ -6,10 +6,10 @@ function CartContent({ cart, cartType = null }) {
   return (
     <div
       style={{ opacity: cartType === "outOfStock" ? 0.7 : 1 }}
-      className=" bg-white p-6  shadow-gray-500   drop-shadow-md  h-[fit-content]"
+      className=" h-[fit-content] bg-white  p-6   shadow-gray-500  drop-shadow-md"
     >
       {cartType === "outOfStock" && (
-        <p className=" font-bold text-2xl ">Currently Out of Stock</p>
+        <p className="text-2xl font-bold ">Currently Out of Stock</p>
       )}
       {cart?.map((val, i) => (
         <CartItem

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 function ProductNavigation({ currentVariant }) {
   return (
-    <div className=" max-w-[1000px] mx-auto bg-white mb-4 p-3 rounded-lg">
-      <nav className=" space-x-2">
+    <div className=" mx-auto mb-4 max-w-[1000px] rounded-lg bg-white p-3">
+      <nav className="space-x-2 ">
         <span>Home</span>
         <span>&gt;</span>
         <span>

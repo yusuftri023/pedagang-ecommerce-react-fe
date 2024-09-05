@@ -6,15 +6,15 @@ import ProductDiscussionTabContent from "../atoms/ProductDiscussionTabContent";
 function ProductInformation({ product }) {
   const [tab, setTab] = useState("details");
 
-  const tabs = ["Details", "Ratings & Reviews", "Discussion"];
+  const tabs = ["Details", "Ratings & Reviews"];
   const handleTab = (e) => {
     setTab(e.target.id);
   };
   return (
-    <div className=" mt-4">
+    <div className="mt-4 ">
       <div
         onClick={handleTab}
-        className=" grid grid-cols-3 text-center border-y-2 "
+        className="grid grid-cols-2 border-y-2  text-center"
       >
         {tabs?.map((title) => (
           <div
@@ -24,7 +24,7 @@ function ProductInformation({ product }) {
               (title.split(" ")[0].toLowerCase() === tab
                 ? ` border-b-4 border-blue-600`
                 : ``) +
-              ` text-lg px-2 hover:bg-gray-100 hover:bg-opacity-50 hover:cursor-pointer transition-colors duration-500 py-2`
+              ` px-2 py-2 text-lg transition-colors duration-500 hover:cursor-pointer hover:bg-gray-100 hover:bg-opacity-50`
             }
           >
             {title}
@@ -32,7 +32,7 @@ function ProductInformation({ product }) {
         ))}
       </div>
 
-      <div className=" w-full pr-4 mt-2 min-h-[100px] ">
+      <div className=" mt-2 min-h-[100px] w-full pr-4 ">
         {tab === "details" ? (
           <ProductDetailTabContent detail={product?.description} />
         ) : tab === "ratings" ? (

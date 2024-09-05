@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setAuth } from "../../store/reducers/authenticationSlicer";
 import { getAuth } from "../../services/auth.service";
-import { getCart } from "../../store/actions/cartAction";
 import { getUserData } from "../../store/actions/customerAction";
 
 import HeaderButton from "./HeaderButton";
@@ -25,12 +24,8 @@ function UserUtils() {
 
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
-  const cart = useSelector((state) => state.cart.cart);
-
   useEffect(() => {
     getAuth()
-      .then(() => dispatch(setAuth(true)))
-      .then(() => dispatch(getCart()))
       .then(() => dispatch(getUserData()))
       .catch(() => {
         dispatch(setAuth(false));
@@ -51,7 +46,6 @@ function UserUtils() {
           faIcon={faCartShopping}
           text={"Cart"}
           url={"/cart"}
-          cart={cart}
         />
         {isLoggedIn ? (
           <>

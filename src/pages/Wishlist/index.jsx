@@ -45,15 +45,15 @@ const Wishlist = () => {
             <BriefPopUpContent text={"Product deleted from wishlist"} />
           </BriefPopUp>
         )}
-        <div className="pt-4 min-w-[1000px] bg-zinc-100 ">
-          <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
+        <div className="min-w-[1000px] bg-zinc-100 pt-4 ">
+          <div className="my-10 border-y-4 border-gray-700 py-4 text-center">
             <FontAwesomeIcon icon={faHeart} className="size-12 " />
             <h1 className=" text-[30px] font-bold">My Wishlist</h1>
           </div>
           {wishlist?.length > 0 ? (
-            <div className="min-h-[400px] mx-auto flex px-10   w-[1000px]">
-              <div className="w-full gap-4 flex my-20">
-                <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md   w-full h-[fit-content] grid grid-cols-5 gap-x-2 gap-y-6 py-20">
+            <div className="mx-auto flex min-h-[400px] w-[1000px]   px-10">
+              <div className="my-20 flex w-full gap-4">
+                <div className="grid h-[fit-content] w-full  min-w-[600px]  grid-cols-5   gap-x-2 gap-y-6 bg-white p-6 py-20 shadow-gray-500 drop-shadow-md">
                   {wishlist?.map((val, i) => (
                     <WishlistItem
                       key={val.title + i}

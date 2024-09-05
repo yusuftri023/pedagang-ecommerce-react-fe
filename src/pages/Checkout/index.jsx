@@ -112,11 +112,11 @@ const Checkout = () => {
           </BriefPopUp>
         )}
         <div className=" min-w-[1000px] bg-zinc-100">
-          <h1 className="w-[1000px] mx-auto text-3xl py-6 font-bold">
+          <h1 className="mx-auto w-[1000px] py-6 text-3xl font-bold">
             Checkout
           </h1>
-          <div className="min-h-[400px] mx-auto flex  w-[1000px]">
-            <div className="w-full gap-4 flex  mb-20">
+          <div className="mx-auto flex min-h-[400px]  w-[1000px]">
+            <div className="mb-20 flex w-full gap-4">
               <div className="space-y-6">
                 {address !== null ? (
                   <div className="mx-auto ">
@@ -125,7 +125,7 @@ const Checkout = () => {
                 ) : (
                   <AddressCard />
                 )}
-                <div className="min-w-[600px] bg-white p-6  shadow-gray-500  drop-shadow-md  w-full h-[fit-content]">
+                <div className="h-[fit-content] w-full min-w-[600px]  bg-white  p-6  shadow-gray-500 drop-shadow-md">
                   {cart
                     ?.filter((val) => val.stock > 0)
                     ?.map((val, i) => (
@@ -144,7 +144,7 @@ const Checkout = () => {
                     ))}
                 </div>
               </div>
-              <div className="min-w-[250px] bg-white  shadow-gray-500  drop-shadow-md  max-w-[1000px] w-[25%] px-4 py-6 h-[fit-content]">
+              <div className="h-[fit-content] w-[25%]  min-w-[250px]  max-w-[1000px]  bg-white px-4 py-6 shadow-gray-500 drop-shadow-md">
                 <div>
                   <PromoCodeBar setPromo={setPromo} promo={promo} />
                   <div className="mt-10">
@@ -160,12 +160,12 @@ const Checkout = () => {
                       <p>Discount</p>
                       <p>{formatRupiah(discount)}</p>
                     </div>
-                    <div className="flex justify-between py-2 border-y-2 mt-2">
+                    <div className="mt-2 flex justify-between border-y-2 py-2">
                       <p>Estimated Total</p>
                       <div>
-                        <p className=" break-words">
+                        <p className="break-words ">
                           {formatRupiah(
-                            totalBeforeDiscount - discount + shippingCost
+                            totalBeforeDiscount - discount + shippingCost,
                           )}
                         </p>
                       </div>

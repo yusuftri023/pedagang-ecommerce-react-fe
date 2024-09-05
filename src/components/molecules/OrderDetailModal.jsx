@@ -23,7 +23,7 @@ function OrderDetailModal({ content }) {
   useEffect(() => {
     orderDetails(content.id).then((res) => setOrderItem(res.data));
     getShipmentAddress(content.shipment_id).then((res) => setAddress(res.data));
-  }, []);
+  }, [content.id, content.shipment_id]);
 
   const handlePayment = () => {
     window.snap.pay(content.payment_token, {
@@ -39,7 +39,7 @@ function OrderDetailModal({ content }) {
       },
       onClose: function () {
         alert(
-          "Closing the popup without finishing the payment will refresh this page"
+          "Closing the popup without finishing the payment will refresh this page",
         );
         dispatch(modalToggle(false));
         dispatch(modalChange({ type: null, content: null }));
@@ -73,12 +73,12 @@ function OrderDetailModal({ content }) {
               <FontAwesomeIcon className="text-3xl" icon={faXmark} />
             </button>
           </div>
-          <div className="w-[700px] p-2 rounded-md border-[1px] border-gray-200 drop-shadow-md mt-4">
+          <div className="mt-4 w-[700px] rounded-md border-[1px] border-gray-200 p-2 drop-shadow-md">
             <table className="w-full table-auto ">
               <thead>
                 <tr>
                   <th>
-                    <div className="min-h-[50px] flex items-center justify-center">
+                    <div className="flex min-h-[50px] items-center justify-center">
                       <span>Item Summary</span>
                     </div>
                   </th>
@@ -91,15 +91,15 @@ function OrderDetailModal({ content }) {
                 {orderItem?.map((val, i) => (
                   <tr key={"order-item-" + i}>
                     <td>
-                      <div className="flex space-x-4 min-h-[50px] py-2">
-                        <div>
+                      <div className="flex min-h-[50px] space-x-4 py-2">
+                        <div className="min-w-fit">
                           <img
                             src={val.product_image[0]}
-                            className="size-[50px] aspect-square object-fill"
+                            className="aspect-square size-[50px] object-fill"
                           ></img>
                         </div>
                         <div className="">
-                          <p className=" line-clamp-2 ">{val.product_title}</p>
+                          <p className=" line-clamp-2">{val.product_title}</p>
                           {val.variation_name === "-" ? (
                             <></>
                           ) : (
@@ -108,7 +108,7 @@ function OrderDetailModal({ content }) {
                             </p>
                           )}
 
-                          <span className=" px-2 italic text-gray-500 ">
+                          <span className="px-2 italic text-gray-500 ">
                             note: {val.note}
                           </span>
                         </div>
@@ -120,7 +120,7 @@ function OrderDetailModal({ content }) {
                     </td>
                     <td className="text-center">
                       {formatRupiah(
-                        val.quantity * (val.price * (1 - val.discount))
+                        val.quantity * (val.price * (1 - val.discount)),
                       )}
                     </td>
                   </tr>
@@ -128,8 +128,8 @@ function OrderDetailModal({ content }) {
               </tbody>
             </table>
           </div>
-          <div className="flex mt-4 space-x-4 ">
-            <div className="w-[60%] p-4 rounded-md border-[1px] border-gray-200 drop-shadow-md">
+          <div className="mt-4 flex space-x-4 ">
+            <div className="w-[60%] rounded-md border-[1px] border-gray-200 p-4 drop-shadow-md">
               <h1 className="text-center font-bold">Shipment Summary</h1>
               {address && (
                 <div className="mt-4">
@@ -156,7 +156,7 @@ function OrderDetailModal({ content }) {
                 </div>
               )}
             </div>
-            <div className="h-fit w-[40%] p-4 rounded-md border-[1px] border-gray-200 drop-shadow-md">
+            <div className="h-fit w-[40%] rounded-md border-[1px] border-gray-200 p-4 drop-shadow-md">
               <h1 className="text-center font-bold">Order Summary</h1>
               <div className="mt-4"></div>
               <div className="flex ">
@@ -171,7 +171,7 @@ function OrderDetailModal({ content }) {
                 content.status === "Menunggu Pembayaran") && (
                 <button
                   onClick={handlePayment}
-                  className="w-full bg-green-500 py-2 rounded-md font-bold text-white mt-4"
+                  className="mt-4 w-full rounded-md bg-green-500 py-2 font-bold text-white"
                 >
                   Pay
                 </button>

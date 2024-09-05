@@ -19,7 +19,7 @@ const authenticator = async () => {
   try {
     const response = await axios.get(
       "https://api.pedagang-ecommerce.site/public/image-kit/token",
-      { withCredentials: true }
+      { withCredentials: true },
     );
 
     const data = response.data.data;
@@ -31,7 +31,7 @@ const authenticator = async () => {
 function ImageKit({ currentImage, onUpdateValue }) {
   const ikUploadRef = useRef(null);
   const loggedInUserData = useSelector(
-    (state) => state.authentication.loggedInUserData
+    (state) => state.authentication.loggedInUserData,
   );
   const imageRef = useRef(null);
   const isHover = useHover(imageRef);
@@ -67,10 +67,10 @@ function ImageKit({ currentImage, onUpdateValue }) {
       <div
         ref={imageRef}
         onClick={handleChangeImage}
-        className="size-[300px] overflow-hidden rounded-full relative hover:cursor-pointer"
+        className="relative size-[300px] overflow-hidden rounded-full hover:cursor-pointer"
       >
         {isHover && (
-          <div className="absolute top-0 left-0 w-full h-full bg-black transition-opacity duration-100 bg-opacity-0 hover:flex-col hover:flex hover:bg-opacity-30 text-zinc-200 justify-center items-center">
+          <div className="absolute left-0 top-0 h-full w-full items-center justify-center bg-black bg-opacity-0 text-zinc-200 transition-opacity duration-100 hover:flex hover:flex-col hover:bg-opacity-30">
             <FontAwesomeIcon size="4x" icon={faCamera} />
             <div>Change Image</div>
           </div>
@@ -78,7 +78,7 @@ function ImageKit({ currentImage, onUpdateValue }) {
         {currentImage ? (
           <>
             <img
-              className=" size-full object-cover"
+              className="size-full object-cover"
               src={currentImage}
               alt="profile-pic"
             />

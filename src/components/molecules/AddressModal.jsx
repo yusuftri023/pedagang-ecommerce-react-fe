@@ -33,8 +33,8 @@ function AddressModal({ address, setAddress }) {
   }, []);
   return (
     <ModalWindow>
-      <div className="w-[800px] h-[90vh] max-h-[90vh]">
-        <div className="py-4 border-b-2">
+      <div className="h-[90vh] max-h-[90vh] w-[800px]">
+        <div className="border-b-2 py-4">
           <div className="relative">
             <h1 className="text-center text-2xl font-medium">
               List of Address
@@ -47,13 +47,13 @@ function AddressModal({ address, setAddress }) {
             </button>
           </div>
         </div>
-        <div className="px-4 mt-4">
+        <div className="mt-4 px-4">
           <button
             className={
               (activeAddressInput
                 ? "border-red-600 border-opacity-50 bg-red-500 hover:bg-red-400"
                 : `border-blue-600 border-opacity-50 bg-blue-500 hover:bg-blue-400`) +
-              ` w-full py-2 rounded-md text-xl border-[1px]  transition-colors duration-100 text-white font-medium`
+              ` w-full rounded-md border-[1px] py-2 text-xl  font-medium text-white transition-colors duration-100`
             }
             onClick={handleActiveAddressInput}
           >
@@ -80,8 +80,8 @@ function AddressModal({ address, setAddress }) {
           </>
         )}
         {!activeAddressInput && (
-          <div className="px-4 pb-6 mt-4">
-            <div className="max-h-[65vh] overflow-y-auto space-y-2 ">
+          <div className="mt-4 px-4 pb-6">
+            <div className="max-h-[65vh] space-y-2 overflow-y-auto ">
               {address?.map((val) => (
                 <AddressListCard
                   key={"address-" + val.id}

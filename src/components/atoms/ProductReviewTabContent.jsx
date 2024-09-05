@@ -13,7 +13,7 @@ function ProductReviewTabContent({ productId }) {
   }, []);
   const timePosted = (reviewDate) => {
     const timeDifference = Math.floor(
-      Math.abs(new Date() - new Date(reviewDate)) / (1000 * 60 * 60 * 24)
+      Math.abs(new Date() - new Date(reviewDate)) / (1000 * 60 * 60 * 24),
     );
     let time = "";
     if (timeDifference < 1) {
@@ -32,16 +32,16 @@ function ProductReviewTabContent({ productId }) {
     return time;
   };
   return (
-    <div className="flex  items-center min-h-[150px] w-full ">
+    <div className="flex  min-h-[150px] w-full items-center ">
       {review.length > 0 ? (
         <div className="w-full ">
           {review.map((val, i) => (
             <div
               key={"review-" + i}
-              className="flex items-center w-full space-x-4 py-4 border-b-[1px]"
+              className="flex w-full items-center space-x-4 border-b-[1px] py-4"
             >
               <div>
-                <div className=" size-[50px] min-w-[50px] rounded-full overflow-hidden">
+                <div className=" size-[50px] min-w-[50px] overflow-hidden rounded-full">
                   <img
                     className=" aspect-square"
                     src={val.customer_picture}
@@ -49,7 +49,7 @@ function ProductReviewTabContent({ productId }) {
                 </div>
               </div>
               <div className="w-full">
-                <div className="flex space-x-2 justify-between">
+                <div className="flex justify-between space-x-2">
                   <span className="text-md font-medium ">
                     {val.customer_name}
                   </span>
@@ -87,7 +87,7 @@ function ProductReviewTabContent({ productId }) {
           ))}
         </div>
       ) : (
-        <div className="text-center mx-auto font-medium text-xl">
+        <div className="mx-auto text-center text-xl font-medium">
           This Product has no review yet
         </div>
       )}

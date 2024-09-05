@@ -1,12 +1,13 @@
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import { getOrderList } from "../../services/order.service";
 import { OrderContext } from "../../context";
 
 function OrderTableHead() {
-  const { handleSetOrders } = useContext(OrderContext);
-  const [activeSort, setActiveSort] = useState("Date");
+  const { handleSetOrders, activeSort, setActiveSort, setSortBy, pages } =
+    useContext(OrderContext);
+
   const orderRef = useRef("desc");
   const dateRef = useRef("desc");
   const totalRef = useRef("desc");
@@ -15,14 +16,26 @@ function OrderTableHead() {
     ref.current === "desc" ? (ref.current = "asc") : (ref.current = "desc");
     if (column === "Order ID") {
       sortBy = "id";
+      setSortBy(() => ({ order: ref.current, column: "id" }));
     } else if (column === "Date") {
       sortBy = "order_date";
+      setSortBy(() => ({ order: ref.current, column: "order_date" }));
     } else if (column === "Total") {
       sortBy = "total_price";
+      setSortBy(() => ({ order: ref.current, column: "total_price" }));
     }
-    getOrderList(1, 10, sortBy, ref.current).then((res) => {
-      handleSetOrders(res.data);
+    getOrderList(pages, 10, sortBy, ref.current).then((res) => {
+      handleSetOrders({
+        data: res.data,
+        total_page: Math.ceil(res.total_count.total / 10),
+      });
       setActiveSort(column);
+      setSortBy(() => {
+        return {
+          column: sortBy,
+          order: ref.current,
+        };
+      });
     });
   };
   return (
@@ -31,10 +44,10 @@ function OrderTableHead() {
         <th className="w-[12.5%] hover:cursor-pointer">
           <div
             onClick={() => handleSort("Order ID", orderRef)}
-            className="w-full flex justify-evenly"
+            className="flex w-full justify-evenly"
           >
             <span>Order ID</span>
-            <div className="flex flex-col text-xs justify-center">
+            <div className="flex flex-col justify-center text-xs">
               {activeSort === "Order ID" && (
                 <>
                   {orderRef.current === "asc" && (
@@ -57,10 +70,10 @@ function OrderTableHead() {
         <th className="w-[30%] hover:cursor-pointer">
           <div
             onClick={() => handleSort("Date", dateRef)}
-            className="w-full flex justify-evenly"
+            className="flex w-full justify-evenly"
           >
             <span>Date</span>
-            <div className="flex flex-col text-xs justify-center">
+            <div className="flex flex-col justify-center text-xs">
               {activeSort === "Date" && (
                 <>
                   {dateRef.current === "asc" && (
@@ -83,10 +96,10 @@ function OrderTableHead() {
         <th className="w-[15%] hover:cursor-pointer">
           <div
             onClick={() => handleSort("Total", totalRef)}
-            className="w-full flex justify-evenly"
+            className="flex w-full justify-evenly"
           >
             <span>Total</span>
-            <div className="flex flex-col text-xs justify-center">
+            <div className="flex flex-col justify-center text-xs">
               {activeSort === "Total" && (
                 <>
                   {totalRef.current === "asc" && (

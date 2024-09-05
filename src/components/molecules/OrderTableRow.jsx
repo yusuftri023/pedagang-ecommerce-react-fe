@@ -4,16 +4,14 @@ import {
   modalChange,
   modalToggle,
 } from "../../store/reducers/webContentSlicer";
-import { orderDetails } from "../../services/order.service";
+import { memo } from "react";
 
 /* eslint-disable react/prop-types */
-function OrderTableRow({ order }) {
+const OrderTableRow = memo(function OrderTableRow({ order }) {
   const dispatch = useDispatch();
   const handleDetail = () => {
     dispatch(modalChange({ type: "showOrderDetail", content: order }));
     dispatch(modalToggle(true));
-    console.log("detail", order);
-    orderDetails(order.id).then((res) => console.log(res.data));
   };
   let bgColor;
   if (order.status === "Pesanan Dibatalkan") {
@@ -24,7 +22,7 @@ function OrderTableRow({ order }) {
     bgColor = "bg-zinc-100 text-yellow-400 border-yellow-400 border-[1px]";
   }
   return (
-    <tr className=" border-b-2 border-gray-200">
+    <tr className="border-b-2 border-gray-200 ">
       <td>{order.id}</td>
       <td>
         <span>
@@ -38,20 +36,20 @@ function OrderTableRow({ order }) {
         <span>{formatRupiah(order.total_price)}</span>
       </td>
       <td>
-        <span className={bgColor + " font-medium px-2 py-1 rounded-md"}>
+        <span className={bgColor + " rounded-md px-2 py-1 font-medium"}>
           {order.status}
         </span>
       </td>
       <td>
         <button
           onClick={handleDetail}
-          className="text-white my-2 py-1 px-4 bg-green-400 rounded-md"
+          className="my-2 rounded-md bg-green-400 px-4 py-1 text-white"
         >
           Detail
         </button>
       </td>
     </tr>
   );
-}
+});
 
 export default OrderTableRow;

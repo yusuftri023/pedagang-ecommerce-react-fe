@@ -41,7 +41,10 @@ function ProductCard({
       .then(() => {
         dispatch(modalToggle());
         dispatch(
-          modalChange({ type: "addedToCart", content: { image, title, price } })
+          modalChange({
+            type: "addedToCart",
+            content: { image, title, price },
+          }),
         );
       })
       .catch((err) => console.log(err));
@@ -58,17 +61,17 @@ function ProductCard({
       >
         {!isHover && (
           <div>
-            <div className="w-[80%] mx-auto mt-2 ">
-              <div className="overflow-hidden flex justify-center">
+            <div className="mx-auto mt-2 w-[80%] ">
+              <div className="flex justify-center overflow-hidden">
                 <img src={image} alt="" className="size-40 duration-300 " />
               </div>
               <div
                 onClick={handleLink}
-                className="text-blue-600 min-h-[3em] line-clamp-2 hover:cursor-pointer"
+                className="line-clamp-2 min-h-[3em] text-blue-600 hover:cursor-pointer"
               >
                 {title}
               </div>
-              <div className="flex text-[12px] justify-between">
+              <div className="flex justify-between text-[12px]">
                 <div>
                   {new Array(5).fill(1).map((val, i) => (
                     <FontAwesomeIcon
@@ -86,7 +89,7 @@ function ProductCard({
               </div>
               <div className="flex flex-col ">
                 <div className="mt-2 font-bold">{formatRupiah(price)}</div>
-                <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
+                <div className="mt-2 h-2 w-full rounded-full bg-gray-400">
                   <div
                     style={{
                       width: `${
@@ -106,18 +109,18 @@ function ProductCard({
           </div>
         )}
         {isHover && (
-          <div className="relative z-10 bg-white  drop-shadow-md left-2 max-w-[200px] hover:scale-105 hover:mt-5 transition-all duration-300 whitespace-pre-wrap flex flex-col justify-center">
-            <div className="max-w-[80%] mx-auto mt-2 ">
+          <div className="relative left-2 z-10  flex max-w-[200px] flex-col justify-center whitespace-pre-wrap bg-white drop-shadow-md transition-all duration-300 hover:mt-5 hover:scale-105">
+            <div className="mx-auto mt-2 max-w-[80%] ">
               <div className="overflow-hidden">
                 <img src={image} alt="" className="size-40 duration-300 " />
               </div>
               <div
                 onClick={handleLink}
-                className="text-blue-600 min-h-[3em] line-clamp-2 hover:cursor-pointer"
+                className="line-clamp-2 min-h-[3em] text-blue-600 hover:cursor-pointer"
               >
                 {title}
               </div>
-              <div className="flex text-[12px] justify-between">
+              <div className="flex justify-between text-[12px]">
                 <div>
                   {new Array(5).fill(1).map((val, i) => (
                     <FontAwesomeIcon
@@ -135,7 +138,7 @@ function ProductCard({
               </div>
               <div className="flex flex-col ">
                 <div className="mt-2 font-bold">{formatRupiah(price)}</div>
-                <div className="w-full h-2 mt-2 rounded-full bg-gray-400">
+                <div className="mt-2 h-2 w-full rounded-full bg-gray-400">
                   <div
                     style={{
                       width: `${
@@ -152,7 +155,7 @@ function ProductCard({
                 </div>
                 <button
                   onClick={handleAddToCart}
-                  className="bg-[#FFCA1D] hover:bg-[#968447] px-4 py-1 font-[500] my-4 animate-fade-in-drop transition-colors duration-300"
+                  className="my-4 animate-fade-in-drop bg-[#FFCA1D] px-4 py-1 font-[500] transition-colors duration-300 hover:bg-[#968447]"
                 >
                   Add to Cart
                 </button>

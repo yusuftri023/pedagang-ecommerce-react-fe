@@ -133,9 +133,9 @@ function Homepage() {
       <MainLayouts>
         {showModal && typeModal === "addedToCart" ? <AddToCartModal /> : <></>}
         <CarouselSlide />
-        <div className="font-poppins w-[1000px] mx-auto">
+        <div className="mx-auto w-[1000px] font-poppins">
           <section>
-            <div className="flex justify-center divide-x-2 my-4">
+            <div className="my-4 flex justify-center divide-x-2">
               {featureList.map((feature, i) => (
                 <FeatureList key={i} feature={feature} />
               ))}
@@ -143,7 +143,7 @@ function Homepage() {
           </section>
 
           <div>
-            <div className="flex gap-x-3 justify-between text-zinc-100 overflow-x-hidden">
+            <div className="flex justify-between gap-x-3 overflow-x-hidden text-zinc-100">
               {bannerList.map((banner) => (
                 <Banner
                   key={banner.id}
@@ -174,12 +174,12 @@ function Homepage() {
                       price={price}
                       image={image[0]}
                     />
-                  )
+                  ),
                 )}
           </ProductCardContainer>
 
-          <div className="mt-28 mb-4 overflow-hidden">
-            <div className="flex gap-x-3 justify-between text-zinc-100">
+          <div className="mb-4 mt-28 overflow-hidden">
+            <div className="flex justify-between gap-x-3 text-zinc-100">
               {bannerList2.map((banner) => (
                 <Banner
                   key={banner.id}
@@ -210,7 +210,7 @@ function Homepage() {
                       price={price}
                       image={image[0]}
                     />
-                  )
+                  ),
                 )}
           </ProductCardContainer>
           <InfiniteCarousel

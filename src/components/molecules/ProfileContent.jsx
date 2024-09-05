@@ -16,12 +16,12 @@ function ProfileContent({ item }) {
   return (
     <div
       onClick={handleChangeContent}
-      className="flex justify-between group items-center hover:cursor-pointer"
+      className="group flex items-center justify-between hover:cursor-pointer"
     >
       <span>{item.name}</span>
       <div className="flex items-center space-x-2">
         <span>{item.value}</span>
-        <button className="text-2xl rounded-full group-hover:bg-gray-400 group-hover:bg-opacity-50 size-12 text-center">
+        <button className="size-12 rounded-full text-center text-2xl group-hover:bg-gray-400 group-hover:bg-opacity-50">
           <FontAwesomeIcon icon={faGreaterThan} />
         </button>
       </div>

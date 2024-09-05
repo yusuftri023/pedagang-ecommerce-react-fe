@@ -12,11 +12,11 @@ function ProductRating({ productId }) {
     getProductRating(productId).then((res) => setRating(res.data[0]));
   }, []);
   return (
-    <div className="flex text-md space-x-4 mt-6">
+    <div className="text-md mt-6 flex space-x-4">
       <div
         className={
-          (rating ? "" : "bg-gray-200 overflow-hidden") +
-          " min-w-[100px] min-h-[20px] rounded-full"
+          (rating ? "" : "overflow-hidden bg-gray-200") +
+          " min-h-[20px] min-w-[100px] rounded-full"
         }
       >
         {rating ? (
@@ -39,8 +39,8 @@ function ProductRating({ productId }) {
       </div>
       <div
         className={
-          (rating ? "" : "bg-gray-200 overflow-hidden") +
-          " min-w-[100px] min-h-[20px] rounded-full"
+          (rating ? "" : "overflow-hidden bg-gray-200") +
+          " min-h-[20px] min-w-[100px] rounded-full"
         }
       >
         {!rating ? (

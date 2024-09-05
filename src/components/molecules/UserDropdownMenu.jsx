@@ -17,14 +17,14 @@ const DropdownMenuItem = ({ title, icon, link, onClick = undefined }) => {
   return (
     <li
       onClick={onClick}
-      className="p-2 rounded-md hover:bg-white hover:cursor-pointer"
+      className="rounded-md p-2 hover:cursor-pointer hover:bg-white"
     >
       <a href={link}>
         <FontAwesomeIcon
-          className=" align-text-bottom text-xl   min-w-10 max-w-10"
+          className="min-w-10 max-w-10  align-text-bottom text-xl"
           icon={icon}
         />
-        <div className="inline-block ml-4">{title}</div>
+        <div className="ml-4 inline-block">{title}</div>
       </a>
     </li>
   );
@@ -34,7 +34,7 @@ function UserDropdownMenu({ isHover, type }) {
   isHover = isHover && type === "account" ? true : false;
   const dispatch = useDispatch();
   const loggedInUserData = useSelector(
-    (state) => state.authentication.loggedInUserData
+    (state) => state.authentication.loggedInUserData,
   );
   const handleLogout = (e) => {
     e.preventDefault();
@@ -52,8 +52,8 @@ function UserDropdownMenu({ isHover, type }) {
   ];
   return (
     <DropdownMenu width={250} height={"fit-content"} x={110} isHover={isHover}>
-      <div className="overflow-y-scroll no-scrollbar pb-4 ">
-        <div className=" w-full  flex items-center py-4 px-[10%] align-middle text-xl font-semibold">
+      <div className="no-scrollbar overflow-y-scroll pb-4 ">
+        <div className=" flex  w-full items-center px-[10%] py-4 align-middle text-xl font-semibold">
           <div className="rounded-full bg-zinc-200 ">
             <img
               className={`size-16 rounded-full `}
@@ -73,7 +73,7 @@ function UserDropdownMenu({ isHover, type }) {
             </p>
           </div>
         </div>
-        <ul className="px-[10%] w-full space-y-2 mt-2">
+        <ul className="mt-2 w-full space-y-2 px-[10%]">
           {content.map((val, i) => (
             <DropdownMenuItem
               key={i}

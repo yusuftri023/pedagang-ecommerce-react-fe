@@ -7,16 +7,25 @@ import OrderTable from "../../components/molecules/OrderTable";
 import { OrderContext } from "../../context";
 import { useSelector } from "react-redux";
 import OrderDetailModal from "../../components/molecules/OrderDetailModal";
+import { useGetOrderQuery } from "../../store/reducers/apiSlicer";
 
 function Order() {
-  const [orders, setOrders] = useState([]);
-  const [pages, setPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading, isUninitialized } = useGetOrderQuery({
+    page: 1,
+    limit: 10,
+    orderBy: "order_date",
+    orderDir: "desc",
+  });
+  const [orders, setOrders] = useState({ ...data });
 
+  const [pages, setPages] = useState(1);
+  const [sortBy, setSortBy] = useState({ column: "order_date", order: "desc" });
+
+  const [activeSort, setActiveSort] = useState("Date");
   const showModal = useSelector((state) => state.webContent.showModal);
   const typeModal = useSelector((state) => state.webContent.typeModal);
   const contentModal = useSelector((state) => state.webContent.contentModal);
-  console.log(showModal, typeModal, contentModal);
+
   const handleSetOrders = (newOrder) => {
     setOrders(newOrder);
   };
@@ -24,29 +33,34 @@ function Order() {
     setPages(newPage);
   };
   useEffect(() => {
-    getOrderList(pages, 10, "order_date", "desc")
-      .then(
-        (res) =>
-          new Promise((resolve) =>
-            setTimeout(() => resolve(setOrders(res.data)), 1000)
-          )
-      )
-      .then(() => setIsLoading(false));
-  }, []);
+    if (isLoading === false && isUninitialized === false) {
+      setOrders({ ...data });
+    }
+  }, [isLoading]);
   return (
     <>
       <MainLayouts>
         {showModal && typeModal === "showOrderDetail" && (
           <OrderDetailModal content={contentModal} />
         )}
-        <div className="pt-4 min-w-[1000px] bg-zinc-100 ">
-          <div className="my-10 text-center   border-y-4 border-gray-700 py-4">
+        <div className="min-w-[1000px] bg-zinc-100 pt-4 ">
+          <div className="my-10 border-y-4   border-gray-700 py-4 text-center">
             <FontAwesomeIcon icon={faListAlt} className="size-12 " />
             <h1 className=" text-[30px] font-bold">My Orders</h1>
           </div>
 
-          <div className="w-[1000px] bg-white  mb-10  shadow-gray-500  drop-shadow-md mx-auto  overflow-hidden rounded-md">
-            <OrderContext.Provider value={{ handleSetOrders, handleSetPages }}>
+          <div className="mx-auto mb-10  w-[1000px]  overflow-hidden  rounded-md bg-white  shadow-gray-500 drop-shadow-md">
+            <OrderContext.Provider
+              value={{
+                handleSetOrders,
+                handleSetPages,
+                activeSort,
+                setActiveSort,
+                sortBy,
+                setSortBy,
+                pages,
+              }}
+            >
               <OrderTable orders={orders} isLoading={isLoading} />
             </OrderContext.Provider>
           </div>

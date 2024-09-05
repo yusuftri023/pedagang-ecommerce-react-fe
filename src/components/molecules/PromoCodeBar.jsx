@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState } from "react";
 import { getPromotion } from "../../services/promotion.service";
-import { setCartError } from "../../store/reducers/cartSlicer";
 
 function PromoCodeBar({ setPromo, promo }) {
   const promoCodeRef = useRef();
-  const dispatch = useDispatch();
-  const cartError = useSelector((state) => state.cart.error);
+
+  const [promoError, setPromoError] = useState(null);
   const handleSubmitPromoCode = async (e) => {
     e.preventDefault();
     setPromo(() => []);
@@ -16,10 +14,10 @@ function PromoCodeBar({ setPromo, promo }) {
       if (promoCode.success) {
         setPromo(() => promoCode.data);
         promoCodeRef.current.value = "";
-        dispatch(setCartError(null));
+        setPromoError(null);
         e.target.blur();
       } else {
-        dispatch(setCartError(promoCode.message));
+        setPromoError(promoCode.message);
       }
     }
   };
@@ -31,7 +29,7 @@ function PromoCodeBar({ setPromo, promo }) {
           ref={promoCodeRef}
           type="text"
           placeholder="Promo Code"
-          className=" outline-none p-2 w-[60%] border-2"
+          className=" w-[60%] border-2 p-2 outline-none"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSubmitPromoCode(e);
@@ -39,7 +37,7 @@ function PromoCodeBar({ setPromo, promo }) {
           }}
         />
         <button
-          className=" bg-black text-white p-2 w-[40%] border-2 border-black"
+          className=" w-[40%] border-2 border-black bg-black p-2 text-white"
           type="submit"
           onClick={handleSubmitPromoCode}
         >
@@ -47,13 +45,13 @@ function PromoCodeBar({ setPromo, promo }) {
         </button>
       </div>
       {promo?.length > 0 ? (
-        <div className="text-green-500 p-2 border-2 mt-2 bg-zinc-100 rounded-md relative">
+        <div className="relative mt-2 rounded-md border-2 bg-zinc-100 p-2 text-green-500">
           <button
             onClick={() => {
               setPromo([]);
-              dispatch(setCartError(null));
+              setPromoError(null);
             }}
-            className={`text-black font-extrabold absolute right-2 top-0 hover:text-gray-500 duration-150`}
+            className={`absolute right-2 top-0 font-extrabold text-black duration-150 hover:text-gray-500`}
           >
             x
           </button>
@@ -61,16 +59,16 @@ function PromoCodeBar({ setPromo, promo }) {
           <p>{promo[0].code} </p>
           <p>{promo[0].description} </p>
         </div>
-      ) : cartError === null ? (
+      ) : promoError === null ? (
         <></>
       ) : (
-        <div className="text-red-500 p-2 border-2 mt-2 bg-zinc-100 rounded-md relative">
+        <div className="relative mt-2 rounded-md border-2 bg-zinc-100 p-2 text-red-500">
           <button
             onClick={() => {
               setPromo([]);
-              dispatch(setCartError(null));
+              setPromoError(null);
             }}
-            className={`text-black font-extrabold absolute right-2 top-0 hover:text-gray-500 duration-150`}
+            className={`absolute right-2 top-0 font-extrabold text-black duration-150 hover:text-gray-500`}
           >
             x
           </button>

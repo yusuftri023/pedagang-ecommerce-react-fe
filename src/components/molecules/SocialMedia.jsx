@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function SocialMedia() {
   return (
     <div className="">
-      <h3 className="text-xl mb-5">Follow Us</h3>
+      <h3 className="mb-5 text-xl">Follow Us</h3>
       <p>
         We make consolidating, marketing and tracking your social <br /> media
         website easy.
       </p>
-      <ul className="flex space-x-2 mt-4">
+      <ul className="mt-4 flex space-x-2">
         <li>
           <a href="#" target="_blank">
             <FontAwesomeIcon

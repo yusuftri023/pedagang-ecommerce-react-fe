@@ -21,7 +21,7 @@ function Navbar() {
     <>
       <header
         ref={headerRef}
-        className={`  fixed font-poppins w-full  bg-[#4B4AEF] min-w-[1000px] z-20  `}
+        className={`  fixed z-20 w-full  min-w-[1000px] bg-[#4B4AEF] font-poppins  `}
       >
         <UpperNavbar />
         <MainNavBar />

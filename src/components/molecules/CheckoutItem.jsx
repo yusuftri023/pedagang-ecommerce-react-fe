@@ -21,12 +21,12 @@ function CheckoutItem({
           <div className="size-[fit-content] bg-gray-400 ">
             <img
               src={image}
-              className=" mx-auto min-w-[60px] size-[60px] aspect-square object-cover"
+              className=" mx-auto aspect-square size-[60px] min-w-[60px] object-cover"
             ></img>
           </div>
-          <div className="w-full flex justify-between">
+          <div className="flex w-full justify-between">
             <div className=" max-w-[70%]">
-              <p className=" line-clamp-2 ">{title}</p>
+              <p className=" line-clamp-2">{title}</p>
               {variation_name === "-" ? (
                 <></>
               ) : (
@@ -35,19 +35,19 @@ function CheckoutItem({
                 </p>
               )}
             </div>
-            <div className=" space-x-2 font-semibold">
+            <div className="space-x-2 font-semibold ">
               <span>
                 {quantity} pc{quantity > 1 ? "s" : ""}
               </span>
               <span>x</span>
-              <span className=" ">{formatRupiah(price * (1 - discount))}</span>
+              <span className="">{formatRupiah(price * (1 - discount))}</span>
             </div>
           </div>
         </div>
         <div>
-          <div className="flex  gap-2 items-center ">
+          <div className="flex items-center gap-2 ">
             {note && (
-              <p className=" bg-zinc-100 px-2 rounded-md border-2 border-gray-200  max-w-full">
+              <p className="max-w-full rounded-md border-2 border-gray-200 bg-zinc-100 px-2">
                 note: {note}
               </p>
             )}

@@ -2,7 +2,7 @@ import LogoPedagangFull from "../../atoms/LogoPedagangFull";
 
 function MinimumNavbar() {
   return (
-    <nav className="font-poppins  bg-[#4B4AEF] min-w-[1000px] mx-auto">
+    <nav className="mx-auto  min-w-[1000px] bg-[#4B4AEF] font-poppins">
       <div className="py-6">
         <div className=" px-4 ">
           <LogoPedagangFull />

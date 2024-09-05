@@ -4,7 +4,7 @@ import { forwardRef, useState } from "react";
 /* eslint-disable react/prop-types */
 function InputComponent(
   { placeholder, inputType, defaultValue = null, maxLength = undefined },
-  ref
+  ref,
 ) {
   const [currentInput, setCurrentInput] = useState(defaultValue);
   const [inputCounter, setInputCounter] = useState(defaultValue?.length || 0);
@@ -15,7 +15,7 @@ function InputComponent(
     .join("-");
 
   return (
-    <div className="relative group mt-2">
+    <div className="group relative mt-2">
       <div>
         <span>{placeholder}</span>
       </div>
@@ -26,7 +26,7 @@ function InputComponent(
             ref={ref}
             id={inputId}
             name={inputId}
-            className={`w-full rounded-md border-[1px] border-gray-300 p-2 mt-2 outline-none bg-white text-black `}
+            className={`mt-2 w-full rounded-md border-[1px] border-gray-300 bg-white p-2 text-black outline-none `}
             onBlur={(e) => setCurrentInput(e.target.value)}
             type={inputType}
             defaultValue={defaultValue}
@@ -40,7 +40,7 @@ function InputComponent(
           ref={ref}
           id={inputId}
           name={inputId}
-          className={`w-full rounded-md border-[1px] border-gray-300 p-2 mt-4 outline-none bg-transparent resize-none `}
+          className={`mt-4 w-full resize-none rounded-md border-[1px] border-gray-300 bg-transparent p-2 outline-none `}
           onBlur={(e) => setCurrentInput(e.target.value)}
           defaultValue={defaultValue}
           rows={4}

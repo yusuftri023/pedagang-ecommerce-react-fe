@@ -15,14 +15,14 @@ function ProductPrice({ currentVariant, discount }) {
             </div>
           )}
           {discount > 0 && (
-            <span className="text-red-600 bg-red-300 px-1 rounded-sm mr-2">
+            <span className="mr-2 rounded-sm bg-red-300 px-1 text-red-600">
               {discount * 100}% off
             </span>
           )}
           {currentVariant?.price && (
             <span
               className={
-                (discount > 0 ? `line-through text-gray-400` : `text-3xl`) +
+                (discount > 0 ? `text-gray-400 line-through` : `text-3xl`) +
                 ` font-semibold`
               }
             >

@@ -48,7 +48,7 @@ export const ZoomImageHover = ({
         onMouseLeave={handleMouseOut}
         onMouseMove={handleMouseMove}
         style={{ ...styles }}
-        className="mx-auto hover:transition-none transition-all duration-200"
+        className="mx-auto transition-all duration-200 hover:transition-none"
       ></div>
     </>
   );

@@ -12,11 +12,11 @@ function HeaderButton({ faIcon, text, url }) {
   return (
     <div
       onClick={handleLinkClick}
-      className=" hover:bg-[#6e6eb8] px-3 py-1 rounded-md hover:cursor-pointer transition-colors duration-150"
+      className=" rounded-md px-3 py-1 transition-colors duration-150 hover:cursor-pointer hover:bg-[#6e6eb8]"
     >
       <a
         href={url}
-        className="w-full flex items-center justify-between h-full space-x-2"
+        className="flex h-full w-full items-center justify-between space-x-2"
       >
         <p>{text}</p>
         <FontAwesomeIcon icon={faIcon} className="text-[30px]" />

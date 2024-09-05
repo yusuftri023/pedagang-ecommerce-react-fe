@@ -12,7 +12,7 @@ function AddressCard({ selectedAddress }) {
     dispatch(modalChange({ type: "changeAddress" }));
   };
   return (
-    <div className="bg-white  shadow-gray-500  drop-shadow-md  w-full ">
+    <div className="w-full bg-white shadow-gray-500 drop-shadow-md ">
       <div className={(selectedAddress ? "" : "flex justify-center") + " p-6"}>
         {selectedAddress && (
           <>

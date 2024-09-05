@@ -56,7 +56,7 @@ function AddressListCard({
       <div>
         <h3 className="mb-2">{address.recipient}</h3>
 
-        <p className=" break-words">
+        <p className="break-words ">
           {address.address_line} , {address.city}, {address.region}. Postal
           Code: {address.postal_code}
         </p>
@@ -78,7 +78,7 @@ function AddressListCard({
           )}
         </div>
       </div>
-      <div className="flex  items-center">
+      <div className="flex items-center">
         {address.selected === 1 ? (
           <div className="min-w-[85px] text-center">
             <FontAwesomeIcon
@@ -89,7 +89,7 @@ function AddressListCard({
         ) : (
           <button
             onClick={() => handleSelectAddress(address.id)}
-            className="py-1 px-6 rounded-md text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-colors duration-100 text-white"
+            className="px-6 py-1 text-sm font-medium text-white transition-colors duration-100 bg-blue-500 rounded-md hover:bg-blue-400"
           >
             Select
           </button>

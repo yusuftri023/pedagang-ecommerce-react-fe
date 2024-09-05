@@ -37,7 +37,7 @@ function CheckoutButton({
           category: category_name,
           url: `https://${window.location.hostname}/products/${encodeURIComponent(title.toLowerCase())}-${product_id}+${product_config_id}`,
         };
-      }
+      },
     );
     const total_price = totalBeforeDiscount - discount + shippingCost;
     const data = {
@@ -64,7 +64,7 @@ function CheckoutButton({
         },
         onClose: function () {
           alert(
-            "Closing the popup without finishing the payment will refresh this page"
+            "Closing the popup without finishing the payment will refresh this page",
           );
           dispatch(modalToggle(false));
           dispatch(modalChange({ type: null, content: null }));
@@ -92,7 +92,7 @@ function CheckoutButton({
   };
   return (
     <button
-      className="  w-full py-2 mt-10 border-[#FFCA1D] border-2 bg-[#FFCA1D] hover:bg-[#968447] font-[500]  transition-colors duration-300"
+      className="  mt-10 w-full border-2 border-[#FFCA1D] bg-[#FFCA1D] py-2 font-[500] transition-colors  duration-300 hover:bg-[#968447]"
       onClick={handleCheckout}
     >
       {children}

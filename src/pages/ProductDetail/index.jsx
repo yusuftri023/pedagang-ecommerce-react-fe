@@ -45,7 +45,7 @@ const ProductDetail = () => {
     .slice(product_title.lastIndexOf("-") + 1)
     .split("+");
   const currentVariant = product?.find(
-    (product) => Number(product.product_config_id) === Number(productConfigId)
+    (product) => Number(product.product_config_id) === Number(productConfigId),
   );
   const [wishlist, setWishlist] = useState([]);
   const isInWishlist = useMemo(() => {
@@ -61,7 +61,7 @@ const ProductDetail = () => {
       } else {
         return acc;
       }
-    }, [])
+    }, []),
   );
   const variationConfig = useMemo(() => {
     return product?.map(({ product_id, product_config_id, title, stock }) => {
@@ -92,7 +92,7 @@ const ProductDetail = () => {
               title: currentVariant.title,
               price: currentVariant.price,
             },
-          })
+          }),
         );
       })
       .catch((err) => console.log(err));
@@ -100,7 +100,7 @@ const ProductDetail = () => {
   const handleAddToWishlist = () => {
     if (isInWishlist) {
       const itemInWishlist = wishlist.find(
-        (item) => item.product_config_id === productConfigId
+        (item) => item.product_config_id === productConfigId,
       );
       deleteWishlistItem(itemInWishlist.wishlist_id)
         .then(() => {
@@ -154,11 +154,11 @@ const ProductDetail = () => {
           </Fragment>
         ))}
 
-        <div className="pt-8 mb-20">
+        <div className="mb-20 pt-8">
           <ProductNavigation currentVariant={currentVariant} />
           <div
             ref={positionAnchorRef}
-            className="p-4 pb-10 min-w-[1000px] w-[1000px] mx-auto bg-white  rounded-t-lg  flex flex-row "
+            className="mx-auto flex w-[1000px] min-w-[1000px] flex-row rounded-t-lg  bg-white  p-4 pb-10 "
           >
             <div
               className={
@@ -179,7 +179,7 @@ const ProductDetail = () => {
               <ProductInformation product={currentVariant} />
             </div>
 
-            <div className={`w-[40%] pt-6 pl-4 `}>
+            <div className={`w-[40%] pl-4 pt-6 `}>
               <div
                 style={{
                   top: `${positionAnchorRef.current?.offsetTop - 56}px`,
@@ -196,8 +196,8 @@ const ProductDetail = () => {
                 <div
                   className={
                     (!currentVariant?.price
-                      ? "bg-gray-200 rounded-full overflow-hidden"
-                      : " ") + " min-w-[100px] min-h-[40px] mt-2 relative flex"
+                      ? "overflow-hidden rounded-full bg-gray-200"
+                      : " ") + " relative mt-2 flex min-h-[40px] min-w-[100px]"
                   }
                 >
                   <ProductPrice
@@ -222,24 +222,24 @@ const ProductDetail = () => {
                 <div
                   className={
                     (currentVariant?.variation_name === "-" ? `mt-20` : ``) +
-                    ` w-full flex items-center  space-x-1 my-4`
+                    ` my-4 flex w-full  items-center space-x-1`
                   }
                 >
                   <button
                     onClick={handleAddToCart}
                     className={
                       (currentVariant?.stock < 1 ? " brightness-[0.3]" : "") +
-                      " bg-[#FFCA1D] justify-evenly flex items-center  border-[1px] py-2  border-[#FFCA1D]  rounded-xl  hover:bg-[#968447] hover:border-[#968447] w-3/4 text-3xl font-normal  transition-colors duration-300"
+                      " flex w-3/4 items-center justify-evenly  rounded-xl border-[1px]  border-[#FFCA1D]  bg-[#FFCA1D]  py-2 text-3xl font-normal transition-colors duration-300  hover:border-[#968447] hover:bg-[#968447]"
                     }
                   >
                     <FontAwesomeIcon icon={faCartShopping} />
-                    <span className="text-2xl text-center ">Add to Cart</span>
+                    <span className="text-center text-2xl ">Add to Cart</span>
                   </button>
                   <button
                     onClick={handleAddToWishlist}
                     className={
                       (isInWishlist ? "text-red-600" : "text-black ") +
-                      " transition-colors p-2 duration-300 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-400 flex items-center w-fit border-2 border-gray-200 rounded-xl"
+                      " flex w-fit items-center rounded-xl border-2 border-gray-200 p-2 transition-colors duration-300 hover:cursor-pointer hover:border-gray-400 hover:bg-gray-400"
                     }
                   >
                     <FontAwesomeIcon

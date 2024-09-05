@@ -97,7 +97,7 @@ function ProfileChangeModal({ content, oldValue, onUpdateValue }) {
   return (
     <ModalWindow>
       <div className="min-w-[500px] ">
-        <div className="py-4 border-b-2">
+        <div className="border-b-2 py-4">
           <div className="relative">
             <h1 className="text-center text-2xl font-medium">
               Change {content.name}
@@ -138,16 +138,16 @@ function ProfileChangeModal({ content, oldValue, onUpdateValue }) {
               />
             </>
           )}
-          <div className="mt-10 pb-6 flex justify-evenly w-full text-white">
+          <div className="mt-10 flex w-full justify-evenly pb-6 text-white">
             <button
               onClick={handleSaveChange}
-              className="px-6 py-2 rounded-lg bg-green-500"
+              className="rounded-lg bg-green-500 px-6 py-2"
             >
               Save Change
             </button>
             <button
               onClick={handleCloseModal}
-              className="px-6 py-2 rounded-lg bg-red-500"
+              className="rounded-lg bg-red-500 px-6 py-2"
             >
               Cancel
             </button>

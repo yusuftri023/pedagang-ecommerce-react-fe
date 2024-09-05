@@ -7,8 +7,8 @@ function VariationOption({ variation, variationConfig, currentConfigId }) {
   const handleOption = (val) => {
     navigate(
       `/products/${encodeURIComponent(
-        val.title.toLowerCase()
-      )}-${val.product_id}+${val.product_config_id}`
+        val.title.toLowerCase(),
+      )}-${val.product_id}+${val.product_config_id}`,
     );
   };
 
@@ -17,7 +17,7 @@ function VariationOption({ variation, variationConfig, currentConfigId }) {
       <div className="my-4 text-xl font-semibold">
         {variationName[0].toUpperCase() + variationName.slice(1)}
       </div>
-      <div className="grid grid-cols-4 w-full gap-2 text-md ">
+      <div className="text-md grid w-full grid-cols-4 gap-2 ">
         {variation?.map((val, i) => (
           <button
             key={"variation-name-" + i}
@@ -26,7 +26,7 @@ function VariationOption({ variation, variationConfig, currentConfigId }) {
               (variationConfig[i].product_config_id === currentConfigId
                 ? `border-blue-600 bg-blue-600 bg-opacity-5`
                 : ``) +
-              ` rounded-md border-[1px] hover:border-blue-600 hover:text-blue-600 py-1`
+              ` rounded-md border-[1px] py-1 hover:border-blue-600 hover:text-blue-600`
             }
           >
             {val[variationName]}

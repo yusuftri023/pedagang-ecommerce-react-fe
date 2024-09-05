@@ -51,31 +51,31 @@ function CarouselSlide() {
   }, [slide]);
   return (
     <section className="w-full min-w-[1000px]">
-      <div className="w-full  h-[calc(100vh-130px)] min-w-[1000px] mx-auto bg-black  overflow-hidden">
+      <div className="mx-auto  h-[calc(100vh-130px)] w-full min-w-[1000px] overflow-hidden  bg-black">
         <div
-          className={`brightness-95 flex flex-row transform duration-300 ease-in-out `}
+          className={`flex transform flex-row brightness-95 duration-300 ease-in-out `}
           style={{ transform: `translateX(-${slide * 100}%)` }}
         >
           {carouselContents.map((content) => (
-            <div key={content.id} className={`min-w-full relative `}>
-              <p className="absolute top-3/4 left-1/2 -translate-x-1/2 text-3xl text-white w-full text-center">
+            <div key={content.id} className={`relative min-w-full `}>
+              <p className="absolute left-1/2 top-3/4 w-full -translate-x-1/2 text-center text-3xl text-white">
                 {content.body}
               </p>
               <img
                 src={content.image}
                 alt="carousel image"
-                className="min-w-full  h-[calc(100vh-130px)] object-cover object-top"
+                className="h-[calc(100vh-130px)]  min-w-full object-cover object-top"
               />
             </div>
           ))}
         </div>
-        <div className=" flex-nowrap relative top-[-50%] h-[calc(100vh-130px)]  -translate-y-[50%] w-[100%] min-w-[1000px] flex flex-col justify-between items-center transition-opacity duration-300 text-white opacity-10 hover:opacity-100">
-          <div className="flex justify-between w-full h-full items-center">
+        <div className=" relative top-[-50%] flex h-[calc(100vh-130px)]  w-[100%] min-w-[1000px] -translate-y-[50%] flex-col flex-nowrap items-center justify-between text-white opacity-10 transition-opacity duration-300 hover:opacity-100">
+          <div className="flex h-full w-full items-center justify-between">
             <div className="py-[125px] ">
               <FontAwesomeIcon
                 onClick={handlePrev}
                 icon={faArrowAltCircleLeft}
-                className="text-4xl rounded-full hover:cursor-pointer hover:bg-blue-400 hover:bg-opacity-50"
+                className="rounded-full text-4xl hover:cursor-pointer hover:bg-blue-400 hover:bg-opacity-50"
               />
             </div>
 
@@ -83,24 +83,24 @@ function CarouselSlide() {
               <FontAwesomeIcon
                 onClick={handleNext}
                 icon={faArrowAltCircleRight}
-                className="text-4xl rounded-full hover:cursor-pointer hover:bg-blue-400 hover:bg-opacity-50"
+                className="rounded-full text-4xl hover:cursor-pointer hover:bg-blue-400 hover:bg-opacity-50"
               />
             </div>
           </div>
-          <div className="w-full pb-2 flex justify-between items-center">
-            <div className=" mx-auto flex   space-x-1">
+          <div className="flex w-full items-center justify-between pb-2">
+            <div className="mx-auto flex space-x-1 ">
               {carouselContents.map((content) => (
                 <div
                   key={content.id}
                   className={
                     (content.id - 1 === slide ? "w-12 " : "size-3 ") +
-                    `rounded-full bg-gray-200  hover:bg-gray-700 transition-all duration-200 hover:cursor-pointer`
+                    `rounded-full bg-gray-200  transition-all duration-200 hover:cursor-pointer hover:bg-gray-700`
                   }
                   onClick={() => handleClickBullet(content.id - 1)}
                 >
                   {content.id - 1 == slide && (
                     <div
-                      className={`h-full bg-gray-800 rounded-full animate-grow-width hover:cursor-pointer`}
+                      className={`h-full animate-grow-width rounded-full bg-gray-800 hover:cursor-pointer`}
                     ></div>
                   )}
                 </div>

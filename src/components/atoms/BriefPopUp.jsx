@@ -20,7 +20,7 @@ function BriefPopUp({ children }) {
   }, [showPopUp]);
 
   return (
-    <div className=" w-[50vw] p-2 rounded-xl right-[25vw] animate-fade-in-drop  fixed top-[20%] z-10 ">
+    <div className=" fixed right-[25vw] top-[20%] z-10 w-[50vw]  animate-fade-in-drop rounded-xl p-2 ">
       {children}
     </div>
   );

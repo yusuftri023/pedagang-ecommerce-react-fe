@@ -12,7 +12,7 @@ function BriefPopUpContent({ text }) {
     dispatch(popUpChange({ type: null }));
   };
   return (
-    <div className="flex justify-between w-[50vw] size-full bg-black bg-opacity-80 text-zinc-100 font-medium rounded-full py-2 px-4">
+    <div className="flex size-full w-[50vw] justify-between rounded-full bg-black bg-opacity-80 px-4 py-2 font-medium text-zinc-100">
       <span>{text}</span>
       <span onClick={closePopUpHandler} className=" hover:cursor-pointer">
         Ok
