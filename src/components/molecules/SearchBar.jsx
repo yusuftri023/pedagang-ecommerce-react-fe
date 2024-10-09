@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import IconSearch from "../../assets/images/landing-page/icon _magnifying glass_.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchProduct } from "../../store/actions/productAction";
-import { formatRupiah } from "../../utils/utils";
+
 import { getProductCategories } from "../../services/product.service";
 import { useClickOutsideElement } from "../../hooks/useClickOutsideElement";
 import useDebounceCallback from "../../hooks/useDebounce";

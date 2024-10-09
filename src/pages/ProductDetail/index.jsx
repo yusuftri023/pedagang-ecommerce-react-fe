@@ -49,7 +49,7 @@ const ProductDetail = () => {
   );
   const [wishlist, setWishlist] = useState([]);
   const isInWishlist = useMemo(() => {
-    return wishlist.some((item) => item.product_config_id === productConfigId);
+    return wishlist?.some((item) => item.product_config_id === productConfigId);
   });
   const discount = currentVariant?.discount
     ? Number(currentVariant?.discount)

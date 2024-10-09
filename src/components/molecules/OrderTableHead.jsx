@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useRef } from "react";
 import { getOrderList } from "../../services/order.service";
 import { OrderContext } from "../../context";
+import { useLazyGetOrderQuery } from "../../store/reducers/apiSlicer";
 
-function OrderTableHead() {
+function OrderTableHead({ setIsFetching }) {
   const { handleSetOrders, activeSort, setActiveSort, setSortBy, pages } =
     useContext(OrderContext);
-
+  const [trigger] = useLazyGetOrderQuery();
   const orderRef = useRef("desc");
   const dateRef = useRef("desc");
   const totalRef = useRef("desc");
@@ -24,11 +25,17 @@ function OrderTableHead() {
       sortBy = "total_price";
       setSortBy(() => ({ order: ref.current, column: "total_price" }));
     }
-    getOrderList(pages, 10, sortBy, ref.current).then((res) => {
+    setIsFetching(() => true);
+    trigger({
+      page: pages,
+      limit: 10,
+      orderBy: sortBy,
+      orderDir: ref.current,
+    }).then((res) => {
       handleSetOrders({
-        data: res.data,
-        total_page: Math.ceil(res.total_count.total / 10),
+        ...res.data,
       });
+      setIsFetching(() => false);
       setActiveSort(column);
       setSortBy(() => {
         return {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import MainLayouts from "../../layouts/MainLayouts";
-import { getOrderList } from "../../services/order.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListAlt } from "@fortawesome/free-solid-svg-icons";
 import OrderTable from "../../components/molecules/OrderTable";

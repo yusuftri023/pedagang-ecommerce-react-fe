@@ -2,9 +2,8 @@
 import OrderTableHead from "./OrderTableHead";
 import OrderTableRow from "./OrderTableRow";
 import loadingSvg from "./../../assets/loading-2.svg";
-import { getOrderList } from "../../services/order.service";
 import { OrderContext } from "../../context";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { usePaginatedPage } from "../../utils/pagination";
 import { useLazyGetOrderQuery } from "../../store/reducers/apiSlicer";
 function OrderTable({ orders, isLoading }) {
@@ -13,7 +12,7 @@ function OrderTable({ orders, isLoading }) {
   const [isSearchPage, setIsSearchPage] = useState(false);
   const [searchPage, setSearchPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
-  console.log(isFetching);
+
   const renderedPage = usePaginatedPage(orders.total_page, pages);
   const [trigger] = useLazyGetOrderQuery();
   const handlePage = (destinationPage) => {
@@ -40,7 +39,7 @@ function OrderTable({ orders, isLoading }) {
   return (
     <div>
       <table className="w-full table-auto ">
-        <OrderTableHead />
+        <OrderTableHead setIsFetching={setIsFetching} />
         {!isLoading && (
           <tbody
             className={(isFetching ? "opacity-45" : "") + " pb-20 text-center "}
